@@ -1,0 +1,18 @@
+.bandlogo {
+    padding-top: 20vh;
+    width: 90%;
+}
+
+.social-links {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 20vh;
+}
+
+.social {
+    height: 5vh;
+    width: 20%;
+}

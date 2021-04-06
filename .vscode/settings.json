@@ -1,0 +1,14 @@
+{
+    "files.watcherExclude": {
+        ".venv": true
+    },
+    "python.pythonPath": ".venv/bin/python3",
+    "python.envFile": "${workspaceFolder}/.vscode/.env",
+    // "python.linting.pylintEnabled": true,
+    // "emmet.includeLanguages": {
+    //     "django-html": "html"
+    // },
+    // "python.linting.pylintArgs": [
+    //     "--load-plugins=pylint_django",
+    // ]
+}

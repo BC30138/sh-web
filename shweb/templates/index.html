@@ -1,3 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Index{% endblock %}
-{% block content %}{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' media='screen and (min-width: 1000px)' href="/static/css/home/default.css">
+{% endblock %}
+{% block content %}
+<img src="/static/images/releases/unsleep.jpg" alt="" class="main-page-photo">
+{% endblock %}

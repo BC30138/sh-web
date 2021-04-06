@@ -2,10 +2,12 @@
 <html>
 
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/static/images/bandlogo.png">
     <link rel='stylesheet' media='screen and (min-width: 1000px)' href="/static/css/style.css">
     <link rel='stylesheet' media='screen and (max-width: 1000px)' href="/static/css/mobile.css">
+    {% endblock %}
 </head>
 
 <body>
@@ -15,19 +17,18 @@
             <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
             {% endblock %}
             <div class="navbar">
-                <a href="#home">Home</a>
-                <a href="#news">News</a>
+                <a href="#home" class="nav-link">Home</a>
+                <div class="vl"></div>
                 <div class="dropdown">
-                    <button class="dropbtn">More</button>
+                    <button class="dropbtn">Discogs</button>
                     <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <a href="#">Single "Бессонница"</a>
+                        <a href="#">Single "Тропы"</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="content">{% block content %}{% endblock %}</div>
+        <div class="content">{% block content %}{% endblock %}</div>
     </div>
 
     <footer class="footer">

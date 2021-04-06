@@ -1,0 +1,10 @@
+.content {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.main-page-photo {
+    width: 30%;
+}

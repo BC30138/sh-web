@@ -26,12 +26,33 @@ body {
 }
 
 /* HEADER */
+.header {
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.header img {
+  padding-left: 70px;
+  height: 120px;
+  max-height: 100%;
+  max-width: 100%;
+  transition: all 0.3s ease;
+}
 
 .navbar {
   display: flex;
+  height: fit-content;
+  gap: 30px;
   justify-content: center;
   overflow: hidden;
   font-family: Arial;
+  padding-right: 50px;
+}
+
+.navbar * {
+  font-size: 40px;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
@@ -42,18 +63,14 @@ body {
   float: left;
   color: white;
   text-align: center;
-  /* padding: 14px; */
   text-decoration: none;
 }
 
 .navbar button {
-  /* float: left; */
-
   color: white;
   background-color: rgba(0,0,0,0);
   border: none;
   text-align: center;
-  /* padding: 14px; */
   text-decoration: none;
 }
 
@@ -126,21 +143,6 @@ li {
 
 .social img {
   height: 40px;
-  max-height: 100%;
-  max-width: 100%;
-  transition: all 0.3s ease;
-}
-
-/* header */
-
-.header {
-  display: flex;
-  justify-content: center;
-
-}
-
-.header img {
-  height: 120px;
   max-height: 100%;
   max-width: 100%;
   transition: all 0.3s ease;

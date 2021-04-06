@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/images/bandlogo.png">
+    <link rel='stylesheet' href="/static/css/style.css">
+    <link rel='stylesheet' media='screen and (max-width: 1000px)' href="/static/css/mobile.css">
+    {% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="header">
+            {% block header %}
+            <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
+            {% endblock %}
+        </div>
+        <div id="content">{% block content %}{% endblock %}</div>
+        <div class="push"></div>
+    </div>
+    <div id="footer">
+        {% block footer %}
+        <ul class="social-links">
+            <li class="social">
+                <a target="_blank" href="https://vk.com/stanethuzhe">
+                    <img src="/static/images/vk.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://stanethuzhe.bandcamp.com/">
+                    <img src="/static/images/bandcamp.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://www.instagram.com/stanethuzhe/">
+                    <img src="/static/images/instagram.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://www.youtube.com/channel/UCiFPrPKAUg391EqICZy8dxw">
+                    <img src="/static/images/youtube.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://www.facebook.com/stanethuzhe">
+                    <img src="/static/images/facebook.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank"
+                    href="https://music.apple.com/ru/artist/%D1%81%D1%82%D0%B0%D0%BD%D0%B5%D1%82-%D1%85%D1%83%D0%B6%D0%B5/1489799830">
+                    <img src="/static/images/apple.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://open.spotify.com/artist/6ICMu3DruvV9h4UbB6Kovn">
+                    <img src="/static/images/spotify.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+            <li class="social">
+                <a target="_blank" href="https://music.yandex.ru/artist/8451417">
+                    <img src="/static/images/yandex.svg" alt="" class="filter-pink">
+                </a>
+            </li>
+        </ul>
+        {% endblock %}
+    </div>
+</body>
+
+</html>

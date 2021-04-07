@@ -1,0 +1,60 @@
+pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.content {
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 70%;
+    margin: 40px auto 40px auto;
+    gap: 5%;
+}
+
+
+.content ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.release-cover {
+    width: 40%;
+    height: auto;
+}
+
+.release-info {
+    width: 40%;
+}
+
+.release-name {
+    font-size: 40px;
+}
+
+.track-btn {
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.track-btn:hover {
+    color: white;
+}
+
+.tracklist-head {
+    margin-top: 20px;
+}

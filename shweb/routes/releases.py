@@ -11,6 +11,8 @@ def get_release_data(release, release_path, release_static_path):
         release_info = json.load(rf)
     release_data = {
         'release-name': release_info['release-name'],
+        'bandcamp-id': release_info['bandcamp-id'],
+        'bandcamp-link': release_info['bandcamp-id'],
         'release-id': release,
         'date': release_info['date'],
         'cover': f"{release_static_path}/cover.jpg"

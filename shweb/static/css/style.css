@@ -1,12 +1,26 @@
 @font-face {
   font-family:"alcotton";
-  src: url("/static/css/alcotton.ttf") format("truetype");
+  src: url("/static/css/fonts/alcotton.ttf") format("truetype");
 }
 
+@font-face {
+  font-family:"Comfortaa";
+  src: url("/static/css/fonts/Comfortaa-VariableFont_wght.ttf") format("truetype");
+}
+
+
 * {
-  font-size: 20px;
-  font-family: alcotton;
-  letter-spacing: -5px;
+  font-family: "Comfortaa";
+}
+
+.nav-link, .dropbtn {
+  font-size: 32px;
+  letter-spacing: 5px;
+  color: #e8c8c8;
+}
+
+.dropdown-content {
+  font-size: 22px;
 }
 
 html {
@@ -49,32 +63,24 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: Arial;
-}
-
-.navbar * {
-  font-size: 32px;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
   background-color: rgba(0,0,0,0.8);
+  color: white;
 }
 
 .nav-link {
-  font-weight: 600;
-  padding-left: 20px;
+  padding-left: 32px;
   padding-right: 20px;
   float: left;
-  color: white;
   text-align: center;
   text-decoration: none;
 }
 
 .navbar button {
   width: 320px;
-  font-weight: 600;
   pointer-events: none;
-  color: white;
   background-color: rgba(0,0,0,0);
   border: none;
   text-align: center;
@@ -92,13 +98,14 @@ body {
 }
 
 .dropdown-content a {
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
   width: 298px;
+  color: #e8c8c8;
   border: 1px solid black;
-  font-size: 25px;
   float: none;
-  color: white;
   overflow-wrap: break-word;
   text-decoration: none;
   display: block;
@@ -108,7 +115,7 @@ body {
 }
 
 .dropdown-content a:hover {
-  background-color: rgba(255,255,255,0.3);
+  color: white;
 }
 
 .dropdown:hover .dropdown-content {

@@ -5,8 +5,7 @@
     {% block head %}
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/static/images/bandlogo.png">
-    <link rel='stylesheet' media='screen and (min-width: 1000px)' href="/static/css/style.css">
-    <link rel='stylesheet' media='screen and (max-width: 1000px)' href="/static/css/mobile.css">
+    <link rel='stylesheet' href="/static/css/style.css">
     {% endblock %}
 </head>
 
@@ -17,13 +16,13 @@
             <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
             {% endblock %}
             <div class="navbar">
-                <a href="#home" class="nav-link">Home</a>
+                <a href="/" class="nav-link">home</a>
                 <div class="vl"></div>
                 <div class="dropdown">
-                    <button class="dropbtn">Discogs</button>
+                    <button class="dropbtn">discogs</button>
                     <div class="dropdown-content">
-                        <a href="#">Single "Бессонница"</a>
-                        <a href="#">Single "Тропы"</a>
+                        <a href="/releases/unsleep">Single "Бессонница"</a>
+                        <a href="/releases/traces">Single "Тропы"</a>
                     </div>
                 </div>
             </div>

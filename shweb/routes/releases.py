@@ -11,10 +11,12 @@ def get_release_data(release, release_path, release_static_path):
         release_info = json.load(rf)
     release_data = {
         'release-name': release_info['release-name'],
-        'bandcamp-id': release_info['bandcamp-id'],
-        'bandcamp-link': release_info['bandcamp-id'],
         'release-id': release,
         'date': release_info['date'],
+        'default-open-text': release_info['default-open-text'],
+        'bandcamp-id': release_info['bandcamp-id'],
+        'bandcamp-link': release_info['bandcamp-id'],
+        'services': release_info['services'],
         'cover': f"{release_static_path}/cover.jpg"
     }
 
@@ -35,12 +37,14 @@ def releases(release, template):
         tracklist = ''
         if request.method == "GET":
             track_id = request.args.get('trackid', "")
+            if track_id == "" and release_data['default-open-text']:
+                track_id = release_data['default-open-text']
             for id, track in enumerate(tracklist_info):
                 if track['track-id'] == track_id:
                     with open(f"{release_path}/{track_id}.txt") as lyricf:
                         lyrics = lyricf.read()
                     tracklist += f"""
-                    <button class="track-btn" type="submit" value="" style="color:white;">
+                    <button class="track-btn" type="submit" name="track-id" value="null" style="color:white;">
                         {id + 1}. {track['track-name']}
                     </button>
                     <pre><b>Written By:</b> {track['written-by']}</pre>

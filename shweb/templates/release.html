@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' media='screen and (min-width: 1000px)' href="/static/css/release.css">
+{% endblock %}
+{% block content %}
+<img src={{release_data['cover']}} class="release-cover">
+<div class="release-info">
+    <div class="release-name"> {{release_data['release-name']}} </div>
+    <div class="date">Release date: {{release_data['date']}} </div>
+    <div class="tracklist-head">Tracklist:</div>
+    <ul class="tracklist">
+        <form method="post" action="/releases/{{release_data['release-id']}}">
+            {{ tracklist | safe }}
+        </form>
+    </ul>
+</div>
+{% endblock %}

@@ -8,7 +8,3 @@ blueprint = Blueprint("index-page", __name__)
 @mobile_template('{mobile/}index.html')
 def index(template):
     return render_template(template, title='Home')
-
-
-# def index():
-#     return render_template("mobile/index.html")

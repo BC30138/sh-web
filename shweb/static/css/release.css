@@ -21,14 +21,24 @@ pre {
 }
 
 
-.content ul {
-    padding: 0;
-    list-style-type: none;
+
+.media-side {
+    width: 40%;
 }
 
-.release-cover {
-    width: 40%;
-    height: auto;
+.service {
+    float: left;
+}
+
+.services {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.service img {
+    height: 50px;
+    max-width: 100%;
 }
 
 .release-info {
@@ -37,6 +47,11 @@ pre {
 
 .release-name {
     font-size: 40px;
+}
+
+.content ul {
+    padding: 0;
+    list-style-type: none;
 }
 
 .track-btn {

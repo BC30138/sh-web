@@ -4,7 +4,22 @@
 <link rel='stylesheet' media='screen and (min-width: 1000px)' href="/static/css/release.css">
 {% endblock %}
 {% block content %}
-<img src={{release_data['cover']}} class="release-cover">
+<div class="media-side">
+    <iframe style="border: 0; width: 100%; height: 442px;"
+        src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=333333/linkcol=e8c8c8/tracklist=true/transparent=true/"
+        seamless><a href={{ release_data['bandcamp-link'] }} class="release-cover"> {{release_data['release-name']}} by
+            станет хуже</a>
+    </iframe>
+    <!-- <ul class="services">
+        {% for service in release_data.services %}
+        <div class="service">
+            <a href={{ service.link }}>
+                <img src="/static/images/services/{{ service.name }}.png">
+            </a>
+        </div>
+        {% endfor %}
+    </ul> -->
+</div>
 <div class="release-info">
     <div class="release-name"> {{release_data['release-name']}} </div>
     <div class="date">Release date: {{release_data['date']}} </div>

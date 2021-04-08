@@ -13,6 +13,22 @@
                 scrolling="no" allow="encrypted-media"></iframe>
         </div>
     </div>
+    <div class="services-section">
+        <ul class="services">
+            {% for service in release_data.services %}
+            <li>
+                <div class="service">
+                    <a href="{{ service.link }}" class="service-link">
+                        <img src="/static/images/services/{{ service.name }}.png">
+                    </a>
+                    <a href="{{ service.link }}" class="service-link">
+                        <button class="service-btn">Play</button>
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 <div class="release-info">
     <div class="release-name"> {{release_data['release-name']}} </div>

@@ -26,19 +26,38 @@ pre {
     width: 40%;
 }
 
-.service {
-    float: left;
+.service{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* float: left; */
 }
 
 .services {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .service img {
-    height: 50px;
+    height: 32px;
     max-width: 100%;
+}
+
+.service button {
+    height: 32px;
+    width: 80px;
+    max-width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(124, 124, 124, 0.856);
+    background-color: rgba(0,0,0,0);
+    border-radius: 0px;
+    text-align: center;
+}
+
+.service-btn:hover {
+    background-color: rgba(124, 124, 124, 0.856);
 }
 
 .release-info {

@@ -33,6 +33,10 @@
         {
             "name": "amazon",
             "link": "https://music.amazon.com/albums/B08LH83NBF?tag=featurefm-20"
+        },
+        {
+            "name": "bandcamp",
+            "link": "https://stanethuzhe.bandcamp.com/track/--2"
         }
     ],
     "tracklist": [

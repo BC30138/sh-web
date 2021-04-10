@@ -73,7 +73,7 @@ pre {
     list-style-type: none;
 }
 
-.track-btn {
+.lyrics-btn {
     text-decoration: none;
     font-size: 20px;
     display: block;
@@ -85,9 +85,15 @@ pre {
     outline: none;
 }
 
-.track-btn:hover {
+.lyrics-btn:hover {
     color: white;
 }
+
+.lyrics {
+    display: none;
+}
+
+.show {display: block;}
 
 .tracklist-head {
     margin-top: 20px;

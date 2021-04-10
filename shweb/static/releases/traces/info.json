@@ -41,9 +41,9 @@
     ],
     "tracklist": [
         {
-            "track-name": "тропы",
-            "track-id": "traces",
-            "written-by": "Владимир Москаленко"
+            "name": "тропы",
+            "id": "traces",
+            "written": "Владимир Москаленко"
         }
     ]
 }

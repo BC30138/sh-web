@@ -35,9 +35,25 @@
     <div class="date">Release date: {{release_data['date']}} </div>
     <div class="tracklist-head">Tracklist:</div>
     <ul class="tracklist">
-        <form method="post" action="/releases/{{release_data['release-id']}}">
-            {{ tracklist | safe }}
-        </form>
+        {% for track in tracklist%}
+        <div class="lyrics-dropdown">
+            <button onclick="openLyrics('{{ track.id }}')" class="lyrics-btn">
+                {{loop.index}}. {{ track.name }}
+            </button>
+            <div id={{ track.id }} class="lyrics">
+                <pre><b>Written By:</b> {{track.written}}</pre>
+                <pre>{{track.lyrics}}</pre>
+            </div>
+        </div>
+        {% endfor %}
     </ul>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function openLyrics(id) {
+        document.getElementById(id).classList.toggle("show");
+    }
+</script>
 {% endblock %}

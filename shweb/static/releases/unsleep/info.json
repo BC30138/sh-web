@@ -41,9 +41,14 @@
     ],
     "tracklist": [
         {
-            "track-name": "бессонница",
-            "track-id": "unsleep",
-            "written-by": "Владимир Москаленко"
+            "name": "бессонница",
+            "id": "unsleep",
+            "written": "Владимир Москаленко"
+        },
+        {
+            "name": "тест",
+            "id": "test",
+            "written": "teeeeeest"
         }
     ]
 }

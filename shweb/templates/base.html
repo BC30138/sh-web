@@ -7,9 +7,10 @@
     <link rel="shortcut icon" href="/static/images/bandlogo.png">
     <link rel='stylesheet' href="/static/css/style.css">
     {% endblock %}
+    {% block scripts %}{% endblock %}
 </head>
 
-<body>
+<body {{ bodyproperty }}>
     <div class="wrapper">
         <div id="header" class="header">
             {% block header %}

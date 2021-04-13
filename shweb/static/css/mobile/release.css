@@ -1,0 +1,95 @@
+pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.content {
+    margin-top: 5vh;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding-bottom: 40px;
+    width: 100%;
+    /* margin: 10% auto 10% auto; */
+}
+
+.content ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.services-section {
+    padding: 0 10%;
+}
+
+.service{
+    width: 100%;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* float: left; */
+}
+
+.services {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.service img {
+    height: 4vh;
+    max-width: 100%;
+}
+
+.service button {
+    height: 4vh;
+    width: 80px;
+    max-width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(124, 124, 124, 0.856);
+    background-color: rgba(0,0,0,0);
+    border-radius: 0px;
+    text-align: center;
+}
+
+.release-info {
+    padding: 0 10%;
+}
+
+.release-name {
+    font-size: 40px;
+}
+
+.content ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.lyrics-btn {
+    text-decoration: none;
+    padding: 0;
+    font-size: 20px;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.lyrics {
+    display: none;
+}
+
+.show {display: block;}
+
+.tracklist-head {
+    margin-top: 20px;
+}

@@ -14,10 +14,12 @@ class Config():
     def __init__(self) -> None:
         # default vars from env
         self.port: int = "9090"
+        self.host: str = "0.0.0.0"
 
         # env_vars here
         self.mapping = {
             "port": int,
+            "host": str
         }
 
         for par_name in self.mapping:

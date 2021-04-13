@@ -16,5 +16,3 @@ function toggleMenu() {
         menuIcon.style.display = "none";
     }
 }
-
-var menuLinks = document.querySelectorAll(".menuLink")

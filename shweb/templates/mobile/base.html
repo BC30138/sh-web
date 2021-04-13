@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/images/bandlogo.png">
+    <link rel='stylesheet' href="/static/css/mobile/style.css">
+    {% endblock %}
+    {% block scripts %}
+    <script>
+        function openElement(id) {
+            document.getElementById(id).classList.toggle("show");
+        }
+    </script>
+    {% endblock %}
+</head>
+
+<body {{ bodyproperty }}>
+    <button class="ham filter-pink">
+        <img class="menuIcon" src="/static/images/icons/menu.png">
+        <img class="xIcon" src="/static/images/icons/close.png">
+    </button>
+    <ul class="menu">
+        <li><a class="nav-link" href="/">home</a></li>
+        <div class="menuLink">
+            <button class="dropbtn" onclick="openElement('release-links')">discogs</button>
+            <div class="dropdown-content" id="release-links">
+                <a href="/releases/unsleep">Single "Бессонница"</a>
+                <a href="/releases/traces">Single "Тропы"</a>
+            </div>
+        </div>
+    </ul>
+    <script src="/static/scripts/mobile/base.js"></script>
+</body>

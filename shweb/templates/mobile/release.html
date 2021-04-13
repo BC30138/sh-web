@@ -1,33 +1,17 @@
-{% extends "base.html" %}
+{% extends "mobile/base.html" %}
 {% block head %}
 {{ super() }}
-<link rel='stylesheet' href="/static/css/release.css">
+<link rel='stylesheet' href="/static/css/mobile/release.css">
 {% endblock %}
 {% block content %}
-<div class="media-side">
+<div>
     <div style="max-width: 700px;">
-        <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;">
+        <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%; padding-top: 120px;">
             <iframe
-                src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=333333/linkcol=e8c8c8/tracklist=true/transparent=true/"
+                src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=333333/linkcol=ffffff/tracklist=false/transparent=true/"
                 style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen
                 scrolling="no" allow="encrypted-media"></iframe>
         </div>
-    </div>
-    <div class="services-section">
-        <ul class="services">
-            {% for service in release_data.services %}
-            <li>
-                <div class="service">
-                    <a href="{{ service.link }}" class="service-link">
-                        <img src="/static/images/services/{{ service.name }}.png">
-                    </a>
-                    <a href="{{ service.link }}" class="service-link">
-                        <button class="service-btn">Play</button>
-                    </a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
     </div>
 </div>
 <div class="release-info">
@@ -45,6 +29,22 @@
                 <pre>{{track.lyrics}}</pre>
             </div>
         </div>
+        {% endfor %}
+    </ul>
+</div>
+<div class="services-section">
+    <ul class="services">
+        {% for service in release_data.services %}
+        <li>
+            <div class="service">
+                <a href="{{ service.link }}" class="service-link">
+                    <img src="/static/images/services/{{ service.name }}.png">
+                </a>
+                <a href="{{ service.link }}" class="service-link">
+                    <button class="service-btn">Play</button>
+                </a>
+            </div>
+        </li>
         {% endfor %}
     </ul>
 </div>

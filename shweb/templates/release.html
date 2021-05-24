@@ -3,6 +3,9 @@
 {{ super() }}
 <link rel='stylesheet' href="/static/css/release.css">
 {% endblock %}
+{% block title %}
+<title>станет хуже - {{release_data['release-name']}}</title>
+{% endblock %}
 {% block content %}
 <div class="media-side">
     <div style="max-width: 700px;">

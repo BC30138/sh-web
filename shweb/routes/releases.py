@@ -16,7 +16,8 @@ def get_release_data(release, release_path, release_static_path):
         'bandcamp-id': release_info['bandcamp-id'],
         'bandcamp-link': release_info['bandcamp-id'],
         'services': release_info['services'],
-        'cover': f"{release_static_path}/cover.jpg"
+        'cover': f"{release_static_path}/cover.jpg",
+        'type': release_info['type']
     }
 
     tracklist = []

@@ -5,6 +5,7 @@
     "bandcamp-link": "https://stanethuzhe.bandcamp.com/track/--2",
     "date": "21 oct 2020",
     "default-open-text": "unsleep",
+    "type": "Single",
     "services": [
         {
             "name": "apple",

@@ -5,8 +5,8 @@
 
 body {
     margin: 0;
-    background-image:    url(../../images/background.png);
-    background-color: rgba(0, 0, 0, 0.97);
+    background-image:    url(../../images/background.jpg);
+    background-color: rgba(0, 0, 0, 0);
     background-size:     cover;
     background-repeat:   no-repeat;
     height: 100vh;
@@ -16,12 +16,14 @@ body {
 
 * {
     font-family: "Comfortaa";
-    color: #e8c8c8;
+    color:rgb(255, 255, 255)
+    /* color: #e8c8c8; */
 }
 
 .filter-pink {
-    filter: invert(73%) sepia(30%) saturate(340%) hue-rotate(314deg) brightness(300%) contrast(50%);
-  }
+    filter: invert(100%);
+    /* filter: invert(73%) sepia(30%) saturate(340%) hue-rotate(314deg) brightness(300%) contrast(50%); */
+}
 
 .bandlogo {
     display: block;
@@ -44,6 +46,7 @@ body {
 
     .menuIcon {
         width: 100%;
+        filter: invert(100%);
     }
 
     .xIcon {

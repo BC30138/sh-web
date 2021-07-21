@@ -8,7 +8,7 @@ pre {
 
 .content {
     margin-top: 5vh;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -52,8 +52,8 @@ pre {
     width: 80px;
     max-width: 100%;
     cursor: pointer;
-    border: 1px solid rgba(124, 124, 124, 0.856);
-    background-color: rgba(0,0,0,0);
+    border: 1px solid rgba(255, 255, 255, 0.856);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0px;
     text-align: center;
 }

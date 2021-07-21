@@ -22,7 +22,7 @@
     <div style="max-width: 700px;">
         <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;">
             <iframe
-                src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=333333/linkcol=e8c8c8/tracklist=true/transparent=true/"
+                src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=000000/linkcol=ffffff/tracklist=true/transparent=true/"
                 style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen
                 scrolling="no" allow="encrypted-media"></iframe>
         </div>
@@ -32,10 +32,10 @@
             {% for service in release_data.services %}
             <li>
                 <div class="service">
-                    <a href="{{ service.link }}" class="service-link">
+                    <a href="{{ service.link }}" class="service-link" target="_blank">
                         <img src="/static/images/services/{{ service.name }}.png">
                     </a>
-                    <a href="{{ service.link }}" class="service-link">
+                    <a href="{{ service.link }}" class="service-link" target="_blank">
                         <button class="service-btn">Play</button>
                     </a>
                 </div>

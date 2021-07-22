@@ -1,12 +1,33 @@
 {
     "release-name": "марш пустых знамён",
     "release-id": "march",
-    "bandcamp-id": "track=2004367044",
-    "bandcamp-link": "https://stanethuzhe.bandcamp.com/track/-",
+    "bandcamp-id": "track=1121939649",
+    "bandcamp-link": "https://stanethuzhe.bandcamp.com/track/--3",
     "date": "23 july 2021",
     "default-open-text": "march",
     "type": "Single",
-    "services": [],
+    "services": [
+        {
+            "name": "yandex",
+            "link": "https://music.yandex.ru/album/16873193/track/87348000"
+        },
+        {
+            "name": "spotify",
+            "link": "https://open.spotify.com/track/79FLHIvP3HaUhpr6eaWpNE?si=34796b82c0c347d5"
+        },
+        {
+            "name": "boom",
+            "link": "https://vk.com/music/album/-2000311840_12311840_3485d0401165db6c01"
+        },
+        {
+            "name": "deezer",
+            "link": "http://www.deezer.com/album/244623132"
+        },
+        {
+            "name": "bandcamp",
+            "link": "https://stanethuzhe.bandcamp.com/track/--3"
+        }
+    ],
     "tracklist": [
         {
             "name": "марш пустых знамён",

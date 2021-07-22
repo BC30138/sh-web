@@ -8,8 +8,16 @@
     "type": "Single",
     "services": [
         {
+            "name": "apple",
+            "link": "https://music.apple.com/ru/album/%D0%BC%D0%B0%D1%80%D1%88-%D0%BF%D1%83%D1%81%D1%82%D1%8B%D1%85-%D0%B7%D0%BD%D0%B0%D0%BC%D1%91%D0%BD-single/1576669524?l=en"
+        },
+        {
             "name": "yandex",
             "link": "https://music.yandex.ru/album/16873193/track/87348000"
+        },
+        {
+            "name": "youtube",
+            "link": "https://music.youtube.com/watch?v=KRkmgIYcjOs&feature=share"
         },
         {
             "name": "spotify",
@@ -22,6 +30,10 @@
         {
             "name": "deezer",
             "link": "http://www.deezer.com/album/244623132"
+        },
+        {
+            "name": "tidal",
+            "link": "https://tidal.com/browse/track/191205213"
         },
         {
             "name": "bandcamp",

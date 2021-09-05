@@ -15,22 +15,6 @@
   /* color: #e8c8c8; */
 }
 
-.nav-link, .dropbtn {
-  padding-bottom: 10px;
-  font-size: 32px;
-  letter-spacing: 5px;
-  color: #000000;
-  /* color: #e8c8c8; */
-}
-
-.dropbtn {
-
-}
-
-.dropdown-content {
-  font-size: 22px;
-}
-
 html {
   height: 100%;
 }
@@ -52,10 +36,12 @@ body {
   padding-top: 30px;
   display: flex;
   justify-content: space-between;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
+
 .bandlogo {
-  padding-left: 70px;
   height: 120px;
   max-height: 100%;
   max-width: 100%;
@@ -64,34 +50,35 @@ body {
 
 
 .navbar {
+  width: 600px;
   padding-top: 20px;
-  padding-right: 20px;
   display: flex;
   height: fit-content;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  overflow: hidden;
+  gap: 40px;
 }
 
 
+.nav-link, .dropbtn {
+  padding-bottom: 10px;
+  font-size: 32px;
+  letter-spacing: 5px;
+  color: #000000;
+}
 
 .nav-link:hover, .dropdown:hover .dropbtn {
-  /* background-color: rgba(0,0,0,0.8);
-  color: white; */
   transform: scale(1.2);
   transition: all 0.15s ease;
 }
 
 .nav-link {
-  padding-left: 32px;
-  padding-right: 20px;
   float: left;
   text-align: center;
   text-decoration: none;
 }
 
 .navbar button {
-  width: 320px;
   pointer-events: none;
   background-color: rgba(0,0,0,0);
   border: none;
@@ -100,10 +87,11 @@ body {
 }
 
 .dropdown-content {
+  right: 70px; left: auto;
+  font-size: 22px;
   width: fit-content;
   display: none;
   position: absolute;
-  /* background-color: rgba(0,0,0,0.3); */
   background-color: rgb(255, 255, 255);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.534);
@@ -113,10 +101,9 @@ body {
 .dropdown-content a {
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   width: 298px;
-  /* color: #ffffffcc; */
   color: #000000;
   border: 1px solid black;
   float: none;
@@ -124,8 +111,6 @@ body {
   text-decoration: none;
   display: block;
   text-align: left;
-  right: 4px;
-  left: auto;
 }
 
 .dropdown-content a:hover {
@@ -149,7 +134,6 @@ body {
 
 .filter-pink {
   filter: invert(100%);
-  /* filter: invert(73%) sepia(30%) saturate(340%) hue-rotate(314deg) brightness(300%) contrast(50%); */
 }
 
 li {

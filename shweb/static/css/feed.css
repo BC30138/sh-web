@@ -1,0 +1,9 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    align-items: flex-start;
+    width: 70%;
+    margin: 10px auto 0px auto;
+}

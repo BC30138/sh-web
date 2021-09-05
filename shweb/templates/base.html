@@ -32,7 +32,7 @@
             {% endblock %}
             <div class="navbar">
                 <a href="/" class="nav-link">home</a>
-                <div class="vl"></div>
+                <a href="/feed" class="nav-link">feed</a>
                 <div class="dropdown">
                     <button class="dropbtn">discogs</button>
                     <div class="dropdown-content">
@@ -91,4 +91,6 @@
             </li>
         </ul>
     </footer>
+
+    {% block loaded_scripts %}{% endblock %}
 </body>

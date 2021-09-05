@@ -68,7 +68,7 @@ body {
             transform: translateY(-100%);
             transition: transform 0.2s;
             list-style: none;
-            padding-top: 4rem;
+            padding-top: 2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -87,7 +87,7 @@ body {
 
             .nav-link {
                 padding-left: 10%;
-                font-size: 8vh;
+                font-size: 7vh;
                 text-align: center;
                 text-decoration: none;
             }

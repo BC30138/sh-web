@@ -6,6 +6,8 @@
     width: 100%;
 }
 
+body { position: fixed; overflow-y:scroll }
+
 .main-page-photo {
     width: 100%;
     height: auto;

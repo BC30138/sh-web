@@ -45,7 +45,38 @@
     </div>
 </div>
 <div class="release-info">
-    <div class="release-name"> {{release_data['release-name']}} </div>
+    <div class="release-head">
+        <div class="release-name"> {{release_data['release-name']}}&nbsp;</div>
+        <div class="share">
+            <button class="share-btn">
+                <div class="share-text">share </div>
+                <img class="share-icon" src="/static/images/icons/share.png">
+            </button>
+            <div class="share-dropdown">
+                <a class="share-link" target="popup"
+                    onclick="copyToClipboard('https://www.stanethuzhe.ru/releases/{{release_data['release-id']}}')">
+                    <img src="/static/images/icons/link.svg" title="Copy link"
+                        style="height: 30px; margin-right: -5px;" />
+                </a>
+                <a class="share-link" target="popup"
+                    onclick="window.open('http://vkontakte.ru/share.php?url=https://www.stanethuzhe.ru/releases/{{release_data['release-id']}}','name','width=600,height=400')">
+                    <img src="/static/images/vk.svg" title="VK" style="height: 15px;" />
+                </a>
+                <a class="share-link" target="popup"
+                    onclick="window.open('https://t.me/share/url?url=https://www.stanethuzhe.ru/releases/{{release_data['release-id']}}','name','width=600,height=400')">
+                    <img src="/static/images/telegram.png" title="Telegram" style="height: 20px;" />
+                </a>
+                <a class="share-link" target="popup"
+                    onclick="window.open('https://twitter.com/share?url=https://www.stanethuzhe.ru/releases/{{release_data['release-id']}}','name','width=600,height=400')">
+                    <img src="/static/images/twitter.svg" title="Twitter" style="height: 23px;" />
+                </a>
+                <a class="share-link" target="popup"
+                    onclick="window.open('http://www.facebook.com/sharer.php?u=https://www.stanethuzhe.ru/releases/{{release_data['release-id']}}','name','width=600,height=400')">
+                    <img src="/static/images/facebook.svg" title="Facebook" style="height: 20px; margin-left: -5px;" />
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="date">Release date: {{release_data['date']}} </div>
     <div class="tracklist-head">Tracklist:</div>
     <ul class="tracklist">
@@ -62,12 +93,11 @@
         {% endfor %}
     </ul>
 </div>
+<div class="copied-alarm">
+    <div>Link copied</div>
+</div>
 {% endblock %}
 
-{% block scripts %}
-<script>
-    function openLyrics(id) {
-        document.getElementById(id).classList.toggle("show");
-    }
-</script>
+{% block loaded_scripts %}
+<script src="/static/scripts/release.js"></script>
 {% endblock %}

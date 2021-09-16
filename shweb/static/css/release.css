@@ -64,8 +64,63 @@ pre {
     width: 40%;
 }
 
+.release-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .release-name {
     font-size: 40px;
+}
+
+.share-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 32px;
+    max-width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.856);
+    border-radius: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    pointer-events: none;
+}
+
+.share-dropdown {
+    width: fit-content;
+    display: none;
+    padding: 4px;
+    position: absolute;
+    background-color: rgba(124, 124, 124, 0.856);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.534);
+    z-index: 1;
+    align-items: center;
+}
+
+.share-link {
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.share-text {
+    font-size: 14px;
+}
+
+.share-icon {
+    height: 24px;
+    max-width: 100%;
+}
+
+.share-btn:hover {
+    background-color: rgba(124, 124, 124, 0.856);
+    text-decoration: none;
+}
+
+.share:hover .share-dropdown {
+    display: flex;
 }
 
 .content ul {
@@ -97,4 +152,23 @@ pre {
 
 .tracklist-head {
     margin-top: 20px;
+}
+
+.copied-alarm {
+    display: flex;
+    justify-content: center;
+
+    position:absolute;
+    top:40%;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:150px;
+    background-color:rgba(124, 124, 124, 0.856);
+
+    visibility: hidden;
+    opacity: 0;
 }

@@ -74,6 +74,11 @@ pre {
     font-size: 40px;
 }
 
+.share {
+    display: inline-block;
+    vertical-align:middle;
+}
+
 .share-btn {
     display: flex;
     justify-content: space-between;

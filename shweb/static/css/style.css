@@ -167,3 +167,19 @@ li {
   max-width: 100%;
   transition: all 0.3s ease;
 }
+
+.language-switch {
+  display: flex;
+  position: absolute;
+  right: 0;
+  padding-right: 40px;
+}
+
+.language-switch a:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.language-switch .slash {
+  pointer-events: none;
+}

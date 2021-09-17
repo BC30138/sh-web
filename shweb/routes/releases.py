@@ -31,7 +31,7 @@ def get_release_data(release, release_path, release_static_path):
     return release_data, release_info['tracklist'], release_info['default-open-text']
 
 
-@ blueprint.route('/releases/<release>', methods=['GET', 'POST'])
+@ blueprint.route('/<release>', methods=['GET', 'POST'])
 @ mobile_template('{mobile/}release.html')
 def releases(release, template):
     release_static_path = f"/static/releases/{release}"

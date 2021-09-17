@@ -9,6 +9,6 @@ function openLyrics(id) {
 
 function share() {
     navigator.share({
-        url: window.location.href,
+        url: window.location.href.split('?')[0],
     })
 }

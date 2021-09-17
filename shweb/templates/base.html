@@ -28,19 +28,19 @@
     <div class="wrapper">
         <div id="header" class="header">
             {% block header %}
-            <a href="/">
+            <a href="/{{session['lang_arg']}}">
                 <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
             </a>
             {% endblock %}
             <div class="navbar">
-                <a href="/" class="nav-link">home</a>
-                <a href="/feed" class="nav-link">feed</a>
+                <a href="/{{session['lang_arg']}}" class="nav-link">home</a>
+                <a href="/feed{{session['lang_arg']}}" class="nav-link">feed</a>
                 <div class="dropdown">
                     <button class="dropbtn">discogs</button>
                     <div class="dropdown-content">
-                        <a href="/releases/unsleep">single "бессонница"</a>
-                        <a href="/releases/traces">single "тропы"</a>
-                        <a href="/releases/march">single "марш пустых знамён"</a>
+                        <a href="/releases/unsleep{{session['lang_arg']}}">single "бессонница"</a>
+                        <a href="/releases/traces{{session['lang_arg']}}">single "тропы"</a>
+                        <a href="/releases/march{{session['lang_arg']}}">single "марш пустых знамён"</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,14 @@
                 </a>
             </li>
         </ul>
+        <div class="language-switch">
+            <a></a>
+            <a class="language-button" onclick="change_lang('en');">en</a>
+            <div class="slash">&nbsp;/&nbsp;</div>
+            <a class="language-button" onclick="change_lang('ru');">ru</a>
+        </div>
     </footer>
 
+    <script src="/static/scripts/base.js"></script>
     {% block loaded_scripts %}{% endblock %}
 </body>

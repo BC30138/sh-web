@@ -42,7 +42,8 @@
         {% for track in tracklist%}
         <div class="lyrics-dropdown">
             <button onclick="openLyrics('{{ track.id }}')" class="lyrics-btn">
-                {{loop.index}}. {{ track.name }}
+                {{loop.index}}. {{ track.name }} <span class="expand"> <img class="expand-icon"
+                        src="/static/images/icons/expand.svg" id="{{ track.id }}-expand-icon"> </span>
             </button>
             <div id={{ track.id }} class="lyrics">
                 <pre><b>Lyrics:</b> {{track.written}}</pre>

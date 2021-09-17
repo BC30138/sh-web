@@ -137,3 +137,20 @@ pre {
     width: 100%;
     height: 100%;
 }
+
+.expand {
+    display: inline-block;
+    vertical-align:middle;
+}
+
+.expand-icon {
+    height: 24px;
+    max-width: 100%;
+    transform: rotate(0deg);
+    transition: transform 0.2s linear;
+}
+
+.expand-more {
+    transform: rotate(-180deg);
+    transition: transform 0.2s linear;
+}

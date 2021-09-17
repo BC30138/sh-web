@@ -64,6 +64,7 @@ pre {
 
 .release-name {
     font-size: 40px;
+    padding-bottom: 20px;
 }
 
 .content ul {
@@ -92,4 +93,29 @@ pre {
 
 .tracklist-head {
     margin-top: 20px;
+}
+
+.share {
+    display: inline-block;
+    vertical-align:middle;
+}
+
+.share-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 32px;
+    max-width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.856);
+    border-radius: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    pointer-events: none;
+}
+
+.share-icon {
+    height: 24px;
+    max-width: 100%;
 }

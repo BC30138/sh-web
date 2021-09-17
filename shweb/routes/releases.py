@@ -8,7 +8,7 @@ blueprint = Blueprint("release-page", __name__)
 
 def get_release_data(release, release_path, release_static_path):
     with open(f'{release_path}/info.json') as rf:
-        release_info = json.load(rf)
+        release_info: dict = json.load(rf)
     release_data = {
         'release-name': release_info['release-name'],
         'release-id': release,
@@ -17,7 +17,8 @@ def get_release_data(release, release_path, release_static_path):
         'bandcamp-link': release_info['bandcamp-id'],
         'services': release_info['services'],
         'cover': f"{release_static_path}/cover.jpg",
-        'type': release_info['type']
+        'type': release_info['type'],
+        'youtube-videos': release_info.get("youtube-videos", [])
     }
 
     tracklist = []
@@ -35,7 +36,6 @@ def get_release_data(release, release_path, release_static_path):
 def releases(release, template):
     release_static_path = f"/static/releases/{release}"
     release_path = f"shweb{release_static_path}"
-    # try:
     release_data, tracklist, open_lyrics = get_release_data(
         release,
         release_path,
@@ -43,12 +43,9 @@ def releases(release, template):
     )
 
     bodyproperty = f'onload=openLyrics(\'{open_lyrics}\')'
-
     return render_template(
         template,
         release_data=release_data,
         tracklist=tracklist,
         bodyproperty=bodyproperty
     )
-    # except:
-    #     abort(404)

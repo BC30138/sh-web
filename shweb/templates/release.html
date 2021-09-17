@@ -43,6 +43,15 @@
             {% endfor %}
         </ul>
     </div>
+    {% for youtube_video in release_data['youtube-videos'] %}
+    <div class="auto-resizable-iframe">
+        <div>
+            <iframe class="youtube-player" src="https://www.youtube.com/embed/{{youtube_video}}" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen="allowfullscreen"></iframe>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 <div class="release-info">
     <div class="release-head">

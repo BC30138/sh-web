@@ -8,6 +8,6 @@ function openLyrics(id) {
 
 function share() {
     navigator.share({
-        url: text,
+        url: window.location.href,
     })
 }

@@ -1,6 +1,6 @@
-from flask import Flask, g, request, session
+from flask import Flask, request, session
 from flask_mobility import Mobility
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 
 from shweb.context import Environment as env
 from shweb.routes import index, releases, feed
@@ -27,11 +27,6 @@ def get_locale():
             session.lang_code = request.accept_languages.best_match(app.config['LANGUAGES'])
             session.lang_arg = ""
     return session.lang_code
-
-
-@app.before_request
-def before_request():
-    get_locale()
 
 
 app.register_blueprint(index.blueprint, url_prefix="/")

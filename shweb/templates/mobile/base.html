@@ -13,9 +13,9 @@
     <meta name="title" content="станет хуже">
     <meta property="og:title" content="станет хуже">
     <meta name="twitter:title" content="станет хуже">
-    <meta name="description" content="Post-metal from Saint Petersburg">
-    <meta property="og:description" content="Post-metal from Saint Petersburg">
-    <meta name="twitter:description" content="Post-metal from Saint Petersburg">
+    <meta name="description" content="{{_('description')}}">
+    <meta property="og:description" content="{{_('description')}}">
+    <meta name="twitter:description" content="{{_('description')}}">
     <meta name="image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
     <meta property="og:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
     <meta name="twitter:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
@@ -30,7 +30,7 @@
     <div class="wrapper">
         <div id="header" class="header">
             {% block header %}
-            <a href="/">
+            <a href="/{{session['lang_arg']}}">
                 <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
             </a>
             {% endblock %}
@@ -43,20 +43,28 @@
             </button>
             <ul class="menu">
                 <div class="menu-nav">
-                    <li><a class="nav-link" href="/">home</a></li>
-                    <li><a class="nav-link" href="/feed">feed</a></li>
+                    <li><a class="nav-link" href="/{{session['lang_arg']}}">{{_('home')}}</a></li>
+                    <li><a class="nav-link" href="/feed{{session['lang_arg']}}">{{_('feed')}}</a></li>
                     <li>
-                        <div class="nav-div"> discogs </div>
+                        <div class="nav-div" id="discogs"> {{_('discogs')}} <span class="expand"> <img
+                                    class="expand-icon" src="/static/images/icons/expand.svg" id="release-expand-icon">
+                            </span></div>
                     </li>
                     <div class="dropdown-content" id="release-links">
                         <div class="links-container">
-                            <a href="/releases/unsleep">single <br> "бессонница"</a>
-                            <a href="/releases/traces">single <br> "тропы"</a>
-                            <a href="/releases/march">single "марш пустых знамён"</a>
+                            <a href="/releases/march{{session['lang_arg']}}">{{_('single')}} "марш пустых знамён"</a>
+                            <a href="/releases/unsleep{{session['lang_arg']}}">{{_('single')}} <br> "бессонница"</a>
+                            <a href="/releases/traces{{session['lang_arg']}}">{{_('single')}} <br> "тропы"</a>
                         </div>
                     </div>
                 </div>
                 <div class="menu-social">
+                    <div class="language-switch">
+                        <a></a>
+                        <a class="language-button" onclick="change_lang('en');">en</a>
+                        <div class="slash">&nbsp;/&nbsp;</div>
+                        <a class="language-button" onclick="change_lang('ru');">ru</a>
+                    </div>
                     <ul class="social-links">
                         <li class="social">
                             <a target="_blank" href="https://vk.com/stanethuzhe">

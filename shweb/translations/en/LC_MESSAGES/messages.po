@@ -1,0 +1,126 @@
+# English translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-09-18 14:27+0300\n"
+"PO-Revision-Date: 2021-09-18 12:51+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: utils.py:6
+#, fuzzy
+msgid "Single"
+msgstr "Single"
+
+#: utils.py:7
+msgid "Album"
+msgstr "Album"
+
+#: utils.py:8
+msgid "Ep"
+msgstr "Ep"
+
+#: templates/base.html:41 templates/base.html:42 templates/base.html:43
+#: utils.py:9
+msgid "single"
+msgstr "single"
+
+#: utils.py:10
+msgid "album"
+msgstr "album"
+
+#: utils.py:11
+msgid "ep"
+msgstr "ep"
+
+#: utils.py:17
+msgid "jan"
+msgstr "jan"
+
+#: utils.py:18
+msgid "feb"
+msgstr "feb"
+
+#: utils.py:19
+msgid "mar"
+msgstr "mar"
+
+#: utils.py:20
+msgid "apr"
+msgstr "apr"
+
+#: utils.py:21
+msgid "may"
+msgstr "may"
+
+#: utils.py:22
+msgid "jun"
+msgstr "jun"
+
+#: utils.py:23
+msgid "jul"
+msgstr "jul"
+
+#: utils.py:24
+msgid "aug"
+msgstr "aug"
+
+#: utils.py:25
+msgid "sep"
+msgstr "sep"
+
+#: utils.py:26
+msgid "oct"
+msgstr "oct"
+
+#: utils.py:27
+msgid "nov"
+msgstr "nov"
+
+#: utils.py:28
+msgid "dec"
+msgstr "dec"
+
+#: templates/base.html:15 templates/base.html:16 templates/base.html:17
+msgid "description"
+msgstr "Post-metal from Saint Petersburg"
+
+#: templates/base.html:36
+msgid "home"
+msgstr "home"
+
+#: templates/base.html:37
+msgid "feed"
+msgstr "feed"
+
+#: templates/base.html:39
+msgid "discogs"
+msgstr "discogs"
+
+#: templates/release.html:39
+msgid "Play"
+msgstr "Play"
+
+#: templates/release.html:60
+msgid "share"
+msgstr "share"
+
+#: templates/release.html:90
+msgid "Release date"
+msgstr "Release date"
+
+#: templates/release.html:91
+msgid "Tracklist"
+msgstr "Tracklist"
+

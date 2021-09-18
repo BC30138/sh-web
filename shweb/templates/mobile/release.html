@@ -31,13 +31,13 @@
 <div class="release-info">
     <div class="release-name"> {{release_data['release-name']}} <span class="share">
             <button class="share-btn">
-                <div class="share-text">share </div>
+                <div class="share-text">{{_('share')}} </div>
                 <img class="share-icon" src="/static/images/icons/share.png">
             </button>
         </span>
     </div>
-    <div class="date">Release date: {{release_data['date']}} </div>
-    <div class="tracklist-head">Tracklist:</div>
+    <div class="date">{{_('Release date')}}: {{release_data['date']}} </div>
+    <div class="tracklist-head">{{_('Tracklist')}}:</div>
     <ul class="tracklist">
         {% for track in tracklist%}
         <div class="lyrics-dropdown">
@@ -46,7 +46,7 @@
                         src="/static/images/icons/expand.svg" id="{{ track.id }}-expand-icon"> </span>
             </button>
             <div id={{ track.id }} class="lyrics">
-                <pre><b>Lyrics:</b> {{track.written}}</pre>
+                <!-- <pre><b>Lyrics:</b> {{track.written}}</pre> -->
                 <pre>{{track.lyrics}}</pre>
             </div>
         </div>

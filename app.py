@@ -1,4 +1,6 @@
+import os
 import shweb
+
 
 application = shweb.app
 

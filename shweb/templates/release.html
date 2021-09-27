@@ -58,7 +58,7 @@
         <div class="release-name"> {{release_data['release-name']}}&nbsp;<span class="share">
                 <button class="share-btn">
                     <div class="share-text">{{_('share')}} </div>
-                    <img class="share-icon" src="/static/images/icons/share.png">
+                    <img class="share-icon" src="/static/images/icons/share.svg">
                 </button>
                 <div class="share-dropdown">
                     <a class="share-link" target="popup"
@@ -93,8 +93,12 @@
         {% for track in tracklist%}
         <div class="lyrics-dropdown">
             <button onclick="openLyrics('{{ track.id }}')" class="lyrics-btn">
-                {{loop.index}}. {{ track.name }} <span class="expand"> <img class="expand-icon"
-                        src="/static/images/icons/expand.svg" id="{{ track.id }}-expand-icon"> </span>
+                {{loop.index}}. {{ track.name }}
+                {% if track.explicit %}
+                <span class="explicit"> <img class="explicit-icon" src="/static/images/icons/explicit.svg"> </span>
+                {%endif %}
+                <span class="expand"> <img class="expand-icon" src="/static/images/icons/expand.svg"
+                        id="{{ track.id }}-expand-icon"> </span>
             </button>
             <div id={{ track.id }} class="lyrics">
                 <pre>{{track.lyrics}}</pre>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-18 14:27+0300\n"
+"POT-Creation-Date: 2021-09-27 17:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,11 +29,13 @@ msgstr ""
 msgid "Ep"
 msgstr ""
 
-#: templates/base.html:41 templates/base.html:42 templates/base.html:43
-#: utils.py:9
+#: templates/base.html:42 templates/base.html:43 templates/base.html:44
+#: templates/mobile/base.html:56 templates/mobile/base.html:57
+#: templates/mobile/base.html:58 utils.py:9
 msgid "single"
 msgstr ""
 
+#: templates/base.html:41 templates/index.html:10 templates/mobile/base.html:55
 #: utils.py:10
 msgid "album"
 msgstr ""
@@ -91,34 +93,40 @@ msgid "dec"
 msgstr ""
 
 #: templates/base.html:15 templates/base.html:16 templates/base.html:17
+#: templates/mobile/base.html:16 templates/mobile/base.html:17
+#: templates/mobile/base.html:18
 msgid "description"
 msgstr ""
 
-#: templates/base.html:36
+#: templates/base.html:36 templates/mobile/base.html:46
 msgid "home"
 msgstr ""
 
-#: templates/base.html:37
+#: templates/base.html:37 templates/mobile/base.html:47
 msgid "feed"
 msgstr ""
 
-#: templates/base.html:39
+#: templates/base.html:39 templates/mobile/base.html:49
 msgid "discogs"
+msgstr ""
+
+#: templates/index.html:10
+msgid "available"
 msgstr ""
 
 #: templates/release.html:39
 msgid "Play"
 msgstr ""
 
-#: templates/release.html:60
+#: templates/mobile/release.html:34 templates/release.html:60
 msgid "share"
 msgstr ""
 
-#: templates/release.html:90
+#: templates/mobile/release.html:39 templates/release.html:90
 msgid "Release date"
 msgstr ""
 
-#: templates/release.html:91
+#: templates/mobile/release.html:40 templates/release.html:91
 msgid "Tracklist"
 msgstr ""
 

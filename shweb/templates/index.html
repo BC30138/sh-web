@@ -4,5 +4,9 @@
 <link rel='stylesheet' href="/static/css/home.css">
 {% endblock %}
 {% block content %}
-<img src="/static/images/collage.jpg" width="1800" height="500" class="main-page-photo">
+<!-- <img src="/static/images/collage.jpg" width="1800" height="500" class="main-page-photo"> -->
+<a href="/releases/reki{{session['lang_arg']}}" class="main-release">
+    <img src="static/releases/reki/cover.jpg" width="1600" height="1600" class="main-release-photo">
+    <div class="main-release-tittle"> {{_('album')}} "реки" {{_("available")}}</div>
+</a>
 {% endblock %}

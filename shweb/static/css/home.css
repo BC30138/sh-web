@@ -6,9 +6,43 @@
     width: 100%;
 }
 
-body { position: fixed; overflow-y:scroll }
+.main-release {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    gap: 20px;
+    transition: 0.4s;
+}
+
+.main-release img {
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.8);
+}
+
+
+.main-release-tittle {
+    font-size: 22px;
+    color: black;
+    transition: 0.4s;
+}
+
+.main-release:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.main-release:hover .main-release-tittle{
+    color: white;
+}
 
 .main-page-photo {
     width: 100%;
     height: auto;
 }
+
+.main-release-photo {
+    width: 50vh;
+    height: auto;
+}
+

@@ -20,6 +20,12 @@ function toggleMenu() {
 }
 
 function open_release_menu() {
+    el = document.getElementById('release-links')
+
+    links = document.getElementById('discogs')
+    social = document.querySelector(".menu-social")
+
+    el.style.height = social.offsetTop - links.offsetTop - links.clientHeight + "px"
     document.getElementById('release-links').classList.toggle("show");
     document.getElementById("release-expand-icon").classList.toggle("expand-more")
 }

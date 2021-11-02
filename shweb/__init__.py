@@ -1,21 +1,33 @@
+import os
+
 from flask import Flask, request, session
 from flask_mobility import Mobility
 from flask_babel import Babel, gettext
 from flask_login import LoginManager
 
-from shweb.context import Environment as env
+from warrant import Cognito
+
+from shweb.utils import load_releases
+
 from shweb.routes import index, releases, feed
 from shweb.routes import admin
 
-from warrant import Cognito
 
 app = Flask(__name__)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-USER_POOL_ID = "eu-central-1_R7kMPFbB3"
-CLIENT_ID = "35g94vf37ro8d2m8ab1nilld18"
+app.config['AWS_ACCESS_KEY'] = os.environ['AWS_ACCESS_KEY']
+app.config['AWS_SECRET_KEY'] = os.environ['AWS_SECRET_KEY']
+app.config['AWS_REGION'] = os.environ['AWS_REGION']
+USER_POOL_ID = os.environ['AWS_USER_POOL_ID']
+CLIENT_ID = os.environ['AWS_CLIENT_ID']
+
+
+@app.before_first_request
+def startup_load():
+    load_releases(app)
 
 
 @login_manager.request_loader

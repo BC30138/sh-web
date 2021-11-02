@@ -15,15 +15,17 @@ def download_directory_s3(bucket, remote_path, output_path,
     )
     bucket = s3_resource.Bucket(bucket)
     for obj in bucket.objects.filter(Prefix=remote_path):
-        if not os.path.exists(os.path.dirname(obj.key)):
-            os.makedirs(os.path.dirname(obj.key))
-        bucket.download_file(obj.key, obj.key)
+        object_output_path = f"{output_path}/{obj.key}"
+        if not os.path.exists(os.path.dirname(object_output_path)):
+            os.makedirs(os.path.dirname(object_output_path))
+        bucket.download_file(obj.key, object_output_path)
 
 
 def load_releases(app: Flask):
     download_directory_s3(
         "stanethuzhe-web",
         "releases",
+        f"{app.static_folder}",
         app.config['AWS_ACCESS_KEY'],
         app.config['AWS_SECRET_KEY']
     )

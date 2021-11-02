@@ -1,6 +1,8 @@
 .vscode
 .tmp
 
+shweb/static/releases
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

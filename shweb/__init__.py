@@ -9,7 +9,6 @@ from shweb.utils import get_release_list
 from shweb.routes import index, releases, feed
 from shweb.routes import admin
 
-from warrant import Cognito
 
 app = Flask(__name__)
 

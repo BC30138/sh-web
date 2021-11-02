@@ -1,16 +1,21 @@
-from flask import Blueprint, render_template, current_app
-from flask_login import LoginManager, current_user, login_required
+from flask import Blueprint, render_template, current_app, jsonify
 from flask_mobility.decorators import mobile_template
+from flask_cognito import cognito_auth_required, current_user, current_cognito_jwt, cognito_group_permissions
 
 blueprint = Blueprint("admin", __name__)
 
 
-USER_POOL_ID = "eu-central-1_R7kMPFbB3"
-CLIENT_ID = "35g94vf37ro8d2m8ab1nilld18"
+# @blueprint.route('/')
+# @mobile_template('{mobile/}admin_login.html')
+# def index(template):
+#     return render_template(template)
 
 
-@blueprint.route('/')
-@login_required
-@mobile_template('{mobile/}admin_login.html')
+@blueprint.route('/', methods=['GET', 'POST'])
+@cognito_auth_required
+@cognito_group_permissions(['admin'])
 def index(template):
-    return render_template(template)
+    return jsonify({
+        'cognito_username': current_cognito_jwt['username'],   # from cognito pool
+        'user_id': current_user.id,   # from your database
+    })

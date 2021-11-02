@@ -2,10 +2,10 @@ import os
 
 from flask import Flask, request, session
 from flask_mobility import Mobility
-from flask_babel import Babel, gettext
-from flask_login import LoginManager
+from flask_babel import Babel
+from flask_cognito import CognitoAuth
 
-from warrant import Cognito
+# from warrant import Cognito
 
 from shweb.utils import load_releases
 
@@ -15,14 +15,15 @@ from shweb.routes import admin
 
 app = Flask(__name__)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-
 app.config['AWS_ACCESS_KEY'] = os.environ['AWS_ACCESS_KEY']
 app.config['AWS_SECRET_KEY'] = os.environ['AWS_SECRET_KEY']
 app.config['AWS_REGION'] = os.environ['AWS_REGION']
-USER_POOL_ID = os.environ['AWS_USER_POOL_ID']
-CLIENT_ID = os.environ['AWS_CLIENT_ID']
+app.config['COGNITO_REGION'] = app.config['AWS_REGION']
+app.config['COGNITO_USERPOOL_ID'] = os.environ['AWS_USER_POOL_ID']
+app.config['COGNITO_APP_CLIENT_ID'] = os.environ['AWS_APP_CLIENT_ID']
+app.config['COGNITO_CHECK_TOKEN_EXPIRATION'] = True
+
+cogauth = CognitoAuth(app)
 
 
 @app.before_first_request
@@ -30,17 +31,17 @@ def startup_load():
     load_releases(app)
 
 
-@login_manager.request_loader
-def load_user_from_request_header(request):
-    try:
-        access_token = request.headers["Authorization"]
-        cognito = Cognito(USER_POOL_ID, CLIENT_ID, access_token)
-        username = cognito.get_user()._metadata.get("username")
-        if username is None:
-            return None
-        return "yeah"
-    except Exception as e:
-        return None
+# @login_manager.request_loader
+# def load_user_from_request_header(request):
+#     try:
+#         access_token = request.headers["Authorization"]
+#         cognito = Cognito(USER_POOL_ID, CLIENT_ID, access_token)
+#         username = cognito.get_user()._metadata.get("username")
+#         if username is None:
+#             return None
+#         return "yeah"
+#     except Exception as e:
+#         return None
 
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0

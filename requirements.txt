@@ -3,4 +3,5 @@ jinja2==3.0.1
 Flask-Mobility==1.1.0
 flask-babel==2.0.0
 boto3==1.18.62
-Flask-Cognito==1.18
+python-jose==3.3.0
+warrant==0.6.1

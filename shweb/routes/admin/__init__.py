@@ -8,7 +8,11 @@ from enum import Enum
 from functools import wraps
 from flask import Blueprint, session, redirect, url_for, request, render_template, jsonify, current_app
 from flask_mobility.decorators import mobile_template
-from flask_cognito import cognito_auth_required, current_user, current_cognito_jwt, cognito_group_permissions
+
+from warrant import Cognito
+import botocore.exceptions
+
+import boto3
 
 from warrant import Cognito
 import botocore.exceptions

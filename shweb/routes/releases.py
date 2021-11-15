@@ -9,7 +9,7 @@ from shweb.utils import get_release_types, get_month_name
 blueprint = Blueprint("release-page", __name__)
 
 
-def get_release_data(release, release_path):
+def get_release_data(release):
     base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
     release_info: dict = requests.get(f"{base}/releases/{release}/info.json").json()
 
@@ -26,25 +26,14 @@ def get_release_data(release, release_path):
     release_data['date'] = release_info['date'].replace(date_month, get_month_name()[date_month])
     release_data['type'] = get_release_types()[release_info['type']]
 
-    tracklist = []
-
-    for track in release_info['tracklist']:
-        track['lyrics'] = requests.get(f"{base}/releases/{release}/{track['id']}.txt").content.decode('utf-8')
-        tracklist.append(track)
-
     return release_data, release_info['tracklist'], \
-        release_info['default-open-text'], release_info['type']
+        release_info['default-open-text']
 
 
 @ blueprint.route('/<release>', methods=['GET', 'POST'])
 @ mobile_template('{mobile/}release.html')
 def releases(release, template):
-    release_static_path = f"/static/releases/{release}"
-    release_path = f"shweb{release_static_path}"
-    release_data, tracklist, open_lyrics, release_type = get_release_data(
-        release,
-        release_path
-    )
+    release_data, tracklist, open_lyrics = get_release_data(release)
 
     bodyproperty = f'onload=openLyrics(\'{open_lyrics}\')'
     return render_template(

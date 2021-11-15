@@ -11,15 +11,16 @@
 <meta name="description" content="{{release_data['type']}}, {{release_data['date']}}">
 <meta property="og:description" content="{{release_data['type']}}, {{release_data['date']}}">
 <meta name="twitter:description" content="{{release_data['type']}}, {{release_data['date']}}">
-<meta name="image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta property="og:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta name="twitter:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
+<meta name="image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
+<meta property="og:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
+<meta name="twitter:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
 <meta name="url" content="http://www.stanethuzhe.ru/">
 <meta name="twitter:card" content="summary_large_image">
 {% endblock %}
 {% block content %}
 <div>
-    <div style="max-width: 700px;">
+    <div
+        style="max-width: 700px;  background-image: url({{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/cover.jpg); background-size: contain;">
         <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;">
             <iframe
                 src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"

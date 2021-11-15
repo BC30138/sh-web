@@ -11,9 +11,9 @@
 <meta name="description" content="{{release_data['type']}}, {{release_data['date']}}">
 <meta property="og:description" content="{{release_data['type']}}, {{release_data['date']}}">
 <meta name="twitter:description" content="{{release_data['type']}}, {{release_data['date']}}">
-<meta name="image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta property="og:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta name="twitter:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
+<meta name="image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
+<meta property="og:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
+<meta name="twitter:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release_data['release-id']}}/og.jpg">
 <meta name="url" content="http://www.stanethuzhe.ru/">
 <meta name="twitter:card" content="summary_large_image">
 {% endblock %}

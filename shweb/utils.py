@@ -1,8 +1,8 @@
 import os
-from re import M
-from flask.app import Flask
+import requests
 from flask_babel import _
 from flask import Flask
+from flask import current_app
 import boto3
 
 
@@ -57,3 +57,14 @@ def get_month_name():
         'nov': _('nov'),
         'dec': _('dec')
     }
+
+
+def get_release_list():
+    base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
+    response = requests.get(f"{base}/releases/release-list.json")
+    releases: list = response.json()['releases']
+    releases = list(map(
+        lambda x: x.update({'lang_type': get_release_types()[x['type']]}) or x,
+        releases
+    ))
+    return releases

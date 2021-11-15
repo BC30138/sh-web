@@ -1,6 +1,7 @@
 import json
+import requests
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
 from flask_mobility.decorators import mobile_template
 
 from shweb.utils import get_release_types, get_month_name
@@ -8,16 +9,16 @@ from shweb.utils import get_release_types, get_month_name
 blueprint = Blueprint("release-page", __name__)
 
 
-def get_release_data(release, release_path, release_static_path):
-    with open(f'{release_path}/info.json') as rf:
-        release_info: dict = json.load(rf)
+def get_release_data(release, release_path):
+    base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
+    release_info: dict = requests.get(f"{base}/releases/{release}/info.json").json()
+
     release_data = {
         'release-name': release_info['release-name'],
         'release-id': release,
         'bandcamp-id': release_info['bandcamp-id'],
         'bandcamp-link': release_info['bandcamp-id'],
         'services': release_info['services'],
-        'cover': f"{release_static_path}/cover.jpg",
         'youtube-videos': release_info.get("youtube-videos", [])
     }
 
@@ -28,8 +29,7 @@ def get_release_data(release, release_path, release_static_path):
     tracklist = []
 
     for track in release_info['tracklist']:
-        with open(f"{release_path}/{track['id']}.txt") as lyricf:
-            track['lyrics'] = lyricf.read()
+        track['lyrics'] = requests.get(f"{base}/releases/{release}/{track['id']}.txt").content.decode('utf-8')
         tracklist.append(track)
 
     return release_data, release_info['tracklist'], \
@@ -43,8 +43,7 @@ def releases(release, template):
     release_path = f"shweb{release_static_path}"
     release_data, tracklist, open_lyrics, release_type = get_release_data(
         release,
-        release_path,
-        release_static_path
+        release_path
     )
 
     bodyproperty = f'onload=openLyrics(\'{open_lyrics}\')'

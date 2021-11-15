@@ -117,6 +117,5 @@ def index(template):
 def index_form():
     if "logout" in request.form:
         session.pop('id_token')
-        print(session.get('id_token'))
         return redirect(url_for('admin.login'))
     return redirect(url_for('admin.index'))

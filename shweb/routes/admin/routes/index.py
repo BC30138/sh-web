@@ -1,5 +1,5 @@
 from flask import session, redirect, url_for, request, render_template
-from shweb.routes.admin.auth import auth_required
+from shweb.routes.admin.auth import auth_required, get_user_info_from_token
 
 from flask_mobility.decorators import mobile_template
 from shweb.routes.admin import blueprint
@@ -9,6 +9,7 @@ from shweb.routes.admin import blueprint
 @mobile_template('admin/{mobile/}index.html')
 @auth_required
 def index(template):
+    print(get_user_info_from_token())
     return render_template(template)
 
 

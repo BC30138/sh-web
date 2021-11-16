@@ -16,6 +16,10 @@ class TokenCheckState(Enum):
     INVALID_AUD = 4
 
 
+def get_user_info_from_token():
+    return jwt.get_unverified_claims(session['id_token'])
+
+
 def get_keys():
     response = requests.get(current_app.config['COGNITO_JWKS_KEYS_URL'])
     return response.json()

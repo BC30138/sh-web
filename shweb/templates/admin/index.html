@@ -1,5 +1,22 @@
-<form method="POST">
-    <input name="tmp">
-    <input type="submit" name="submit" value="submit">
-    <input type="submit" name="logout" value="logout">
-</form>
+{% extends "admin/base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' href="/static/css/home.css">
+{% endblock %}
+{% block content %}
+<ul class="releases">
+    {% for release in get_release_list() %}
+    <li>
+        <div class="release">
+            <div class="release-name">{{release.lang_type}} "{{release.name}}"</div>
+            <a href="/admin/releases/{{release.id}}" class="release-edit">
+                <button class="release-edit-btn">{{_('edit')}}</button>
+            </a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<a href="/admin/releases/new" class="release-new">
+    <button class="release-new-btn">{{_('add song')}}</button>
+</a>
+{% endblock %}

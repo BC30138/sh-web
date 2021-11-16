@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/images/favicon.png">
+    <link rel='stylesheet' href="/static/css/style.css">
+    {% endblock %}
+    {% block title %}
+    <title>станет хуже</title>
+    <meta name="title" content="станет хуже">
+    <meta property="og:title" content="станет хуже">
+    <meta name="twitter:title" content="станет хуже">
+    <meta name="description" content="{{_('description')}}">
+    <meta property="og:description" content="{{_('description')}}">
+    <meta name="twitter:description" content="{{_('description')}}">
+    <meta name="image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
+    <meta property="og:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
+    <meta name="twitter:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
+    <meta name="url" content="http://www.stanethuzhe.ru/">
+    <meta name="twitter:card" content="summary_large_image">
+    {% endblock %}
+    {% block scripts %}{% endblock %}
+</head>
+
+<body {{ bodyproperty }}>
+    <div class="wrapper">
+        <div id="header" class="header">
+            {% block header %}
+            <a href="/admin">
+                <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
+            </a>
+            {% endblock %}
+            <div class="navbar">
+                <a href="/admin" class="nav-link">{{_('home')}}</a>
+                <div class="user">
+                    <div> some logo </div>
+                    <div class="username"> {{get_user_info_from_token().nickname}} </div>
+                </div>
+                <form method="POST">
+                    <input type="submit" name="logout" value="{{_('logout')}}">
+                </form>
+            </div>
+        </div>
+        <div class="content">{% block content %}{% endblock %}</div>
+    </div>
+
+    <script src="/static/scripts/base.js"></script>
+    {% block loaded_scripts %}{% endblock %}
+</body>

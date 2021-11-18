@@ -28,17 +28,18 @@
     <div class="wrapper">
         <div id="header" class="header">
             {% block header %}
-            <a href="/admin">
+            <a href="/">
                 <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
             </a>
             {% endblock %}
             <div class="navbar">
-                <a href="/admin" class="nav-link">{{_('home')}}</a>
+                <a href="/admin/" class="nav-link">{{_('home')}}</a>
                 <div class="user">
                     <div> some logo </div>
                     <div class="username"> {{get_user_info_from_token().nickname}} </div>
                 </div>
-                <form method="POST">
+                <form method="POST" action="/admin/">
+                    <input type="hidden" name="event" value="logout">
                     <input type="submit" name="logout" value="{{_('logout')}}">
                 </form>
             </div>

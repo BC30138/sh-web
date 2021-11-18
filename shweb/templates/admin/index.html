@@ -9,14 +9,14 @@
     <li>
         <div class="release">
             <div class="release-name">{{release.lang_type}} "{{release.name}}"</div>
-            <a href="/admin/releases/{{release.id}}" class="release-edit">
+            <a href="/admin/release?action=edit&id={{release.id}}" class="release-edit">
                 <button class="release-edit-btn">{{_('edit')}}</button>
             </a>
         </div>
     </li>
     {% endfor %}
 </ul>
-<a href="/admin/releases/new" class="release-new">
+<a href="/admin/release?action=new" class="release-new">
     <button class="release-new-btn">{{_('add song')}}</button>
 </a>
 {% endblock %}

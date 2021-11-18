@@ -19,6 +19,7 @@ app.config['AWS_SECRET_KEY'] = os.environ['AWS_SECRET_KEY']
 app.config['AWS_REGION'] = os.environ['AWS_REGION']
 
 app.config['AWS_CLOUD_FRONT_DOMAIN'] = os.environ['AWS_CLOUD_FRONT_DOMAIN']
+app.config['S3_BUCKET_NAME'] = os.environ['S3_BUCKET_NAME']
 
 app.config['COGNITO_REGION'] = app.config['AWS_REGION']
 app.config['COGNITO_USERPOOL_ID'] = os.environ['AWS_USER_POOL_ID']
@@ -35,6 +36,11 @@ app.config['LANGUAGES'] = {
 }
 Mobility(app)
 babel = Babel(app)
+
+
+@app.errorhandler(404)
+def page_not_found(exc):
+    return {"message": "not found"}, 404
 
 
 @babel.localeselector

@@ -1,22 +1,24 @@
-from flask import session, redirect, url_for, request, render_template
-from shweb.routes.admin.auth import auth_required, get_user_info_from_token
+from flask import session, redirect, url_for, render_template, make_response
+from shweb.routes.admin.auth import auth_required
 
 from flask_mobility.decorators import mobile_template
-from shweb.routes.admin import blueprint
+
+from flask_restful import Resource, reqparse
+
+index_parser = reqparse.RequestParser()
+index_parser.add_argument("event", type=str, location="form", required=True)
 
 
-@blueprint.route('/')
-@mobile_template('admin/{mobile/}index.html')
-@auth_required
-def index(template):
-    print(get_user_info_from_token())
-    return render_template(template)
+class IndexResource(Resource):
+    @mobile_template('admin/{mobile/}index.html')
+    @auth_required
+    def get(self, template):
+        return make_response(render_template(template))
 
-
-@blueprint.route('/', methods=['POST'])
-@auth_required
-def index_form():
-    if "logout" in request.form:
-        session.pop('id_token')
-        return redirect(url_for('admin.login'))
-    return redirect(url_for('admin.index'))
+    @auth_required
+    def post(self):
+        event_args = index_parser.parse_args()
+        if event_args.get("event") == "logout":
+            session.pop('id_token')
+            return redirect(url_for('admin.login'))
+        return redirect(url_for('admin.index'))

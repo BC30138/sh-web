@@ -1,13 +1,12 @@
 import requests
-from flask import Blueprint, render_template, current_app, session
-from flask_mobility.decorators import mobile_template
-blueprint = Blueprint("index-page", __name__)
-
-from flask_babel import get_locale
-
-from flask import _request_ctx_stack as stack
 import re
 import ast
+from flask import Blueprint, render_template, current_app
+from flask import _request_ctx_stack as stack
+from flask_mobility.decorators import mobile_template
+from flask_babel import get_locale
+
+blueprint = Blueprint("index-page", __name__)
 
 
 style_tags = {

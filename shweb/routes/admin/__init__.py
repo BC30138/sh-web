@@ -1,5 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 from flask_restful import Api
+from flask_mobility.decorators import mobile_template
 from shweb.routes.admin.auth import get_user_info_from_token
 from shweb.routes.admin.routes import login, index, release
 

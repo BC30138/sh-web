@@ -3,7 +3,7 @@ from shweb.routes.admin.auth import auth_required
 from flask_mobility.decorators import mobile_template
 import werkzeug.datastructures
 
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, abort
 
 action_parser = reqparse.RequestParser()
 action_parser.add_argument("action", type=str, default="new", location="args", required=True)
@@ -21,7 +21,7 @@ class ReleaseResource(Resource):
         if release_args['action'] == "new":
             return make_response(render_template(template))
         else:
-            return {"message": "not_found"}, 404
+            return abort(404)
 
     @auth_required
     def post(self):
@@ -31,4 +31,4 @@ class ReleaseResource(Resource):
             print(release_args['cover'])
             return {"message": "success"}, 200
         else:
-            return {"message": "not_found"}, 404
+            return abort(404)

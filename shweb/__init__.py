@@ -1,7 +1,9 @@
 import os
 
 from flask import Flask, request, session
+from flask.templating import render_template
 from flask_mobility import Mobility
+from flask_mobility.decorators import mobile_template
 from flask_babel import Babel
 
 from shweb.utils import get_release_list
@@ -39,8 +41,9 @@ babel = Babel(app)
 
 
 @app.errorhandler(404)
-def page_not_found(exc):
-    return {"message": "not found"}, 404
+@mobile_template('{mobile/}not_found.html')
+def page_not_found(exc, template):
+    return render_template(template)
 
 
 @babel.localeselector

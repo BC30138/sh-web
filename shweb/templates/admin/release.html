@@ -5,10 +5,29 @@
 {% endblock %}
 {% block content %}
 <form action="/admin/release?action=new" method="post" enctype="multipart/form-data">
-    <img id="output" />
-    Select image to upload:
-    <input type="file" name="cover" id="fileToUpload" accept="image/jpeg" onchange="loadFile(event)">
-    <input type="submit" value="Upload Image" name="submit">
+    <div class="parameter">
+        <img id="output" />
+        <div class="description"> Cover (jpeg)*:</div>
+        <input type="file" name="cover" accept="image/jpeg" onchange="loadFile(event, 'output')">
+    </div>
+
+    <div class="parameter">
+        <img id="output-og" />
+        <div class="description"> OG (jpeg)*: </div>
+        <input type="file" name="og" accept="image/jpeg" onchange="loadFile(event, 'output-og')">
+    </div>
+
+    <div class="parameter">
+        <div class="description"> Release name*: </div>
+        <input name="name">
+    </div>
+
+    <div class="parameter">
+        <div class="description"> Release id*: </div>
+        <input name="id">
+    </div>
+
+    <input type="submit" value="add song" name="submit">
 </form>
 {% endblock %}
 {% block loaded_scripts %}

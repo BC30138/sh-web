@@ -27,7 +27,11 @@
         <input name="id">
     </div>
 
+    {% if action == "new" %}
     <input type="submit" value="add song" name="submit">
+    {% else %}
+    <input type="submit" value="save" name="submit">
+    {% endif%}
 </form>
 {% endblock %}
 {% block loaded_scripts %}

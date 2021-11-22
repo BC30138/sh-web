@@ -18,10 +18,8 @@ class ReleaseResource(Resource):
     @auth_required
     def get(self, template):
         release_args = action_parser.parse_args()
-        if release_args['action'] == "new":
-            return make_response(render_template(template))
-        else:
-            return abort(404)
+
+        return make_response(render_template(template, action=release_args['action']))
 
     @auth_required
     def post(self):

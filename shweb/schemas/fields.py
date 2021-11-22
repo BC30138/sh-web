@@ -18,7 +18,6 @@ class ReleaseType(fields.Str):
         return value
 
     def _deserialize(self, value, attr, data, **kwargs):
-        print(value)
         if value not in self.allowed:
             raise exceptions.ValidationError(f"Field should be one of: {self.allowed}")
         return get_release_types()[value]

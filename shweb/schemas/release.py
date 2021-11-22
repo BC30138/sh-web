@@ -1,8 +1,9 @@
 import requests
 from ast import literal_eval
-from marshmallow import Schema, fields, pre_load
-from shweb.schemas.fields import ReleaseType, DateString
+from marshmallow import Schema, fields, pre_load, post_dump, validate
 from bs4 import BeautifulSoup
+
+from shweb.utils import get_release_types, get_month_name
 
 
 class ServiceSchema(Schema):
@@ -20,11 +21,11 @@ class TrackSchema(Schema):
 
 class ReleaseSchema(Schema):
     release_name = fields.Str(required=True)
-    type = ReleaseType(required=True)
+    type = fields.Str(required=True, validate=validate.OneOf(["Single", "Album", "EP"]))
     release_id = fields.Str(required=True)
     bandcamp_id = fields.Str(required=False)
     bandcamp_link = fields.Str(required=False)
-    date = DateString(required=True)
+    date = fields.Str(required=True)
     default_open_text = fields.Str(required=False, allow_none=True)
     services = fields.List(fields.Nested(ServiceSchema), required=True)
     tracklist = fields.List(fields.Nested(TrackSchema), required=True)
@@ -45,3 +46,11 @@ class ReleaseSchema(Schema):
             bandcamp_type = "album"
         in_data['bandcamp_id'] = f"{bandcamp_type}={in_data['bandcamp_id']}"
         return in_data
+
+    @post_dump
+    def language_update(self, data, **kwargs):
+        date_month = data['date'].split()[1]
+        data['date'] = data['date'].replace(date_month, get_month_name()[date_month])
+
+        data['type'] = get_release_types()[data['type']]
+        return data

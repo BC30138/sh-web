@@ -14,11 +14,13 @@ blueprint = Blueprint("release-page", __name__)
 def releases(release, template):
     base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
     release_json: dict = requests.get(f"{base}/releases/{release}/info.json").json()
-    release_obj = ReleaseSchema().load(release_json)
+    schema = ReleaseSchema()
+    schema_deserial = schema.load(release_json)
+    schema_serial = schema.dump(schema_deserial)
 
-    bodyproperty = f'onload=openLyrics(\'{release_obj["default_open_text"]}\')'
+    bodyproperty = f'onload=openLyrics(\'{schema_serial["default_open_text"]}\')'
     return render_template(
         template,
-        release=release_obj,
+        release=schema_serial,
         bodyproperty=bodyproperty
     )

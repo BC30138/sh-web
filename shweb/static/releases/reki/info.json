@@ -46,8 +46,8 @@
     ],
     "tracklist": [
         {
-            "name": "внутри",
-            "id": "vnutri"
+            "name": "в пустоте",
+            "id": "v_pustote"
         },
         {
             "name": "реки",
@@ -58,25 +58,25 @@
             "id": "march"
         },
         {
+            "name": "внутри",
+            "id": "vnutri"
+        },
+        {
+            "name": "бездна",
+            "id": "bezdna"
+        },
+        {
             "name": "мир",
             "id": "mir",
             "explicit": true
-        },
-        {
-            "name": "в пустоте",
-            "id": "v_pustote"
-        },
-        {
-            "name": "твой дом",
-            "id": "tvoi_dom"
         },
         {
             "name": "тропы",
             "id": "tropi"
         },
         {
-            "name": "бездна",
-            "id": "bezdna"
+            "name": "твой дом",
+            "id": "tvoi_dom"
         }
     ],
     "youtube-videos": [

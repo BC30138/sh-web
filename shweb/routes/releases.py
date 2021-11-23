@@ -32,8 +32,6 @@ def get_release_data(release, release_path, release_static_path):
             track['lyrics'] = lyricf.read()
         tracklist.append(track)
 
-    print(tracklist)
-
     return release_data, release_info['tracklist'], \
         release_info['default-open-text'], release_info['type']
 

@@ -23,10 +23,12 @@ class ReleaseResource(Resource):
 
     @auth_required
     def post(self):
-        action_args = action_parser.parse_args()
-        if action_args['action'] == "new":
-            release_args = release_parser.parse_args()
-            print(release_args['cover'])
-            return {"message": "success"}, 200
-        else:
-            return abort(404)
+        # action_args = action_parser.parse_args()
+        print(request.form)
+        print(request.files)
+        return request.form
+        # if action_args['action'] == "new":
+        #     release_args = release_parser.parse_args()
+        #     return {"message": "success"}, 200
+        # else:
+        #     return abort(404)

@@ -3,12 +3,19 @@
 {{ super() }}
 <link rel='stylesheet' href="/static/css/home.css">
 {% endblock %}
+{% block loaded_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/scripts/admin/release.js"></script>
+{% endblock %}
 {% block content %}
-<form action="/admin/release?action=new" method="post" enctype="multipart/form-data">
+
+<div class="error-message"></div>
+
+<form id="CreateRelease">
     <div class="parameter">
         <img id="output" />
         <div class="description"> Cover (jpeg)*:</div>
-        <input type="file" name="cover" accept="image/jpeg" onchange="loadFile(event, 'output')">
+        <input type="file" name="cover" accept="image/jpeg" onchange="loadFile(event, 'output')" id="cover">
     </div>
 
     <div class="parameter">
@@ -16,24 +23,103 @@
         <div class="description"> OG (jpeg)*: </div>
         <input type="file" name="og" accept="image/jpeg" onchange="loadFile(event, 'output-og')">
     </div>
-
     <div class="parameter">
         <div class="description"> Release name*: </div>
-        <input name="name">
+        <input name="release_name">
+    </div>
+
+    <div class="parameter">
+        <div class="description"> Release type*: </div>
+        <select name="type">
+            <option value="Single"> Single </option>
+            <option value="Album"> Album </option>
+            <option value="EP"> EP </option>
+        </select>
     </div>
 
     <div class="parameter">
         <div class="description"> Release id*: </div>
-        <input name="id">
+        <input name="release_id">
     </div>
 
+    <div class="parameter">
+        <div class="description"> Bandcamp link*: </div>
+        <input name="bandcamp_link">
+    </div>
+
+    <div class="parameter">
+        <div class="description"> Date*: </div>
+        <input name="date" type="date">
+    </div>
+    <h3> Service-urls*: </h3>
+    <div class="parameter">
+        <div class="description"> apple: </div>
+        <input name="service_apple">
+    </div>
+    <div class="parameter">
+        <div class="description"> yandex: </div>
+        <input name="service_yandex">
+    </div>
+    <div class="parameter">
+        <div class="description"> youtube: </div>
+        <input name="service_youtube">
+    </div>
+    <div class="parameter">
+        <div class="description"> spotify: </div>
+        <input name="service_spotify">
+    </div>
+    <div class="parameter">
+        <div class="description"> boom: </div>
+        <input name="service_boom">
+    </div>
+    <div class="parameter">
+        <div class="description"> amazon: </div>
+        <input name="service_amazon">
+    </div>
+    <div class="parameter">
+        <div class="description"> deezer: </div>
+        <input name="service_deezer">
+    </div>
+    <div class="parameter">
+        <div class="description"> tidal: </div>
+        <input name="service_tidal">
+    </div>
+    <h3> Tracklist*: </h3>
+    <div class="tracklist">
+        <div class="track">
+            <div class="description"> Track name*: </div>
+            <input name="name" />
+            <div class="description"> Track id*: </div>
+            <input name="id" />
+            <div class="description"> Lyrics: </div>
+            <input name="lyrics" />
+            <div class="description"> Explicit: </div>
+            <input type="checkbox" name="explicit" />
+            <a href="javascript:void(0);" class="add_button" title="Add field" id="add_track">
+                <img src="add-icon.png" /></a>
+        </div>
+    </div>
+
+    <div class="parameter">
+        <div class="description"> Track id with lyrcis open by default: </div>
+        <input name="default_open_text">
+    </div>
+
+    <h3> Youtube videos: </h3>
+    <div class="youtube_videos">
+        <div>
+            <a href="javascript:void(0);" class="add_button" title="Add field" id="add_youtube">
+                <img src="add-icon.png" /></a>
+        </div>
+    </div>
+
+
     {% if action == "new" %}
-    <input type="submit" value="add song" name="submit">
+    <input type="submit" value="create" name="new" id='Submit'>
     {% else %}
-    <input type="submit" value="save" name="submit">
+    <input type="submit" value="save" name="edit" id='Submit'>
     {% endif%}
 </form>
-{% endblock %}
-{% block loaded_scripts %}
-<script src="/static/scripts/admin/release.js"></script>
+
+
 {% endblock %}

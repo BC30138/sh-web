@@ -1,18 +1,16 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 from flask_restful import Api
-from flask_mobility.decorators import mobile_template
 from shweb.routes.admin.auth import get_user_info_from_token
 from shweb.routes.admin.routes import login, index, release
 
-from warrant import Cognito
-import botocore.exceptions
-
-import boto3
 
 blueprint = Blueprint("admin", __name__)
 api = Api(blueprint)
 api.add_resource(index.IndexResource, "/", endpoint="index")
 api.add_resource(login.LoginResource, "/login", endpoint="login")
+api.add_resource(login.ForgetResource, "/login/forget", endpoint="forget")
+api.add_resource(login.ForgetConfirmResource, "/login/forget/confirm", endpoint="forget-confirm")
+api.add_resource(login.ChangePasswordResource, "/login/change-password", endpoint="change-password")
 api.add_resource(release.ReleaseResource, "/release", endpoint="release")
 
 

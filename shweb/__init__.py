@@ -5,9 +5,10 @@ from flask.templating import render_template
 from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template
 from flask_babel import Babel
+from jinja2.exceptions import TemplateNotFound
+
 
 from shweb.utils import get_release_list
-
 from shweb.routes import index, releases, feed
 from shweb.routes import admin
 
@@ -43,6 +44,12 @@ babel = Babel(app)
 @app.errorhandler(404)
 @mobile_template('{mobile/}not_found.html')
 def page_not_found(exc, template):
+    return render_template(template)
+
+
+@app.errorhandler(TemplateNotFound)
+@mobile_template('{mobile/}not_found.html')
+def template_not_found(exc, template):
     return render_template(template)
 
 

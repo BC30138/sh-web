@@ -1,0 +1,38 @@
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/images/favicon.png">
+    <link rel='stylesheet' href="/static/css/admin/login.css">
+    {% endblock %}
+    {% block title %}
+    <title>станет хуже admin: login</title>
+    {% endblock %}
+</head>
+
+<body {{ bodyproperty }}>
+    <div class="content-wrapper">
+        <a href="/{{session['lang_arg']}}">
+            <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
+        </a>
+        {% block content %}
+        <form method="POST" class="login-form">
+            <div>
+                <label for="username"><b>Username</b></label>
+                <input name="username" type="text">
+            </div>
+            <div>
+                <label for="password"><b>Password</b></label>
+                <input name="password" type="password">
+            </div>
+            {% if status%}
+            <div class="message">
+                {{status}}
+            </div>
+            {% endif %}
+            <input type="submit" value="Login">
+            <a href="/admin/login/forget"> Forget password? </a>
+        </form>
+        {% endblock %}
+    </div>
+    {% block scripts %}{% endblock %}
+</body>

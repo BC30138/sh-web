@@ -1,0 +1,52 @@
+{% extends "admin/login/login.html" %}
+{% block title %}
+<title>станет хуже admin: forget</title>
+{% endblock %}
+{% block content %}
+<form method="POST" class="login-form">
+    <div>
+        <b>Confirm password change</b>
+    </div>
+    <div class="message">
+        We sent your confirmation code to email
+    </div>
+    <div>
+        <label for="code"><b>Confirmation code</b></label>
+        <input name="code" type="text" id="code"
+            onkeyup="disable_checker([code_checker, new_password_checker], 'reset_button')">
+        <label for="password"><b>Password</b></label>
+        <input name="password" type="password" id="password"
+            onkeyup="disable_checker([code_checker, new_password_checker], 'reset_button')">
+        <label for="confirm"><b>Confirm password</b></label>
+        <input name="confirm" type="password" id="confirm"
+            onkeyup="disable_checker([code_checker, new_password_checker], 'reset_button')">
+        <div>
+            <div class="invalid" id="equal_passwords">
+                <span>Entered passwords must be same</span>
+            </div>
+            <div class="invalid" id="lower_case">
+                <span>Password must contain a lower case letter</span>
+            </div>
+            <div class="invalid" id="upper_case">
+                <span>Password must contain an upper case letter</span>
+            </div>
+            <div class="invalid" id="is_number">
+                <span>Password must contain a number</span>
+            </div>
+            <div class="invalid" id="min_char">
+                <span>Password must contain at least 8 characters</span>
+            </div>
+        </div>
+    </div>
+    {% if status%}
+    <div class="message">
+        {{status}}
+    </div>
+    {% endif %}
+    <input type="submit" value="Reset password" class="reset-button" id="reset_button" disabled>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/scripts/admin/login.js"></script>
+{% endblock %}

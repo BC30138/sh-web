@@ -25,3 +25,64 @@ body {
     background-position: center center;
     background-attachment:fixed;
 }
+
+
+.content-wrapper {
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    padding: 40px;
+    margin: 40px auto 40px auto;
+    gap: 20px;
+}
+
+.bandlogo {
+    height: 120px;
+    min-width: 100%;
+    transition: all 0.3s ease;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+}
+
+.login-form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type=text], input[type=password] {
+    color: black;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit]{
+    color: black;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.message {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.invalid * {
+    color: white;
+}
+
+.valid * {
+    color: green;
+}

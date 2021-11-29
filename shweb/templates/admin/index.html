@@ -1,25 +1,44 @@
 {% extends "admin/base.html" %}
 {% block head %}
 {{ super() }}
-<link rel='stylesheet' href="/static/css/home.css">
+<link rel='stylesheet' href="/static/css/admin/main.css">
 {% endblock %}
 {% block content %}
-<ul class="releases">
+
+<div class="releases" id="releases-list">
     {% for release in get_release_list() %}
-    <li>
-        <div class="release">
-            <div class="release-name">{{release.lang_type}} "{{release.name}}"</div>
-            <a href="/admin/release?action=edit&id={{release.id}}" class="release-edit">
-                <button class="release-edit-btn">{{_('edit')}}</button>
-            </a>
+    <div class="release" style="order: {{loop.index}};">
+        <div class="order-buttons">
+            <button class="change-order-up">up</button>
+            <button class="change-order-down">down</button>
         </div>
-    </li>
+        <div class="release-name">{{release.lang_type}} "{{release.name}}"</div>
+        <a href="/admin/release?action=edit&id={{release.id}}" class="release-edit">
+            <button class="release-edit-btn">{{_(' edit')}}</button>
+        </a>
+    </div>
     {% endfor %}
-</ul>
+</div>
+
+<div class="order-buttons-main">
+    <form id="release-order">
+        <button class="save-order">{{_('save order')}}</button>
+    </form>
+    <button class="change-order">{{_('change order')}}</button>
+    <a href="/admin/">
+        <button class="cancel-order">{{_('cancel')}}</button>
+    </a>
+</div>
+
 <a href="/admin/release?action=new" class="release-new">
     <button class="release-new-btn">{{_('add song')}}</button>
 </a>
 <a href="/admin/index-edit" class="index-edit">
     <button class="index-edit-btn">{{_('edit home page')}}</button>
 </a>
+{% endblock %}
+
+{% block loaded_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/scripts/admin/index.js"></script>
 {% endblock %}

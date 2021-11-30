@@ -7,6 +7,7 @@ from flask_mobility.decorators import mobile_template
 from flask_babel import Babel
 from jinja2.exceptions import TemplateNotFound
 
+import boto3
 
 from shweb.utils import get_release_list
 from shweb.routes import index, releases, feed
@@ -29,6 +30,22 @@ app.config['COGNITO_USERPOOL_ID'] = os.environ['AWS_USER_POOL_ID']
 app.config['COGNITO_APP_CLIENT_ID'] = os.environ['AWS_APP_CLIENT_ID']
 app.config['COGNITO_APP_CLIENT_SECRET'] = os.environ['AWS_APP_CLIENT_SECRET']
 app.config['COGNITO_JWKS_KEYS_URL'] = f"https://cognito-idp.{app.config['COGNITO_REGION']}.amazonaws.com/{app.config['COGNITO_USERPOOL_ID']}/.well-known/jwks.json"
+
+
+def get_cloudfront_id(app, url):
+    domain_name = url.split("https://")[1]
+    client = boto3.client(
+        'cloudfront',
+        aws_access_key_id=app.config['AWS_ACCESS_KEY'],
+        aws_secret_access_key=app.config['AWS_SECRET_KEY'],
+    )
+    distributions = client.list_distributions()['DistributionList']['Items']
+    for item in distributions:
+        if item['DomainName'] == domain_name:
+            return item['Id']
+
+
+app.config['AWS_CLOUD_FRONT_ID'] = get_cloudfront_id(app, os.environ['AWS_CLOUD_FRONT_DOMAIN'])
 
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0

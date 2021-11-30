@@ -11,8 +11,57 @@
   gap: 20px;
 }
 
+.releases {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.release {
+  height: 40px;
+  width: 400px;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.856);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  justify-content: space-between;
+}
+
+.release-info {
+  display: flex;
+}
+
+.inline-button {
+  max-height: 100%;
+}
+.inline-button img {
+  height: 20px;
+}
+
+.order-buttons {
+  flex-direction: column;
+}
+
+.change-order-up {
+  padding-top: 5px;
+}
+.change-order-up, .change-order-down {
+  max-height: 100%;
+  cursor: pointer;
+}
+.change-order-up img, .change-order-down img {
+  height: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
 button {
   color: white;
+  font-size: 20px;
   font-weight: normal;
   height: 32px;
   max-width: 100%;
@@ -31,7 +80,35 @@ button:hover {
   display: none;
 }
 
-.releases {
+.order-buttons-main {
+  width: 400px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+}
+
+.change-order {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .8)
+              url(../../images/icons/spinner.gif)
+              50% 50%
+              no-repeat;
+}
+
+body.loading {
+  overflow: hidden;
+}
+
+body.loading .modal {
+  display: block;
 }

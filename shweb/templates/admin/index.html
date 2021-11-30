@@ -7,23 +7,27 @@
 
 <div class="releases" id="releases-list">
     {% for release in get_release_list() %}
-    <div class="release" style="order: {{loop.index}};">
-        <div class="order-buttons">
-            <button class="change-order-up">up</button>
-            <button class="change-order-down">down</button>
+    <div class="release" style="order: {{loop.index}};" id="{{release.id}}"">
+        <div class="release-info">
+            <div class="release-name">{{release.lang_type}} "{{release.name}}"&nbsp;</div>
+            <a href="/admin/release?action=edit&id={{release.id}}" class="inline-button">
+                <img src="/static/images/icons/edit.svg" alt="" class="edit-icon">
+            </a>
         </div>
-        <div class="release-name">{{release.lang_type}} "{{release.name}}"</div>
-        <a href="/admin/release?action=edit&id={{release.id}}" class="release-edit">
-            <button class="release-edit-btn">{{_(' edit')}}</button>
-        </a>
+        <div class="order-buttons">
+            <div class="change-order-up">
+                <img src="/static/images/icons/up.svg" alt="" class="up-icon">
+            </div>
+            <div class="change-order-down">
+                <img src="/static/images/icons/down.svg" alt="" class="up-icon">
+            </div>
+        </div>
     </div>
-    {% endfor %}
+{% endfor %}
 </div>
 
 <div class="order-buttons-main">
-    <form id="release-order">
-        <button class="save-order">{{_('save order')}}</button>
-    </form>
+    <button class="save-order">{{_('save order')}}</button>
     <button class="change-order">{{_('change order')}}</button>
     <a href="/admin/">
         <button class="cancel-order">{{_('cancel')}}</button>
@@ -36,6 +40,8 @@
 <a href="/admin/index-edit" class="index-edit">
     <button class="index-edit-btn">{{_('edit home page')}}</button>
 </a>
+
+<div class="modal"></div>
 {% endblock %}
 
 {% block loaded_scripts %}

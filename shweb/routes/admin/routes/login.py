@@ -7,7 +7,7 @@ from warrant import Cognito
 
 from flask_restful import Resource, reqparse
 import warrant
-from shweb.routes.admin.auth import AuthStatus, change_password_challenge
+from shweb.routes.admin.auth import AuthStatus, auth_required, change_password_challenge
 
 login_parser = reqparse.RequestParser()
 login_parser.add_argument("username", type=str, location="form", required=True)
@@ -22,7 +22,7 @@ class LoginResource(Resource):
     def get(self, template):
         status_args = error_status_parser.parse_args()
         status: AuthStatus = None
-        if status_args['status']:
+        if status_args.get('status'):
             try:
                 status = AuthStatus[status_args['status']]
             except KeyError:
@@ -58,7 +58,14 @@ class LoginResource(Resource):
             except warrant.exceptions.ForceChangePasswordException:
                 return redirect(url_for('admin.change-password', action="new"))
 
-        return redirect(url_for('admin.login', status=AuthStatus.empty.name))
+        return redirect(url_for('admin.login', state=AuthStatus.empty.name))
+
+
+class LogoutResource(Resource):
+    @auth_required
+    def post(self):
+        session.clear()
+        return redirect(url_for('admin.login'))
 
 
 username_parser = reqparse.RequestParser()

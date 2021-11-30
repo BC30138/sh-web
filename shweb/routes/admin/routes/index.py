@@ -1,12 +1,14 @@
-from flask import session, redirect, url_for, render_template, make_response
-from shweb.routes.admin.auth import auth_required
+import requests
 
+from flask import render_template, make_response, current_app
 from flask_mobility.decorators import mobile_template
+from flask_restful import Resource, reqparse, abort, request
 
-from flask_restful import Resource, reqparse
+from shweb.routes.admin.auth import auth_required
+from shweb.utils import upload_json, create_invalidation
 
-index_parser = reqparse.RequestParser()
-index_parser.add_argument("event", type=str, location="form", required=True)
+release_list_order_parser = reqparse.RequestParser()
+release_list_order_parser.add_argument("releases", location="json", required=True)
 
 
 class IndexResource(Resource):
@@ -17,8 +19,25 @@ class IndexResource(Resource):
 
     @auth_required
     def post(self):
-        event_args = index_parser.parse_args()
-        if event_args.get("event") == "logout":
-            session.pop('id_token')
-            return redirect(url_for('admin.login'))
-        return redirect(url_for('admin.index'))
+        json_data = request.get_json()
+        releases = json_data.get('releases')
+        if releases is None:
+            return abort(400)
+
+        release_list_fp = "releases/release-list.json"
+
+        base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
+        response = requests.get(f"{base}/{release_list_fp}")
+        s3_releases: list = response.json()['releases']
+
+        new_s3_releases = []
+        for key in sorted(releases):
+            release = next(item for item in s3_releases if item["id"] == releases[key])
+            new_s3_releases.append(release)
+
+        upload_json({"releases": new_s3_releases}, release_list_fp)
+        create_invalidation(["/" + release_list_fp])
+        return {
+            "status": "Success",
+            "releases": new_s3_releases
+        }

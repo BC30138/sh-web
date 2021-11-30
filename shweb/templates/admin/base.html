@@ -30,7 +30,7 @@
                     <img src="/static/images/icons/account.svg" alt="" class="account-icon">
                     <div class="user-controls">
                         <div class="username"> {{get_user_info_from_token().nickname}} </div>
-                        <form method="POST" action="/admin/">
+                        <form method="POST" action="/admin/logout">
                             <input type="hidden" name="event" value="logout">
                             <input type="submit" name="logout" value="{{_('logout')}}" class="control-button">
                         </form>

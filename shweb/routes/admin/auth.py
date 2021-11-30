@@ -68,7 +68,7 @@ def auth_required(func):
             state = check_id_token(session['id_token'])
             if state == AuthStatus.valid:
                 return func(*args, **kwargs)
-            return redirect(url_for('admin.login', state=state.name))
+            return redirect(url_for('admin.login', status=state.name))
         else:
             return redirect(url_for('admin.login'))
     return wrapper

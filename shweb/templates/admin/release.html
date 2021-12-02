@@ -77,10 +77,12 @@
             </div>
 
             <h3> Youtube videos: </h3>
-            <div class="youtube_videos">
+            <div class="youtube-videos">
                 <div>
                     <a href="javascript:void(0);" class="add_button" title="Add field" id="add_youtube">
-                        <img src="add-icon.png" /></a>
+                        Add youtube video
+                        <img src="/static/images/icons/add.svg" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -88,21 +90,16 @@
         <div class="side">
             <div class="parameter">
                 <div class="description"> Release name*: </div>
-                <input name="release_name">
+                <input name="release_name" type="text" placeholder="">
             </div>
 
             <div class="parameter">
                 <div class="description"> Release type*: </div>
                 <select name="type">
-                    <option value="Single"> Single </option>
                     <option value="Album"> Album </option>
+                    <option value="Single"> Single </option>
                     <option value="EP"> EP </option>
                 </select>
-            </div>
-
-            <div class="parameter">
-                <div class="description"> Release id*: </div>
-                <input name="release_id">
             </div>
 
             <div class="parameter">
@@ -112,27 +109,21 @@
 
             <div class="parameter">
                 <div class="description"> Bandcamp link*: </div>
-                <input name="bandcamp_link">
+                <input name="bandcamp_link" type="url" placeholder="https://stanethuzhe.bandcamp.com/">
             </div>
 
             <h3> Tracklist*: </h3>
             <div class="tracklist">
-                <div class="track">
-                    <div class="description"> Track name*: </div>
-                    <input name="name" />
-                    <div class="description"> Track id*: </div>
-                    <input name="id" />
-                    <div class="description"> Lyrics: </div>
-                    <input name="lyrics" />
-                    <div class="description"> Explicit: </div>
-                    <input type="checkbox" name="explicit" />
-                    <a href="javascript:void(0);" class="add_button" title="Add field" id="add_track">
-                        <img src="add-icon.png" /></a>
-                </div>
+                <a href="javascript:void(0);" class="add_button" title="Add field" id="add_track">
+                    Add track
+                    <img src="/static/images/icons/add.svg" />
+                </a>
             </div>
             <div class="parameter">
-                <div class="description"> Track id with lyrcis open by default: </div>
-                <input name="default_open_text">
+                <div class="description"> Track id with lyrcis to open by default: </div>
+                <select name="default-open">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
     </div>

@@ -173,59 +173,85 @@ $("#CreateRelease").on("submit", function () {
 
 function add_div(it, wrapper, html) {
     if (it < maxField) {
-        it++;
         $(wrapper).append(html);
+        return true
     }
-    return it
-}
-
-function remove_div(element, e) {
-    e.preventDefault();
-    $(element).parent('div').remove();
+    return false
 }
 
 var maxField = 20;
 
-var addTrack = $('#add_track');
 var tracklistWrapper = $('.tracklist');
-var trackHtml = `
-    <div class="track">
+
+function remove_track(element, e) {
+    e.preventDefault();
+    $(this).parent('div').parent('div').remove();
+}
+
+var trackIt = 0;
+$(tracklistWrapper).on('click', "#add_track", function () {
+    add_div(trackIt, tracklistWrapper, `
+    <div class="add-track">
         <div class="description"> Track name*: </div>
-        <input name="name" />
-        <div class="description"> Track id*: </div>
-        <input name="id" />
+        <div class="one-line-parameter">
+            <input name="name" type="text"/>
+
+        </div>
         <div class="description"> Lyrics: </div>
-        <input name="lyrics" />
-        <div class="description"> Explicit: </div>
-        <input type="checkbox" name="explicit" />
-        <a href="javascript:void(0);" class="remove_button" id="remove_track">
-            <img src="remove-icon.png"/>
-        </a>
-    </div>`;
-var trackIt = 1;
-$(addTrack).click(function () {
-    trackIt = add_div(trackIt, tracklistWrapper, trackHtml)
+        <textarea name="lyrics"></textarea>
+        <div class="one-line-parameter">
+            <div style="display: flex; align-items: center;">
+                <div class="description"> Explicit: </div>
+                <input type="checkbox" name="explicit" />
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="release-control-button" id="save_track">save</button>
+                <button class="release-control-button" id="cancel_add_track">cancel</button>
+            </div>
+        </div>
+    </div>`)
 });
+$(tracklistWrapper).on('click', '#cancel_add_track', function (e) {
+    e.preventDefault();
+    $(this).parent('div').parent('div').parent('div').remove();
+});
+
+$(tracklistWrapper).on('click', '#save_track', function (e) {
+    e.preventDefault();
+    $(this).parent('div').parent('div').parent('div').remove();
+
+    add_div(trackIt, tracklistWrapper, `
+    <div class="one-line-parameter, track">
+        1. Марш
+        <a href="javascript:void(0);" class="remove_button" id="remove_track">
+            <img src="/static/images/icons/remove.svg"/>
+        </a>
+    </div>`)
+    trackIt++
+});
+
 $(tracklistWrapper).on('click', '#remove_track', function (e) {
-    remove_div(this, e)
+    e.preventDefault();
+    $(this).parent('div').remove();
     trackIt--
 });
 
-var addYoutube = $('#add_youtube');
-var youtubeWrapper = $('.youtube_videos');
+var youtubeWrapper = $('.youtube-videos');
 var youtubeHtml = `
-<div>
-    <div class="description"> Youtube link: </div>
-    <input name="youtube_video" />
+<div class="one-line-parameter">
+    <input name="youtube_video" type="url" placeholder="https://youtu.be/"/>
     <a href="javascript:void(0);" class="remove_button" id="remove_youtube">
-        <img src="remove-icon.png"/>
+        <img src="/static/images/icons/remove.svg"/>
     </a>
 </div>`;
-var youtubeIt = 1;
-$(addYoutube).click(function () {
-    youtubeIt = add_div(youtubeIt, youtubeWrapper, youtubeHtml)
+var youtubeIt = 0;
+$(youtubeWrapper).on('click', '#add_youtube', function (e) {
+    if (add_div(youtubeIt, youtubeWrapper, youtubeHtml)) {
+        youtubeIt++
+    }
 });
 $(youtubeWrapper).on('click', '#remove_youtube', function (e) {
-    remove_div(this, e)
+    e.preventDefault();
+    $(this).parent('div').remove();
     youtubeIt--
 });

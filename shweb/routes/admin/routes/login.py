@@ -58,7 +58,7 @@ class LoginResource(Resource):
             except warrant.exceptions.ForceChangePasswordException:
                 return redirect(url_for('admin.change-password', action="new"))
 
-        return redirect(url_for('admin.login', state=AuthStatus.empty.name))
+        return redirect(url_for('admin.login', status=AuthStatus.empty.name))
 
 
 class LogoutResource(Resource):

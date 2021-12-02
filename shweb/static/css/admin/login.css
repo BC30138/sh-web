@@ -74,6 +74,11 @@ input[type=submit]{
     border-radius: 4px;
 }
 
+input[type=submit]:hover {
+    background-color: rgba(124, 124, 124, 0.856);
+}
+
+
 .message {
     max-width: 100%;
     overflow-wrap: break-word;

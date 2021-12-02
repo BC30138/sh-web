@@ -83,7 +83,7 @@ input[type=file]{
     height: 100%;
 }
 
-input[type=submit]{
+.release-control-button {
     width: fit-content;
     color: black;
     font-weight: bold;
@@ -92,8 +92,9 @@ input[type=submit]{
     border-radius: 4px;
 }
 
-input[type=submit]:hover {
+.release-control-button:hover {
     background-color: rgba(124, 124, 124, 0.856);
+    cursor: pointer;
 }
 
 input[type=text], input[type=url] {

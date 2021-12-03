@@ -14,11 +14,6 @@
         <a href="/{{session['lang_arg']}}">
             <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
         </a>
-        {% if status%}
-        <div class="message">
-            {{status}}
-        </div>
-        {% endif %}
         {% block content %}
         <form method="POST" class="login-form">
             <div>

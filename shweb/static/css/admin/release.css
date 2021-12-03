@@ -142,7 +142,7 @@ input[type=text], input[type=url], input[type=date], select, select * {
     width: 100%;
 }
 
-.one-line-parameter .remove_button {
+.remove_button {
     margin-top: auto;
     margin-bottom: auto;
     height: 15px;
@@ -174,4 +174,33 @@ textarea {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.track img {
+    height: 100%;
+}
+
+.track-controls {
+    display: flex;
+    height: 100%;
+    gap: 10px;
+}
+
+.change-order-up {
+    padding-top: 5px;
+}
+.change-order-up, .change-order-down {
+    max-height: 100%;
+    cursor: pointer;
+}
+.change-order-up img, .change-order-down img {
+    height: 20px;
 }

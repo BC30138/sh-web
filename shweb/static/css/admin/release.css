@@ -85,6 +85,11 @@ input[type=file]{
     height: 100%;
 }
 
+.release-control-buttons {
+    display: flex;
+    gap: 10px;
+}
+
 .release-control-button {
     width: fit-content;
     color: black;

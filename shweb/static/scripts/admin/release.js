@@ -346,11 +346,13 @@ function youtube_link_parser(link) {
     return ""
 }
 
-$("#CreateRelease").on("submit", function () {
+$("#submit-release").on("click", function () {
     var values = {};
 
     var is_error = false;
-    $.each($(this).serializeArray(), function () {
+
+    var release_blank = $("#release_blank")
+    $.each($(release_blank).serializeArray(), function () {
         if (required_string_fiedls.includes(this.name) && this.value === "") {
             alert("Field '" + this.name + "' is emty")
             is_error = true;
@@ -361,7 +363,6 @@ $("#CreateRelease").on("submit", function () {
     if (is_error) {
         return false
     }
-
 
     var date_list = values['date'].split('-');
     var data = {

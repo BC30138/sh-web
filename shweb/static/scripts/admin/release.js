@@ -167,7 +167,7 @@ $(tracklistWrapper).on('click', '#save_track', function (e) {
     trackIt++
     tracklist[trackIt] = track
     add_div(trackIt, tracklistWrapper, get_track_html(track, trackIt))
-    $('#default-open-track').append($('<option>', {
+    $('#default_open_track').append($('<option>', {
         value: track['id'],
         text: track['name']
     }));
@@ -198,7 +198,7 @@ $(tracklistWrapper).on('click', '#update_track', function (e) {
 
     add_div(track_it, tracklistWrapper, get_track_html(track, track_it))
 
-    $('#default-open-track option').each(function () {
+    $('#default_open_track option').each(function () {
         if ($(this).val() == `${current_id}`) {
             $(this).attr("value", track['id']);
             $(this).text(track['name']);
@@ -236,7 +236,7 @@ $(tracklistWrapper).on('click', '#remove_track', function (e) {
             track_head_link = iter_track.find("#track_head").text(`${new_order}. ${tracklist[key]['name']}`)
         }
         else {
-            $('#default-open-track option').each(function () {
+            $('#default_open_track option').each(function () {
                 if ($(this).val() == `${tracklist[key]['id']}`) {
                     $(this).remove();
                 }
@@ -315,6 +315,54 @@ $(youtubeWrapper).on('click', '#remove_youtube', function (e) {
 
 
 // POST REQUEST
+const blank_parameters = {
+    '#cover': {
+        name: "cover",
+        type: "file",
+        required: true
+    },
+    '#og': {
+        name: "og",
+        type: "file",
+        required: true
+    },
+    'input[name^="service_"]': {
+        name: "services",
+        type: "list",
+        element_type: "url",
+        at_least_one: true
+    },
+    'input[name="youtube_video"]': {
+        name: "youtube_videos",
+        type: "list",
+        element_type: "youtube_url"
+    },
+    '#release_name': {
+        name: "release_name",
+        type: "string",
+        required: true
+    },
+    '#release_type': {
+        name: "type",
+        type: "string",
+        required: true
+    },
+    '#release_date': {
+        name: "date",
+        type: "date",
+        required: true
+    },
+    '#release_bandcamp_link': {
+        name: "bandcamp_link",
+        type: "url",
+        required: true
+    },
+    '#default_open_track': {
+        name: "default_open_text",
+        type: "string"
+    }
+}
+
 function url_checker(link) {
     try {
         const url = new URL(link);
@@ -325,153 +373,242 @@ function url_checker(link) {
 }
 
 function youtube_link_parser(link) {
-    if (url_checker()) {
+    if (url_checker(link)) {
         const url = new URL(link);
         if (url.hostname === "www.youtube.com") {
             id = url.searchParams.get('v')
             if (id === null) {
-                return ""
+                return false
             }
             return id
         }
         else if (url.hostname === "youtu.be") {
             path_list = url.pathname.split('/')
             if (path_list.length !== 2) {
-                return ""
+                return false
             }
             return path_list[1]
         }
-        return ""
+        return false
     }
-    return ""
+    return false
+}
+
+function type_converter(object, type) {
+    if (type === "url") {
+        if (url_checker(object)) {
+            return object
+        }
+        return false
+    }
+    else if (type === "youtube_url") {
+        return youtube_link_parser(object)
+    }
+    else {
+        return object
+    }
 }
 
 $("#submit-release").on("click", function () {
-    var values = {};
-
-    var is_error = false;
-
-    var release_blank = $("#release_blank")
-    $.each($(release_blank).serializeArray(), function () {
-        if (required_string_fiedls.includes(this.name) && this.value === "") {
-            alert("Field '" + this.name + "' is emty")
-            is_error = true;
-            return false
-        }
-        values[this.name] = this.value;
-    });
-    if (is_error) {
-        return false
-    }
-
-    var date_list = values['date'].split('-');
-    var data = {
-        release_name: values["release_name"],
-        release_id: make_id(values["release_name"]),
-        type: values["type"],
-        release_id: values['release_id'],
-        bandcamp_link: values['bandcamp_link'],
-        date: date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
-            " " + date_list[0],
-        default_open_text: values['default_open_text'],
-        services: [],
-        tracklist: [],
-        youtube_videos: []
-    };
-
-    var is_error = false;
-    $('input[name^="service_"]').each(function (_index, member) {
-        if (member.value !== "") {
-            if (url_checker(member.value) === false) {
-                alert("Invalid service link");
-                is_error = true;
-                return false;
-            }
-            data['services'].push(
-                {
-                    name: member.name.split("_")[1],
-                    link: member.value
-                }
-            )
-        }
-    });
-    if (is_error) {
-        return false
-    }
-    if (data['services'].length === 0) {
-        alert("At least one service must be not empty")
-        return false
-    }
-
-    var used_names = [];
-    var is_error = false;
-    $('.track').each(function (_index, member) {
-        var children = member.children;
-        var track = {}
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type === "checkbox") {
-                track[children[i].name] = children[i].checked
-            }
-            else if (children[i].tagName === "INPUT") {
-                track[children[i].name] = children[i].value
-            }
-        }
-        if (used_names.includes(track['id'])) {
-            alert("Same ids for tracks not allowed")
-            is_error = true
-            return false
-        }
-        if (track['id'] === "" || track['name'] === "") {
-            alert("Track's id and name must be not empty")
-            is_error = true
-            return false
-        }
-        used_names.push(track['id'])
-        data['tracklist'].push(track)
-    });
-    if (is_error) {
-        return false
-    }
-
-    var is_error = false;
-    $('input[name="youtube_video"]').each(function (_index, member) {
-        youtube_id = youtube_link_parser(member.value)
-        if (youtube_id === "") {
-            alert("Incorrect youtube link " + member.value)
-            is_error = true
-            return false
-        }
-        if (data['youtube_videos'].includes(youtube_id)) {
-            alert("Youtube videos must be unique")
-            is_error = true
-            return false
-        }
-        data['youtube_videos'].push(youtube_id)
-    });
-    if (is_error) {
-        return false
-    }
-
-    alert(JSON.stringify(data))
-
     var formData = new FormData();
-    formData.append("cover", document.getElementById("cover").files[0]);
-    formData.append("release", JSON.stringify(data))
+    var data = {}
 
-    var base_url = window.location.origin + "/admin/release?action=" + document.getElementById("Submit").name;
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState === this.DONE) {
-            if (this.status === 200) {
-                alert("a");
-                return false;
-            } else {
-                alert('failed');
-                return false;
+    for (const [key, properties] of Object.entries(blank_parameters)) {
+        object = $(key)
+
+        if (properties['type'] === "file") {
+            files = object.prop('files')
+            if (properties['required'] && files.length === 0) {
+                console.log('file required')
+            }
+            else {
+                formData.append(properties['name'], object.prop('files')[0]);
+            }
+            continue
+        }
+
+        if (properties["required"] && object.val() === "") {
+            console.log(`Required value ${key}`)
+        }
+
+        if (properties['type'] === "list") {
+            result_object = []
+            item_values = []
+
+            object.each(function (_index, item) {
+                if (item.value !== "") {
+                    item_value = type_converter(item.value, properties['element_type'])
+                    console.log(item_value)
+                    if (item_value === false) {
+                        console.log(`incorrect value of ${key}`)
+                    }
+                    item_values.push([item.name, item_value])
+                }
+            });
+
+            if (properties['name'] === "services") {
+                item_values.forEach(function (item) {
+                    list_item = {
+                        name: item[0].split("_")[1]
+                    }
+                    list_item['link'] = item[1]
+                    result_object.push(list_item)
+                });
+            }
+            else {
+                item_values.forEach(function (item) {
+                    result_object.push(item[1])
+                });
+            }
+
+            if (properties["at_least_one"] && result_object.length === 0) {
+                console.log(`At least one needed in ${key}`)
             }
         }
+        else if (properties['type'] === "date") {
+            date_list = object.val().split('-')
+            result_object = date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
+                " " + date_list[0]
+        }
+        else if (properties['type'] === "url") {
+            result_object = object.val()
+        }
+        else {
+            result_object = object.val()
+        }
+        data[properties['name']] = result_object
     }
-    xhr.open("POST", base_url);
-    xhr.send(formData);
+
+    console.log(JSON.stringify(data))
+
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]);
+    // }
+    // var values = {};
+
+    // var is_error = false;
+
+    // var release_blank = $("#release_blank")
+    // $.each($(release_blank).serializeArray(), function () {
+    //     if (required_string_fiedls.includes(this.name) && this.value === "") {
+    //         alert("Field '" + this.name + "' is emty")
+    //         is_error = true;
+    //         return false
+    //     }
+    //     values[this.name] = this.value;
+    // });
+    // if (is_error) {
+    //     return false
+    // }
+
+    // var date_list = values['date'].split('-');
+    // var data = {
+    //     release_name: values["release_name"],
+    //     release_id: make_id(values["release_name"]),
+    //     type: values["type"],
+    //     release_id: values['release_id'],
+    //     bandcamp_link: values['bandcamp_link'],
+    //     date: date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
+    //         " " + date_list[0],
+    //     default_open_text: values['default_open_text'],
+    //     services: [],
+    //     tracklist: [],
+    //     youtube_videos: []
+    // };
+
+    // var is_error = false;
+    // $('input[name^="service_"]').each(function (_index, member) {
+    //     if (member.value !== "") {
+    //         if (url_checker(member.value) === false) {
+    //             alert("Invalid service link");
+    //             is_error = true;
+    //             return false;
+    //         }
+    //         data['services'].push(
+    //             {
+    //                 name: member.name.split("_")[1],
+    //                 link: member.value
+    //             }
+    //         )
+    //     }
+    // });
+    // if (is_error) {
+    //     return false
+    // }
+    // if (data['services'].length === 0) {
+    //     alert("At least one service must be not empty")
+    //     return false
+    // }
+
+    // var used_names = [];
+    // var is_error = false;
+    // $('.track').each(function (_index, member) {
+    //     var children = member.children;
+    //     var track = {}
+    //     for (var i = 0; i < children.length; i++) {
+    //         if (children[i].type === "checkbox") {
+    //             track[children[i].name] = children[i].checked
+    //         }
+    //         else if (children[i].tagName === "INPUT") {
+    //             track[children[i].name] = children[i].value
+    //         }
+    //     }
+    //     if (used_names.includes(track['id'])) {
+    //         alert("Same ids for tracks not allowed")
+    //         is_error = true
+    //         return false
+    //     }
+    //     if (track['id'] === "" || track['name'] === "") {
+    //         alert("Track's id and name must be not empty")
+    //         is_error = true
+    //         return false
+    //     }
+    //     used_names.push(track['id'])
+    //     data['tracklist'].push(track)
+    // });
+    // if (is_error) {
+    //     return false
+    // }
+
+    // var is_error = false;
+    // $('input[name="youtube_video"]').each(function (_index, member) {
+    //     youtube_id = youtube_link_parser(member.value)
+    //     if (youtube_id === "") {
+    //         alert("Incorrect youtube link " + member.value)
+    //         is_error = true
+    //         return false
+    //     }
+    //     if (data['youtube_videos'].includes(youtube_id)) {
+    //         alert("Youtube videos must be unique")
+    //         is_error = true
+    //         return false
+    //     }
+    //     data['youtube_videos'].push(youtube_id)
+    // });
+    // if (is_error) {
+    //     return false
+    // }
+
+    // alert(JSON.stringify(data))
+
+
+    // formData.append("cover", document.getElementById("cover").files[0]);
+    // formData.append("release", JSON.stringify(data))
+
+    // var base_url = window.location.origin + "/admin/release?action=" + document.getElementById("Submit").name;
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function () {
+    //     if (this.readyState === this.DONE) {
+    //         if (this.status === 200) {
+    //             alert("a");
+    //             return false;
+    //         } else {
+    //             alert('failed');
+    //             return false;
+    //         }
+    //     }
+    // }
+    // xhr.open("POST", base_url);
+    // xhr.send(formData);
     return false
 });

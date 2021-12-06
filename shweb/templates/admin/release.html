@@ -89,12 +89,12 @@
     <div class="side">
         <div class="parameter">
             <div class="description"> Release name*: </div>
-            <input name="release_name" type="text" placeholder="">
+            <input name="release_name" type="text" placeholder="" id="release_name">
         </div>
 
         <div class="parameter">
             <div class="description"> Release type*: </div>
-            <select name="type">
+            <select name="type" id="release_type">
                 <option value="Album"> Album </option>
                 <option value="Single"> Single </option>
                 <option value="EP"> EP </option>
@@ -103,12 +103,12 @@
 
         <div class="parameter">
             <div class="description"> Date*: </div>
-            <input name="date" type="date">
+            <input name="date" type="date" id="release_date">
         </div>
 
         <div class="parameter">
             <div class="description"> Bandcamp link*: </div>
-            <input name="bandcamp_link" type="url" placeholder="https://stanethuzhe.bandcamp.com/">
+            <input name="bandcamp_link" type="url" placeholder="https://stanethuzhe.bandcamp.com/" id="release_bandcamp_link">
         </div>
 
         <h3> Tracklist*: </h3>
@@ -120,7 +120,7 @@
         </div>
         <div class="parameter">
             <div class="description"> Track id with lyrcis to open by default: </div>
-            <select name="default-open" id="default-open-track">
+            <select name="default-open" id="default_open_track">
                 <option value=""></option>
             </select>
         </div>

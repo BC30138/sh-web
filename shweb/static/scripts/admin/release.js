@@ -2,11 +2,7 @@
 
 const monthNames = ["jan", "feb", "mar", "apr",
     "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-const required_string_fiedls = [
-    "release_name", "type", "release_id", "bandcamp_link", "date"
-]
 var maxField = 20;
-var tracklist = {}
 
 function make_id(word) {
     var answer = "";
@@ -41,7 +37,6 @@ function add_div(it, wrapper, html) {
 }
 
 // IMAGES
-
 var loadFile = function (event, id) {
     var output = document.getElementById(id);
     output.src = URL.createObjectURL(event.target.files[0]);
@@ -51,6 +46,7 @@ var loadFile = function (event, id) {
 };
 
 // TRACKLIST
+var tracklist = {}
 
 function create_track(track_blank) {
     var track = {
@@ -293,13 +289,12 @@ $(tracklistWrapper).on('click', ".change-order-down", function () {
 });
 
 // YOUTUBE
-
 var youtubeWrapper = $('.youtube-videos');
 var youtubeIt = 0;
 $(youtubeWrapper).on('click', '#add_youtube', function (e) {
     if (add_div(youtubeIt, youtubeWrapper, `
     <div class="one-line-parameter">
-        <input name="youtube_video" type="url" placeholder="https://youtu.be/"/>
+        <input name="youtube_video" type="url" placeholder="https://youtu.be/" id="youtube_video"/>
         <a href="javascript:void(0);" class="remove_button" id="remove_youtube">
             <img src="/static/images/icons/remove.svg"/>
         </a>
@@ -394,57 +389,62 @@ function youtube_link_parser(link) {
     return false
 }
 
-function type_converter(object, type) {
+function type_converter(object_value, type) {
     if (type === "url") {
-        if (url_checker(object)) {
-            return object
+        if (url_checker(object_value)) {
+            return object_value
         }
         return false
     }
     else if (type === "youtube_url") {
-        return youtube_link_parser(object)
+        return youtube_link_parser(object_value)
+    }
+    else if (type === "date") {
+        date_list = object_value.split('-')
+        return date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
+            " " + date_list[0]
     }
     else {
-        return object
+        return object_value
     }
 }
 
-$("#submit-release").on("click", function () {
+function json_data_builder() {
     var formData = new FormData();
     var data = {}
 
     for (const [key, properties] of Object.entries(blank_parameters)) {
         object = $(key)
 
+        // FILES IN FORM-DATA
         if (properties['type'] === "file") {
             files = object.prop('files')
             if (properties['required'] && files.length === 0) {
-                console.log('file required')
+                return [1, `File "${object.attr('id')}" is required`]
             }
-            else {
-                formData.append(properties['name'], object.prop('files')[0]);
-            }
+            formData.append(properties['name'], object.prop('files')[0]);
             continue
         }
 
+        // JSON-DATA
+        // EMPTY STRING CHECK
         if (properties["required"] && object.val() === "") {
-            console.log(`Required value ${key}`)
+            return [1, `Field "${object.attr('id')}" is empty`]
         }
 
         if (properties['type'] === "list") {
             result_object = []
             item_values = []
 
-            object.each(function (_index, item) {
+            for (let item of object) {
                 if (item.value !== "") {
                     item_value = type_converter(item.value, properties['element_type'])
-                    console.log(item_value)
                     if (item_value === false) {
-                        console.log(`incorrect value of ${key}`)
+                        return [1, `Link "${item.id}" is invalid`]
                     }
                     item_values.push([item.name, item_value])
                 }
-            });
+            }
 
             if (properties['name'] === "services") {
                 item_values.forEach(function (item) {
@@ -462,23 +462,34 @@ $("#submit-release").on("click", function () {
             }
 
             if (properties["at_least_one"] && result_object.length === 0) {
-                console.log(`At least one needed in ${key}`)
+                return [1, `At least one field required in "${properties['name']}"`]
             }
         }
-        else if (properties['type'] === "date") {
-            date_list = object.val().split('-')
-            result_object = date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
-                " " + date_list[0]
-        }
-        else if (properties['type'] === "url") {
-            result_object = object.val()
-        }
         else {
-            result_object = object.val()
+            result_object = type_converter(object.val(), properties['type'])
+            if (result_object === false) {
+                return [1, `Incorrect value of ${object.attr('id')}`]
+            }
         }
         data[properties['name']] = result_object
     }
 
+    if (Object.keys(tracklist).length === 0) {
+        return [1, `At least one track is required`]
+    }
+    data['tracklist'] = Object.values(tracklist)
+
+    return [0, data]
+}
+
+$("#submit-release").on("click", function () {
+    building_result = json_data_builder()
+
+    if (building_result[0] !== 0) {
+        console.log(building_result[1])
+        return false
+    }
+    data = building_result[1]
     console.log(JSON.stringify(data))
 
     // for (var pair of formData.entries()) {

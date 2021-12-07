@@ -477,149 +477,34 @@ function json_data_builder() {
     if (Object.keys(tracklist).length === 0) {
         return [1, `At least one track is required`]
     }
+    data['release_id'] = make_id(data['release_name'])
     data['tracklist'] = Object.values(tracklist)
 
-    return [0, data]
+    formData.append("release", JSON.stringify(data))
+    return [0, formData]
 }
 
 $("#submit-release").on("click", function () {
     building_result = json_data_builder()
 
     if (building_result[0] !== 0) {
-        console.log(building_result[1])
+        alert(building_result[1])
         return false
     }
-    data = building_result[1]
-    console.log(JSON.stringify(data))
+    formData = building_result[1]
 
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]);
-    // }
-    // var values = {};
-
-    // var is_error = false;
-
-    // var release_blank = $("#release_blank")
-    // $.each($(release_blank).serializeArray(), function () {
-    //     if (required_string_fiedls.includes(this.name) && this.value === "") {
-    //         alert("Field '" + this.name + "' is emty")
-    //         is_error = true;
-    //         return false
-    //     }
-    //     values[this.name] = this.value;
-    // });
-    // if (is_error) {
-    //     return false
-    // }
-
-    // var date_list = values['date'].split('-');
-    // var data = {
-    //     release_name: values["release_name"],
-    //     release_id: make_id(values["release_name"]),
-    //     type: values["type"],
-    //     release_id: values['release_id'],
-    //     bandcamp_link: values['bandcamp_link'],
-    //     date: date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
-    //         " " + date_list[0],
-    //     default_open_text: values['default_open_text'],
-    //     services: [],
-    //     tracklist: [],
-    //     youtube_videos: []
-    // };
-
-    // var is_error = false;
-    // $('input[name^="service_"]').each(function (_index, member) {
-    //     if (member.value !== "") {
-    //         if (url_checker(member.value) === false) {
-    //             alert("Invalid service link");
-    //             is_error = true;
-    //             return false;
-    //         }
-    //         data['services'].push(
-    //             {
-    //                 name: member.name.split("_")[1],
-    //                 link: member.value
-    //             }
-    //         )
-    //     }
-    // });
-    // if (is_error) {
-    //     return false
-    // }
-    // if (data['services'].length === 0) {
-    //     alert("At least one service must be not empty")
-    //     return false
-    // }
-
-    // var used_names = [];
-    // var is_error = false;
-    // $('.track').each(function (_index, member) {
-    //     var children = member.children;
-    //     var track = {}
-    //     for (var i = 0; i < children.length; i++) {
-    //         if (children[i].type === "checkbox") {
-    //             track[children[i].name] = children[i].checked
-    //         }
-    //         else if (children[i].tagName === "INPUT") {
-    //             track[children[i].name] = children[i].value
-    //         }
-    //     }
-    //     if (used_names.includes(track['id'])) {
-    //         alert("Same ids for tracks not allowed")
-    //         is_error = true
-    //         return false
-    //     }
-    //     if (track['id'] === "" || track['name'] === "") {
-    //         alert("Track's id and name must be not empty")
-    //         is_error = true
-    //         return false
-    //     }
-    //     used_names.push(track['id'])
-    //     data['tracklist'].push(track)
-    // });
-    // if (is_error) {
-    //     return false
-    // }
-
-    // var is_error = false;
-    // $('input[name="youtube_video"]').each(function (_index, member) {
-    //     youtube_id = youtube_link_parser(member.value)
-    //     if (youtube_id === "") {
-    //         alert("Incorrect youtube link " + member.value)
-    //         is_error = true
-    //         return false
-    //     }
-    //     if (data['youtube_videos'].includes(youtube_id)) {
-    //         alert("Youtube videos must be unique")
-    //         is_error = true
-    //         return false
-    //     }
-    //     data['youtube_videos'].push(youtube_id)
-    // });
-    // if (is_error) {
-    //     return false
-    // }
-
-    // alert(JSON.stringify(data))
-
-
-    // formData.append("cover", document.getElementById("cover").files[0]);
-    // formData.append("release", JSON.stringify(data))
-
-    // var base_url = window.location.origin + "/admin/release?action=" + document.getElementById("Submit").name;
-    // var xhr = new XMLHttpRequest();
-    // xhr.onreadystatechange = function () {
-    //     if (this.readyState === this.DONE) {
-    //         if (this.status === 200) {
-    //             alert("a");
-    //             return false;
-    //         } else {
-    //             alert('failed');
-    //             return false;
-    //         }
-    //     }
-    // }
-    // xhr.open("POST", base_url);
-    // xhr.send(formData);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert("Success! Changes will be applied soon");
+            // window.location.href = xhr.responseURL
+        }
+        else {
+            alert('Cannot make request, try again later');
+            return false;
+        }
+    }
+    xhr.open("POST", window.location.href);
+    xhr.send(formData);
     return false
 });

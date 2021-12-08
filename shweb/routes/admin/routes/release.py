@@ -12,7 +12,7 @@ from shweb.schemas.release_list import ReleaseListSchema, ReleaseListItemSchema
 from shweb.utils import get_raw_release_list, create_invalidation, upload_json, upload_file, delete_prefix
 
 action_parser = reqparse.RequestParser()
-action_parser.add_argument("action", type=str, choices=('new', 'edit'), location="args", required=True)
+action_parser.add_argument("action", type=str, choices=('new', 'edit', 'delete'), location="args", required=True)
 action_parser.add_argument("id", type=str, location="args", required=False)
 
 release_parser = reqparse.RequestParser()
@@ -34,14 +34,29 @@ class ReleaseResource(Resource):
     @auth_required
     def post(self):
         action_args = action_parser.parse_args()
-        release_args = release_parser.parse_args()
 
+        release_list_path = "releases/release-list.json"
+        if action_args['action'] == "delete":
+            response = get_raw_release_list()
+            list_schema = ReleaseListSchema()
+            list_schema_deserial = list_schema.load(response)
+
+            list_schema_deserial['releases'] = list(
+                filter(lambda i: i['id'] != action_args['id'], list_schema_deserial['releases'])
+            )
+
+            delete_prefix(f"releases/{action_args['id']}/")
+            upload_json(list_schema_deserial, release_list_path)
+            create_invalidation([f"/{release_list_path}"])
+
+            return redirect(url_for("admin.index"))
+
+        release_args = release_parser.parse_args()
         release_schema = ReleaseSchema()
         release_schema_deserial = release_schema.load(
             json.loads(release_args['release'])
         )
         release_path = f"releases/{release_schema_deserial['release_id']}"
-        release_list_path = "releases/release-list.json"
 
         upload_json(
             release_schema_deserial,

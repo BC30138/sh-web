@@ -508,3 +508,29 @@ $("#submit-release").on("click", function () {
     xhr.send(formData);
     return false
 });
+
+$("#delete-release").on("click", function () {
+    if (confirm('Are you sure you want to delete this release?')) {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert("Success! Changes will be applied soon");
+                window.location.href = xhr.responseURL
+            }
+            else {
+                alert('Cannot make request, try again later');
+                return false;
+            }
+        }
+        xhr.open(
+            "POST",
+            window.location.origin + "/admin/release?action=delete&id=" + params['id']
+        );
+        xhr.send();
+    } else {
+        return false
+    }
+});

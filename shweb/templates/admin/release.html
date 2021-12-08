@@ -130,6 +130,9 @@
 <div class="release-control-buttons">
     <input type="submit" value="save" name="save" id='submit-release' class="release-control-button">
     <input type="submit" value="cancel" class="release-control-button" onclick="location.href='/admin/';">
+    {% if action == "edit" %}
+    <input type="submit" value="delete" name="delete" id='delete-release' class="release-control-button">
+    {% endif%}
 </div>
 
 

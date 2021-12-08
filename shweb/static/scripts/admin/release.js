@@ -520,6 +520,8 @@ $("#submit-release").on("click", function () {
     else {
         xhr.open("PUT", window.location.href);
     }
+
+    $("body").addClass("loading")
     xhr.send(formData);
     return false
 });
@@ -545,6 +547,7 @@ $("#delete-release").on("click", function () {
             "DELETE",
             window.location.href
         );
+        $("body").addClass("loading")
         xhr.send();
     } else {
         return false

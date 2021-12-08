@@ -47,12 +47,11 @@ $(".change-order-down").on('click', function () {
 });
 
 $(".save-order").on('click', function () {
-    var base_url = window.location.origin + "/admin/";
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === this.DONE) {
             if (this.status === 200) {
-                alert("Changes will be applied in one hour or less");
+                alert("Success! Changes will be applied soon");
                 window.location.reload();
             } else {
                 alert('Error');
@@ -61,7 +60,7 @@ $(".save-order").on('click', function () {
         $("body").removeClass("")
         return false;
     }
-    xhr.open("POST", base_url);
+    xhr.open("PUT", window.location.href);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     $("body").addClass("loading")
     xhr.send(JSON.stringify({ "releases": releases }));

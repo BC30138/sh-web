@@ -18,7 +18,7 @@ class IndexResource(Resource):
         return make_response(render_template(template))
 
     @auth_required
-    def post(self):
+    def put(self):
         json_data = request.get_json()
         releases = json_data.get('releases')
         if releases is None:

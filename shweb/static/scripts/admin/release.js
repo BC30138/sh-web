@@ -497,7 +497,7 @@ $("#submit-release").on("click", function () {
     xhr.onload = function () {
         if (xhr.status === 200) {
             alert("Success! Changes will be applied soon");
-            // window.location.href = xhr.responseURL
+            window.location.href = xhr.responseURL
         }
         else {
             alert('Cannot make request, try again later');

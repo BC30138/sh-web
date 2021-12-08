@@ -3,7 +3,7 @@ from ast import literal_eval
 from marshmallow import Schema, fields, pre_load, post_dump, validate
 from bs4 import BeautifulSoup
 
-from shweb.utils import get_release_types, get_month_name
+from shweb.translate_helpers import get_release_types, get_month_name
 
 
 class ServiceSchema(Schema):
@@ -20,9 +20,9 @@ class TrackSchema(Schema):
 
 
 class ReleaseSchema(Schema):
+    release_id = fields.Str(required=True)
     release_name = fields.Str(required=True)
     type = fields.Str(required=True, validate=validate.OneOf(["Single", "Album", "EP"]))
-    release_id = fields.Str(required=True)
     bandcamp_id = fields.Str(required=False)
     bandcamp_link = fields.Str(required=False)
     date = fields.Str(required=True)

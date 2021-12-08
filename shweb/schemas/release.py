@@ -1,6 +1,7 @@
 import requests
 from ast import literal_eval
 from marshmallow import Schema, fields, pre_load, post_dump, validate
+from marshmallow.exceptions import ValidationError
 from bs4 import BeautifulSoup
 
 from shweb.translate_helpers import get_release_types, get_month_name
@@ -33,12 +34,15 @@ class ReleaseSchema(Schema):
 
     @pre_load
     def pre_load_func(self, in_data, **kwargs):
-        if "bandcamp_id" not in in_data:
-            response = requests.get(in_data['bandcamp_link'])
-            soup = BeautifulSoup(response.text, "html.parser")
-            in_data['bandcamp_id'] = str(literal_eval(
-                soup.head.find("meta", {"name": "bc-page-properties"})['content']
-            )['item_id'])
+        try:
+            if "bandcamp_id" not in in_data:
+                response = requests.get(in_data['bandcamp_link'])
+                soup = BeautifulSoup(response.text, "html.parser")
+                in_data['bandcamp_id'] = str(literal_eval(
+                    soup.head.find("meta", {"name": "bc-page-properties"})['content']
+                )['item_id'])
+        except:
+            raise ValidationError("bad bandcamp link")
 
         is_bandcamp_service = False
         for object in in_data['services']:  # for name, age in dictionary.iteritems():  (for Python 2.x)

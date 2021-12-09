@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' href="/static/css/admin/edit_home.css">
+{% endblock %}
+{% block loaded_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/scripts/admin/edit_home.js"></script>
+{% endblock %}
+{% block content %}
+
+<iframe src="http://127.0.0.1:5000/" height="500px" width="100%"></iframe>
+<div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <iframe src="http://127.0.0.1:5000/" height="667px" width="375" ></iframe>
+</div>
+<div class="modal"></div>
+{% endblock %}

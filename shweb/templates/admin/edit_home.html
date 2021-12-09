@@ -2,17 +2,36 @@
 {% block head %}
 {{ super() }}
 <link rel='stylesheet' href="/static/css/admin/edit_home.css">
+<link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.min.css">
 {% endblock %}
 {% block loaded_scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' } }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.nls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.js"></script>
+<script>
+    code_tabs = {
+        "web": {
+            "style": `{{index_code.web.style|safe}}`,
+            "content": `{{index_code.web.content|safe}}`
+        },
+        "mobile": {
+            "style": `{{index_code.mobile.style|safe}}`,
+            "content": `{{index_code.mobile.content|safe}}`
+        }
+    }
+</script>
 <script src="/static/scripts/admin/edit_home.js"></script>
 {% endblock %}
 {% block content %}
 
-<iframe src="http://127.0.0.1:5000/" height="500px" width="100%"></iframe>
-<div>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <iframe src="http://127.0.0.1:5000/" height="667px" width="375" ></iframe>
-</div>
-<div class="modal"></div>
+<div id="code" class="code"></div>
+
+<!-- <iframe src="http://127.0.0.1:5000/" height="500px" width="100%"></iframe> -->
+<!-- <div> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <iframe src="http://127.0.0.1:5000/" height="667px" width="375" ></iframe> -->
+<!-- </div> -->
+<!-- <div class="modal"></div> -->
 {% endblock %}

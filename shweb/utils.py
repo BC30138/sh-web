@@ -1,7 +1,9 @@
 import json
 import requests
 from time import time
+
 from flask import current_app
+from flask import _request_ctx_stack as stack
 import boto3
 
 from shweb.schemas.release_list import ReleaseListSchema
@@ -70,3 +72,12 @@ def create_invalidation(items):
             'CallerReference': str(time()).replace(".", "")
         }
     )
+
+
+def mobile_checker():
+    ctx = stack.top
+    is_mobile = False
+    if ctx is not None and hasattr(ctx, "request"):
+        request = ctx.request
+        is_mobile = getattr(request, "MOBILE", False)
+    return is_mobile

@@ -12,18 +12,18 @@ def get_release_types():
     }
 
 
-def get_month_name():
-    return {
-        'jan': _('jan'),
-        'feb': _('feb'),
-        'mar': _('mar'),
-        'apr': _('apr'),
-        'may': _('may'),
-        'jun': _('jun'),
-        'jul': _('jul'),
-        'aug': _('aug'),
-        'sep': _('sep'),
-        'oct': _('oct'),
-        'nov': _('nov'),
-        'dec': _('dec')
-    }
+def get_month_names():
+    return [
+        _('jan'),
+        _('feb'),
+        _('mar'),
+        _('apr'),
+        _('may'),
+        _('jun'),
+        _('jul'),
+        _('aug'),
+        _('sep'),
+        _('oct'),
+        _('nov'),
+        _('dec')
+    ]

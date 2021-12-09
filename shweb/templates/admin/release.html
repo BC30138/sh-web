@@ -6,13 +6,24 @@
 {% block loaded_scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/static/scripts/admin/release.js"></script>
+{% if action == "edit" %}
+    <script>
+        {% if release.youtube_videos %}
+            add_youtube({{release.youtube_videos|safe}})
+        {% endif%}
+        add_tracks({{release.tracklist|safe}})
+        {% if release.default_open_text %}
+            $('#default_open_track').val('{{release.default_open_text|safe}}');
+        {% endif%}
+    </script>
+{% endif%}
 {% endblock %}
 {% block content %}
 
 {% if action == "new" %}
-    <h2> Add new release </h2>
-    {% else %}
-    <h2> Update release </h2>
+<h2> Add new release </h2>
+{% else %}
+<h2> Update release </h2>
 {% endif%}
 
 <div class="error-message"></div>
@@ -26,7 +37,12 @@
             </label>
             <input type="file" name="cover" accept="image/jpeg" onchange="loadFile(event, 'output-cover')" id="cover">
             <div class="output-cover-wrapper">
-                <img id="output-cover" src="/static/images/icons/image.svg" class="output-image">
+                <img id="output-cover" class="output-image"
+                {% if action == "edit" %}
+                src={{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/cover.jpg
+                {% else %}
+                src="/static/images/icons/image.svg"
+                {% endif %}>
             </div>
         </div>
 
@@ -37,42 +53,47 @@
             </label>
             <input type="file" name="og" accept="image/jpeg" onchange="loadFile(event, 'output-og')" id="og">
             <div class="output-og-wrapper">
-                <img id="output-og" src="/static/images/icons/image.svg", class="output-image">
+                <img id="output-og" class="output-image"
+                {% if action == "edit" %}
+                src={{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg
+                {% else %}
+                src="/static/images/icons/image.svg"
+                {% endif %}>
             </div>
         </div>
 
         <h3> Service urls*: </h3>
         <div class="parameter">
             <div class="description"> apple: </div>
-            <input name="service_apple" id="apple" type="url" placeholder="https://music.apple.com/">
+            <input name="service_apple" id="apple" type="url" value="{{release.service_apple}}" placeholder="https://music.apple.com/">
         </div>
         <div class="parameter">
             <div class="description"> yandex: </div>
-            <input name="service_yandex" id="yandex" type="url" placeholder="https://music.yandex.ru/">
+            <input name="service_yandex" id="yandex" type="url" value="{{release.service_yandex}}" placeholder="https://music.yandex.ru/">
         </div>
         <div class="parameter">
             <div class="description"> youtube: </div>
-            <input name="service_youtube" id="youtube" type="url" placeholder="https://music.youtube.com/">
+            <input name="service_youtube" id="youtube" type="url" value="{{release.service_youtube}}" placeholder="https://music.youtube.com/">
         </div>
         <div class="parameter">
             <div class="description"> spotify: </div>
-            <input name="service_spotify" id="spotify" type="url" placeholder="https://open.spotify.com/">
+            <input name="service_spotify" id="spotify" type="url" value="{{release.service_spotify}}" placeholder="https://open.spotify.com/">
         </div>
         <div class="parameter">
             <div class="description"> boom: </div>
-            <input name="service_boom" id="boom" type="url" placeholder="https://vk.com/music/">
+            <input name="service_boom" id="boom" type="url" value="{{release.service_boom}}" placeholder="https://vk.com/music/">
         </div>
         <div class="parameter">
             <div class="description"> amazon: </div>
-            <input name="service_amazon" id="amazon" type="url" placeholder="https://music.amazon.com/">
+            <input name="service_amazon" id="amazon" type="url" value="{{release.service_amazon}}" placeholder="https://music.amazon.com/">
         </div>
         <div class="parameter">
             <div class="description"> deezer: </div>
-            <input name="service_deezer" id="deezer" type="url" placeholder="http://www.deezer.com/">
+            <input name="service_deezer" id="deezer" type="url" value="{{release.service_deezer}}" placeholder="http://www.deezer.com/">
         </div>
         <div class="parameter">
             <div class="description"> tidal: </div>
-            <input name="service_tidal" id="tidal" type="url" placeholder="https://tidal.com/browse/">
+            <input name="service_tidal" id="tidal" type="url" value="{{release.service_tidal}}" placeholder="https://tidal.com/browse/">
         </div>
 
         <h3> Youtube videos: </h3>
@@ -89,26 +110,26 @@
     <div class="side">
         <div class="parameter">
             <div class="description"> Release name*: </div>
-            <input name="release_name" type="text" placeholder="" id="release_name">
+            <input name="release_name" type="text" placeholder="" id="release_name" value="{{release.release_name}}">
         </div>
 
         <div class="parameter">
             <div class="description"> Release type*: </div>
             <select name="type" id="release_type">
-                <option value="Album"> Album </option>
-                <option value="Single"> Single </option>
-                <option value="EP"> EP </option>
+                <option value="Album" {{ "selected" if release.type == "Album"}}> Album </option>
+                <option value="Single" {{ "selected" if release.type == "Single"}}> Single </option>
+                <option value="EP" {{ "selected" if release.type == "EP"}}> EP </option>
             </select>
         </div>
 
         <div class="parameter">
             <div class="description"> Date*: </div>
-            <input name="date" type="date" id="release_date">
+            <input name="date" type="date" id="release_date" value="{{release.date}}">
         </div>
 
         <div class="parameter">
             <div class="description"> Bandcamp link*: </div>
-            <input name="bandcamp_link" type="url" placeholder="https://stanethuzhe.bandcamp.com/" id="release_bandcamp_link">
+            <input name="bandcamp_link" type="url" value="{{release.bandcamp_link}}" placeholder="https://stanethuzhe.bandcamp.com/" id="release_bandcamp_link">
         </div>
 
         <h3> Tracklist*: </h3>

@@ -3,6 +3,10 @@
 const monthNames = ["jan", "feb", "mar", "apr",
     "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
 var maxField = 20;
+var updated_files = {
+    'output-cover': false,
+    'output-og': false
+}
 
 function make_id(word) {
     var answer = "";
@@ -43,6 +47,7 @@ var loadFile = function (event, id) {
     output.onload = function () {
         URL.revokeObjectURL(output.src);
     }
+    updated_files[id] = true
 };
 
 // TRACKLIST
@@ -146,6 +151,18 @@ $(tracklistWrapper).on('click', '#cancel_add_track', function (e) {
     $(this).parent('div').parent('div').parent('div').remove();
 });
 
+function add_tracks(tracks) {
+    for (const track of tracks) {
+        trackIt++
+        tracklist[trackIt] = track
+        add_div(trackIt, tracklistWrapper, get_track_html(track, trackIt))
+        $('#default_open_track').append($('<option>', {
+            value: track['id'],
+            text: track['name']
+        }));
+    }
+}
+
 $(tracklistWrapper).on('click', '#save_track', function (e) {
     e.preventDefault();
     var track_blank = $(this).parent('div').parent('div').parent('div')
@@ -160,13 +177,7 @@ $(tracklistWrapper).on('click', '#save_track', function (e) {
 
     track_blank.remove()
 
-    trackIt++
-    tracklist[trackIt] = track
-    add_div(trackIt, tracklistWrapper, get_track_html(track, trackIt))
-    $('#default_open_track').append($('<option>', {
-        value: track['id'],
-        text: track['name']
-    }));
+    add_tracks([track])
 });
 
 $(tracklistWrapper).on('click', '#edit_track', function (e) {
@@ -291,16 +302,27 @@ $(tracklistWrapper).on('click', ".change-order-down", function () {
 // YOUTUBE
 var youtubeWrapper = $('.youtube-videos');
 var youtubeIt = 0;
-$(youtubeWrapper).on('click', '#add_youtube', function (e) {
-    if (add_div(youtubeIt, youtubeWrapper, `
-    <div class="one-line-parameter">
-        <input name="youtube_video" type="url" placeholder="https://youtu.be/" id="youtube_video"/>
-        <a href="javascript:void(0);" class="remove_button" id="remove_youtube">
-            <img src="/static/images/icons/remove.svg"/>
-        </a>
-    </div>`)) {
-        youtubeIt++
+var youtube_html
+
+function add_youtube(youtube_links) {
+    for (const link of youtube_links) {
+        if (add_div(youtubeIt, youtubeWrapper, `
+        <div class="one-line-parameter">
+            <input name="youtube_video" type="url" placeholder="https://youtu.be/" id="youtube_video" value="${link}"/>
+            <a href="javascript:void(0);" class="remove_button" id="remove_youtube">
+                <img src="/static/images/icons/remove.svg"/>
+            </a>
+        </div>`)) {
+            youtubeIt++
+        }
+        else {
+            break
+        }
     }
+}
+
+$(youtubeWrapper).on('click', '#add_youtube', function (e) {
+    add_youtube([""])
 });
 $(youtubeWrapper).on('click', '#remove_youtube', function (e) {
     e.preventDefault();
@@ -310,7 +332,7 @@ $(youtubeWrapper).on('click', '#remove_youtube', function (e) {
 
 
 // POST REQUEST
-const blank_parameters = {
+var blank_parameters = {
     '#cover': {
         name: "cover",
         type: "file",
@@ -399,11 +421,6 @@ function type_converter(object_value, type) {
     else if (type === "youtube_url") {
         return youtube_link_parser(object_value)
     }
-    else if (type === "date") {
-        date_list = object_value.split('-')
-        return date_list[2] + " " + monthNames[parseInt(date_list[1]) - 1] +
-            " " + date_list[0]
-    }
     else {
         return object_value
     }
@@ -485,6 +502,13 @@ function json_data_builder() {
 }
 
 $("#submit-release").on("click", function () {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const url_params = Object.fromEntries(urlSearchParams.entries());
+    if (url_params['action'] === "edit") {
+        blank_parameters['#cover']['required'] = false
+        blank_parameters['#og']['required'] = false
+    }
+
     building_result = json_data_builder()
 
     if (building_result[0] !== 0) {
@@ -512,13 +536,11 @@ $("#submit-release").on("click", function () {
         }
     }
 
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
-    if (params['action'] == "new") {
-        xhr.open("POST", window.location.href);
+    if (url_params['action'] == "edit") {
+        xhr.open("PUT", window.location.href);
     }
     else {
-        xhr.open("PUT", window.location.href);
+        xhr.open("POST", window.location.href);
     }
 
     $("body").addClass("loading")

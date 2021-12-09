@@ -1,10 +1,11 @@
+import json
 import requests
 from ast import literal_eval
 from marshmallow import Schema, fields, pre_load, post_dump, validate
 from marshmallow.exceptions import ValidationError
 from bs4 import BeautifulSoup
 
-from shweb.translate_helpers import get_release_types, get_month_name
+from shweb.translate_helpers import get_release_types, get_month_names
 
 
 class ServiceSchema(Schema):
@@ -66,9 +67,23 @@ class ReleaseSchema(Schema):
 
         data['bandcamp_id'] = f"{bandcamp_type}={data['bandcamp_id']}"
 
-        date_month = data['date'].split()[1]
-        data['date'] = data['date'].replace(date_month, get_month_name()[date_month])
+        year, month, day = data['date'].split('-')
+
+        data['date'] = f"{day} {get_month_names()[int(month) - 1]} {year}"
 
         data['type'] = get_release_types()[data['type']]
 
+        return data
+
+
+class EditReleaseSchema(ReleaseSchema):
+    @post_dump
+    def post_dump_function(self, data, **kwargs):
+        for service in data['services']:
+            if service['name'] != "bandcamp":
+                data[f"service_{service['name']}"] = service['link']
+        if 'youtube_videos' in data:
+            data['youtube_videos'] = [f"https://youtu.be/{yid}" for yid in data['youtube_videos']]
+
+        data['tracklist'] = json.dumps(data['tracklist'])
         return data

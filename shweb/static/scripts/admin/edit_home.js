@@ -115,8 +115,16 @@ function toggle_modal_loading() {
     $("body").toggleClass("loading")
 }
 
+$(document).bind('keydown', function (e) {
+    if (e.ctrlKey && (e.which == 83)) {
+        e.preventDefault();
+        return false;
+    }
+});
+
 $(controls_wrapper).on('click', '#download-template', function (e) {
     toggle_modal_loading()
+    save_code()
     var zip = new JSZip();
     zip.file("index.json", JSON.stringify(code_tabs, null, 4));
     promises = []

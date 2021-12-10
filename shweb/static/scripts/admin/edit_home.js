@@ -162,7 +162,7 @@ $(controls_wrapper).on('click', '#submit-changes', function (e) {
             formData.append(key, value);
         }
     }
-    formData.append("index.json", JSON.stringify(code_tabs))
+    formData.append("index_code", JSON.stringify(code_tabs))
     formData.append("delete", JSON.stringify(delete_from_cloud))
 
     var xhr = new XMLHttpRequest();

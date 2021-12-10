@@ -5,6 +5,8 @@
 <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.min.css">
 {% endblock %}
 {% block loaded_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' } }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
@@ -19,19 +21,58 @@
         "mobile": {
             "style": `{{index_code.mobile.style|safe}}`,
             "content": `{{index_code.mobile.content|safe}}`
-        }
+        },
+        "files_list": []
     }
 </script>
 <script src="/static/scripts/admin/edit_home.js"></script>
+{% if index_code.files_list %}
+<script>
+    init_files({{index_code.files|safe}})
+</script>
+{% endif %}
 {% endblock %}
 {% block content %}
 
-<div id="code" class="code"></div>
+<div class="code-editor" id="code-editor">
+    <div class="tabs">
+        <div class="code-tabs">
+            <button class="tab-button selected" id="content">html</button>
+            <button class="tab-button" id="style">css</button>
+        </div>
+        <div class="tab-tittle">index.html</div>
+        <div class="device-tabs">
+            <button class="tab-button selected" id="web">web</button>
+            <button class="tab-button" id="mobile">mobile</button>
+        </div>
+    </div>
+    <div id="code" class="code"></div>
+</div>
+
+<div class="controls">
+    <div class="files">
+        <div class="image-parameter">
+            <label for="file-container" class="file-upload">
+                <img src="/static/images/icons/upload.svg"> Upload image
+            </label>
+            <input type="file" name="image-to-upload" accept="image/*" id="file-container">
+        </div>
+        <div id='image-list-display'></div>
+    </div>
+    <div class="index-control-buttons">
+        <input type="submit" value="save" name="save" id='submit-changes' class="index-control-button">
+        <input type="submit" value="download" name="download" id='download-template' class="index-control-button">
+        <input type="submit" value="upload" name="upload" id='upload-template' class="index-control-button">
+        <input type="submit" value="preview" name="preview" id='preview-template' class="index-control-button">
+        <input type="submit" value="cancel" class="index-control-button" onclick="location.href='/admin/';">
+    </div>
+</div>
 
 <!-- <iframe src="http://127.0.0.1:5000/" height="500px" width="100%"></iframe> -->
 <!-- <div> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <!-- <iframe src="http://127.0.0.1:5000/" height="667px" width="375" ></iframe> -->
 <!-- </div> -->
-<!-- <div class="modal"></div> -->
+
+<div class="modal"></div>
 {% endblock %}

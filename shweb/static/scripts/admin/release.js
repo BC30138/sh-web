@@ -302,7 +302,6 @@ $(tracklistWrapper).on('click', ".change-order-down", function () {
 // YOUTUBE
 var youtubeWrapper = $('.youtube-videos');
 var youtubeIt = 0;
-var youtube_html
 
 function add_youtube(youtube_links) {
     for (const link of youtube_links) {

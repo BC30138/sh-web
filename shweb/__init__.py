@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request, session
 from flask.templating import render_template
+from flask_cors import CORS
 from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template
 from flask_babel import Babel
@@ -15,6 +16,7 @@ from shweb.routes import admin
 
 
 app = Flask(__name__)
+cors = CORS(app)
 
 app.secret_key = os.environ['APP_SECRET_KEY']
 

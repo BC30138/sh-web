@@ -16,7 +16,7 @@ def replace_action_parser(match):
         action = action.strip()
         value = value.strip()
         if action == "image":
-            value = f"{current_app.config['AWS_CLOUD_FRONT_DOMAIN']}/index/{value}"
+            value = f"{current_app.config['AWS_CLOUD_FRONT_DOMAIN']}/index/files/{value}"
         if action == "translate":
             lang = str(get_locale())
             value = ast.literal_eval(value)[lang]
@@ -35,9 +35,12 @@ class DeviceCode(Schema):
     def post_dump_function(self, data, **kwargs):
         data['style'] = f"<style>{data['style']}</style>"
         data['content'] = parse_variables(data['content'])
+        if 'files_list' in data:
+            data['files_list'] = [[f"{item}", "cloud"] for item in data['files_list']]
         return data
 
 
 class IndexCode(Schema):
     web = fields.Nested(DeviceCode, required=True)
     mobile = fields.Nested(DeviceCode, required=True)
+    files_list = fields.List(fields.Str, Required=False)

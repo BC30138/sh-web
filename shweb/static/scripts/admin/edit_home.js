@@ -154,3 +154,36 @@ $(controls_wrapper).on('click', '#download-template', function (e) {
             });
     });
 });
+
+$(controls_wrapper).on('click', '#submit-changes', function (e) {
+    var formData = new FormData();
+    for (let [key, value] of Object.entries(files)) {
+        if (typeof value !== "string") {
+            formData.append(key, value);
+        }
+    }
+    formData.append("index.json", JSON.stringify(code_tabs))
+    formData.append("delete", JSON.stringify(delete_from_cloud))
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.onload = function () {
+        if (xhr.responseURL !== window.location.href) {
+            window.location.href = xhr.responseURL
+        }
+        else if (xhr.status === 200) {
+            alert("Success! Changes will be applied soon");
+            window.location.href = window.location.origin + "/admin/"
+        }
+        else if (xhr.status === 400 && "status" in xhr.response) {
+            alert(xhr.response['status']);
+        }
+        else {
+            alert('Cannot make request, try again later');
+            return false;
+        }
+    }
+
+    xhr.open("PUT", window.location.href);
+    xhr.send(formData);
+});

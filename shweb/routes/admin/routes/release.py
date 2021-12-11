@@ -1,4 +1,3 @@
-import json
 import requests
 
 from flask import redirect, url_for, render_template, make_response, current_app
@@ -64,8 +63,8 @@ class ReleaseResource(Resource):
         release_args = release_parser.parse_args()
 
         release_schema = ReleaseSchema()
-        release_schema_deserial = release_schema.load(
-            json.loads(release_args['release'])
+        release_schema_deserial = release_schema.loads(
+            release_args['release']
         )
 
         response = get_raw_release_list()
@@ -112,8 +111,8 @@ class ReleaseResource(Resource):
         release_args = update_release_parser.parse_args()
 
         release_schema = ReleaseSchema()
-        release_schema_deserial = release_schema.load(
-            json.loads(release_args['release'])
+        release_schema_deserial = release_schema.loads(
+            release_args['release']
         )
 
         release_list_path = "releases/release-list.json"

@@ -8,6 +8,10 @@ var updated_files = {
     'output-og': false
 }
 
+function toggle_modal_loading() {
+    $("body").toggleClass("loading")
+}
+
 function make_id(word) {
     var answer = "";
     var a = {};
@@ -519,6 +523,7 @@ $("#submit-release").on("click", function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
+        toggle_modal_loading()
         if (xhr.responseURL !== window.location.href) {
             window.location.href = xhr.responseURL
         }
@@ -542,7 +547,7 @@ $("#submit-release").on("click", function () {
         xhr.open("POST", window.location.href);
     }
 
-    $("body").addClass("loading")
+    toggle_modal_loading()
     xhr.send(formData);
     return false
 });
@@ -552,6 +557,7 @@ $("#delete-release").on("click", function () {
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.onload = function () {
+            toggle_modal_loading()
             if (xhr.responseURL !== window.location.href) {
                 window.location.href = xhr.responseURL
             }
@@ -568,7 +574,7 @@ $("#delete-release").on("click", function () {
             "DELETE",
             window.location.href
         );
-        $("body").addClass("loading")
+        toggle_modal_loading()
         xhr.send();
     } else {
         return false

@@ -156,6 +156,7 @@ $(controls_wrapper).on('click', '#download-template', function (e) {
 });
 
 $(controls_wrapper).on('click', '#submit-changes', function (e) {
+    toggle_modal_loading()
     var formData = new FormData();
     for (let [key, value] of Object.entries(files)) {
         if (typeof value !== "string") {
@@ -168,6 +169,7 @@ $(controls_wrapper).on('click', '#submit-changes', function (e) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
+        toggle_modal_loading()
         if (xhr.responseURL !== window.location.href) {
             window.location.href = xhr.responseURL
         }

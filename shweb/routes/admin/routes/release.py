@@ -10,7 +10,7 @@ from flask_restful import Resource, reqparse, output_json
 from shweb.routes.admin.auth import auth_required
 from shweb.schemas.release import ReleaseSchema, EditReleaseSchema
 from shweb.schemas.release_list import ReleaseListSchema, ReleaseListItemSchema
-from shweb.utils import get_raw_release_list, create_invalidation, upload_json, upload_file, delete_prefix
+from shweb.utils import get_raw_release_list, create_invalidation, upload_json, upload_file, s3_delete
 
 action_parser = reqparse.RequestParser()
 action_parser.add_argument("action", type=str, choices=('new', 'edit'), location="args", required=True)
@@ -156,7 +156,7 @@ class ReleaseResource(Resource):
             )
             list_schema_deserial['releases'].append(item_schema_deserial)
 
-            delete_prefix(f"releases/{args['id']}/")
+            s3_delete(f"releases/{args['id']}/")
             upload_json(list_schema_deserial, release_list_path)
             create_invalidation([f"/{release_list_path}"])
         create_invalidation([f"/{release_path}/*"])
@@ -176,7 +176,7 @@ class ReleaseResource(Resource):
             filter(lambda i: i['id'] != args['id'], list_schema_deserial['releases'])
         )
 
-        delete_prefix(f"releases/{args['id']}/")
+        s3_delete(f"releases/{args['id']}/")
         upload_json(list_schema_deserial, release_list_path)
         create_invalidation([f"/{release_list_path}"])
 

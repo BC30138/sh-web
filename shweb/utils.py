@@ -46,7 +46,7 @@ def upload_file(file, file_path):
     )
 
 
-def delete_prefix(prefix):
+def s3_delete(prefix):
     s3_resource = boto3.resource(
         's3',
         aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],

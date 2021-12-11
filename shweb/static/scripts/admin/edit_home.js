@@ -122,39 +122,6 @@ $(document).bind('keydown', function (e) {
     }
 });
 
-$(controls_wrapper).on('click', '#download-template', function (e) {
-    toggle_modal_loading()
-    save_code()
-    var zip = new JSZip();
-    zip.file("index.json", JSON.stringify(code_tabs, null, 4));
-    promises = []
-    for (let [key, value] of Object.entries(files)) {
-        if (typeof value === "string") {
-            promises.push(new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', value);
-                xhr.responseType = 'blob';
-                xhr.onload = function (e) {
-                    var blob = e.currentTarget.response;
-                    zip.file(`files/${key}`, blob, { base64: true });
-                    resolve(xhr.response)
-                }
-                xhr.send();
-            }))
-        } else {
-            zip.file(`files/${key}`, value, { base64: true });
-        }
-    }
-
-    Promise.all(promises).then((values) => {
-        zip.generateAsync({ type: "blob" })
-            .then(function (content) {
-                toggle_modal_loading()
-                saveAs(content, "template.zip");
-            });
-    });
-});
-
 $(controls_wrapper).on('click', '#submit-changes', function (e) {
     toggle_modal_loading()
     var formData = new FormData();
@@ -188,4 +155,163 @@ $(controls_wrapper).on('click', '#submit-changes', function (e) {
 
     xhr.open("PUT", window.location.href);
     xhr.send(formData);
+});
+
+function getBase64(filename, file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve([filename, reader.result]);
+        reader.onerror = error => reject(error);
+    });
+}
+
+$(controls_wrapper).on('click', '#preview-template', function (e) {
+    save_code()
+
+    var request_data = code_tabs[open_tab[0]]
+    request_data['images'] = {}
+    promises = []
+    for (let [key, value] of Object.entries(files)) {
+        if (typeof value !== "string") {
+            promises.push(getBase64(key, value))
+        }
+    }
+
+    Promise.all(promises).then(
+        b64images => {
+            b64images.forEach(image_object => {
+                if (image_object) {
+                    request_data['images'][image_object[0]] = image_object[1]
+                }
+            })
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'document';
+            xhr.onload = function () {
+                if (xhr.status === 304) {
+                    window.location.href = xhr.responseURL
+                }
+                else if (xhr.status === 200) {
+                    $("#previewFrame").remove();
+                    var iframe = document.createElement('iframe');
+                    if (open_tab[0] === "web") {
+                        height = "500px"
+                        width = "1000px"
+                    }
+                    else {
+                        height = "667px"
+                        width = "375px"
+                    }
+
+                    iframe.setAttribute("id", "previewFrame");
+                    iframe.setAttribute("height", height);
+                    iframe.setAttribute("width", width);
+                    iframe.setAttribute("style", 'style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);')
+                    var html = new XMLSerializer().serializeToString(xhr.response);
+                    document.getElementById("frame-wrapper").appendChild(iframe)
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(html);
+                    iframe.contentWindow.document.close();
+                }
+                else {
+                    alert('error');
+                    return false;
+                }
+            }
+
+            xhr.open("POST", window.location.origin + "/admin/index-edit/preview?device=" + open_tab[0]);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify({ "index_code": request_data }));
+        }
+
+    )
+});
+
+// TEMPLATES
+
+var templates_wrapper = $('.template-control-buttons');
+
+$(templates_wrapper).on('click', '#download-template', function (e) {
+    toggle_modal_loading()
+    save_code()
+    var zip = new JSZip();
+    zip.file("index.json", JSON.stringify(code_tabs, null, 4));
+    promises = []
+    for (let [key, value] of Object.entries(files)) {
+        if (typeof value === "string") {
+            promises.push(new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', value);
+                xhr.responseType = 'blob';
+                xhr.onload = function (e) {
+                    var blob = e.currentTarget.response;
+                    zip.file(`files/${key}`, blob, { base64: true });
+                    resolve(xhr.response)
+                }
+                xhr.send();
+            }))
+        } else {
+            zip.file(`files/${key}`, value, { base64: true });
+        }
+    }
+
+    Promise.all(promises).then((values) => {
+        zip.generateAsync({ type: "blob" })
+            .then(function (content) {
+                toggle_modal_loading()
+                saveAs(content, "template.zip");
+            });
+    });
+});
+
+$("#upload-template").change(function () {
+    file = $(this).prop('files')[0]
+    $(this).val("")
+
+    var zip = new JSZip();
+    zip.loadAsync(file).then(function (zip) {
+        var promises = []
+        Object.keys(zip.files).forEach(function (filename) {
+            if (!filename.endsWith("/")) {
+                if (filename === "index.json") {
+                    promise = zip.files[filename].async('string').then(
+                        file_data => {
+                            return new Promise(function (resolve, reject) {
+                                code = JSON.parse(file_data)
+                                code_tabs["web"] = code['web']
+                                code_tabs["mobile"] = code['mobile']
+                                editor.getModel().setValue(code_tabs[open_tab[0]][open_tab[1]]);
+                                resolve()
+                            })
+                        }
+                    )
+                    promises.push(promise)
+                }
+                else {
+                    promise = zip.files[filename].async('blob').then(
+                        file_data => {
+                            return new Promise(function (resolve, reject) {
+                                filename = filename.split("/").pop();
+                                resolve([filename, new File([file_data], filename, { type: `image/${filename.split('.').pop()}` })])
+                            })
+                        }
+                    )
+                    promises.push(promise)
+                }
+            }
+        })
+        Promise.all(promises).then(result => {
+            document.getElementById("image-list-display").textContent = ''
+            files = {}
+            delete_from_cloud = code_tabs['files_list']
+            code_tabs['files_list'] = []
+            files_list = []
+            result.forEach(file_object => {
+                if (file_object) {
+                    files_list.push(file_object)
+                }
+            })
+            add_files(files_list)
+        })
+    })
 });

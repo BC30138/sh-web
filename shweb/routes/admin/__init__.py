@@ -14,6 +14,7 @@ api.add_resource(login.ForgetConfirmResource, "/login/forget/confirm", endpoint=
 api.add_resource(login.ChangePasswordResource, "/login/change-password", endpoint="change-password")
 api.add_resource(release.ReleaseResource, "/release", endpoint="release")
 api.add_resource(edit_home.EditHomeResource, "/index-edit", endpoint="edit-home")
+api.add_resource(edit_home.PreviewResource, "/index-edit/preview", endpoint="edit-home-preview")
 
 
 @blueprint.context_processor

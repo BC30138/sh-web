@@ -9,8 +9,7 @@ from shweb.utils import create_invalidation, upload_file, upload_json, s3_delete
 
 index_parser = reqparse.RequestParser()
 index_parser.add_argument("device", choices=('web', 'mobile'), type=str, location="args", required=True)
-index_parser.add_argument("style", type=str, location="json", required=True)
-index_parser.add_argument("content", type=str, location="files", required=True)
+index_parser.add_argument("index_code", type=dict, location="json", required=True)
 
 index_content_parser = reqparse.RequestParser()
 index_content_parser.add_argument("index_code", type=str, location="form", required=True)
@@ -31,6 +30,7 @@ class EditHomeResource(Resource):
         if 'files_list' in index_code_deserial:
             index_code_deserial['files'] = [
                 [f"{item}", f"{current_app.config['AWS_CLOUD_FRONT_DOMAIN']}/index/files/{item}"] for item in index_code_deserial['files_list']]
+
         return make_response(render_template(template, index_code=index_code_deserial))
 
     @auth_required
@@ -73,10 +73,7 @@ class PreviewResource(Resource):
             template = "index.html"
 
         index_schema = DeviceCode()
-        index_deserial = index_schema.load({
-            "style": args['style'],
-            "content": args['content']
-        })
+        index_deserial = index_schema.load(args['index_code'])
         index_code = index_schema.dump(index_deserial)
 
         style_code = index_code['style']

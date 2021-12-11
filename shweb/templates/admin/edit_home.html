@@ -34,13 +34,20 @@
 {% endblock %}
 {% block content %}
 
+<div class="info">
+    <h3>Some usefull custom patterns:</h3>
+    <div><b>{% raw %}{{ lang_arg }}{% endraw %}</b> - language argument for links, example: "?lang=ru"</div>
+    <div><b>{% raw %}{{ image=image_name }}{% endraw %}</b> - pattern to insert uploaded images by name, example: {% raw %} {{ image=cover.jpg }} {% endraw %}</div>
+    <div><b>{% raw %}{{ translate={"en":"eng_text","ru":"русский_текст"} }}{% endraw %}</b> - pattern to add different languages for text, example: {% raw %} {{ translate={"en":"album","ru":"альбом"} }} {% endraw %}</div>
+</div>
+
 <div class="code-editor" id="code-editor">
     <div class="tabs">
         <div class="code-tabs">
             <button class="tab-button selected" id="content">html</button>
             <button class="tab-button" id="style">css</button>
         </div>
-        <div class="tab-tittle">index.html</div>
+        <div class="tab-tittle">home editor</div>
         <div class="device-tabs">
             <button class="tab-button selected" id="web">web</button>
             <button class="tab-button" id="mobile">mobile</button>
@@ -52,27 +59,40 @@
 <div class="controls">
     <div class="files">
         <div class="image-parameter">
-            <label for="file-container" class="file-upload">
+            <label for="file-container" class="file-action">
                 <img src="/static/images/icons/upload.svg"> Upload image
             </label>
             <input type="file" name="image-to-upload" accept="image/*" id="file-container">
         </div>
         <div id='image-list-display'></div>
     </div>
+
+    <div class="template-control-buttons">
+        <div class="template-parameter">
+            <label for="upload-template" class="file-action">
+                <img src="/static/images/icons/upload.svg"> Upload template
+            </label>
+            <input type="file" name="template-to-upload" accept=".zip"  id="upload-template">
+        </div>
+        <div class="template-parameter">
+            <label for="download-template" class="file-action">
+                <img src="/static/images/icons/download.svg"> Download template
+            </label>
+            <input type="submit" value="download" name="download" id='download-template' class="index-control-button">
+        </div>
+    </div>
+
     <div class="index-control-buttons">
         <input type="submit" value="save" name="save" id='submit-changes' class="index-control-button">
-        <input type="submit" value="download" name="download" id='download-template' class="index-control-button">
-        <input type="submit" value="upload" name="upload" id='upload-template' class="index-control-button">
+        <!-- <input type="submit" value="upload" name="upload" id='upload-template' class="index-control-button"> -->
         <input type="submit" value="preview" name="preview" id='preview-template' class="index-control-button">
         <input type="submit" value="cancel" class="index-control-button" onclick="location.href='/admin/';">
     </div>
 </div>
 
-<!-- <iframe src="http://127.0.0.1:5000/" height="500px" width="100%"></iframe> -->
-<!-- <div> -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <!-- <iframe src="http://127.0.0.1:5000/" height="667px" width="375" ></iframe> -->
-<!-- </div> -->
+<div id="frame-wrapper">
+    <iframe height="500px" src="/" width="1000px" id="previewFrame" style='style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);'></iframe>
+</div>
 
 <div class="modal"></div>
 {% endblock %}

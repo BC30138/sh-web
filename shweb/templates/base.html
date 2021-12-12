@@ -15,12 +15,13 @@
     <meta name="description" content="{{_('description')}}">
     <meta property="og:description" content="{{_('description')}}">
     <meta name="twitter:description" content="{{_('description')}}">
-    <meta name="image" content="http://www.stanethuzhe.ru/static/images/og-home.png">
-    <meta property="og:image" content="http://www.stanethuzhe.ru/static/images/og-home.png">
-    <meta name="twitter:image" content="http://www.stanethuzhe.ru/static/images/og-home.png">
+    <meta name="image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
+    <meta property="og:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
+    <meta name="twitter:image" content="http://www.stanethuzhe.ru/static/images/og-home.jpg">
     <meta name="url" content="http://www.stanethuzhe.ru/">
     <meta name="twitter:card" content="summary_large_image">
     {% endblock %}
+    {% block style %}{% endblock %}
     {% block scripts %}{% endblock %}
 </head>
 
@@ -38,10 +39,10 @@
                 <div class="dropdown">
                     <button class="dropbtn">{{_('discogs')}}</button>
                     <div class="dropdown-content">
-                        <a href="/releases/reki{{session['lang_arg']}}">{{_('album')}} "реки"</a>
-                        <a href="/releases/march{{session['lang_arg']}}">{{_('single')}} "марш пустых знамён"</a>
-                        <a href="/releases/unsleep{{session['lang_arg']}}">{{_('single')}} "бессонница"</a>
-                        <a href="/releases/traces{{session['lang_arg']}}">{{_('single')}} "тропы"</a>
+                        {% for release_head in get_release_list() %}
+                        <a href="/releases/{{release_head.id}}{{session['lang_arg']}}">{{release_head.lang_type}}
+                            "{{release_head.name}}"</a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

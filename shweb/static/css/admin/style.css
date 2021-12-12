@@ -1,0 +1,130 @@
+@font-face {
+  font-family:"alcotton";
+  src: url("/static/css/fonts/alcotton.ttf") format("truetype");
+}
+
+@font-face {
+  font-family:"Comfortaa";
+  src: url("/static/css/fonts/Comfortaa-VariableFont_wght.ttf") format("truetype");
+}
+
+
+* {
+  font-family: "Comfortaa";
+  color: #ffffff;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background-image:    url(../../images/background.png);
+  background-color: rgb(255, 255, 255);
+  background-size:     cover;
+  background-repeat:   repeat-y;
+  background-position: center center;
+  background-attachment:fixed;
+}
+
+
+
+/* HEADER */
+.header {
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+
+.bandlogo {
+  height: 90px;
+  min-width: 100%;
+  transition: all 0.3s ease;
+}
+
+
+.navbar {
+  width: 600px;
+  padding-top: 20px;
+  display: flex;
+  height: fit-content;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+}
+
+
+.nav-link {
+  padding-bottom: 10px;
+  font-size: 32px;
+  letter-spacing: 5px;
+  color: #000000;
+}
+
+.nav-link:hover {
+  transform: scale(1.2);
+  transition: all 0.15s ease;
+}
+
+.nav-link {
+  float: left;
+  text-align: center;
+  text-decoration: none;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user * {
+  font-weight: bold;
+  font-size: 20px;
+  color: black
+}
+
+.control-button {
+  color: white;
+  font-weight: normal;
+  height: 32px;
+  max-width: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.856);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0px;
+  text-align: center;
+}
+
+.control-button:hover {
+  background-color: rgba(124, 124, 124, 0.856);
+}
+
+.modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .8)
+              url(../../images/icons/spinner.gif)
+              50% 50%
+              no-repeat;
+}
+
+body.loading {
+  overflow: hidden;
+}
+
+body.loading .modal {
+  display: block;
+}

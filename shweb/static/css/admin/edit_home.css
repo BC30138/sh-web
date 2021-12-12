@@ -1,0 +1,177 @@
+.content {
+    width: 70%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    padding: 40px;
+    margin: 40px auto 40px auto;
+    gap: 20px;
+}
+
+.code-editor {
+    display: flex;
+    flex-direction: column;
+    height:450px;
+    width: 100%;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(39, 38, 38, 0.856);
+}
+.code {
+    height: 400px;
+    width: 100%;
+}
+
+.code-tabs, .device-tabs {
+    display: flex;
+    gap: 0px;
+}
+
+.tab-button {
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    height: 32px;
+    max-width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.856);
+    background-color: #252525;
+    border-radius: 0px;
+    border-bottom: 0;
+    text-align: center;
+}
+
+.tab-button:hover {
+    background-color: rgba(80, 80, 80, 0.856);
+}
+
+.selected {
+    background-color: rgba(80, 80, 80, 0.856);
+}
+
+.code-tabs .tab-button {
+    border-left: 0;
+}
+
+.device-tabs .tab-button {
+    border-right: 0;
+}
+
+input[type=file]{
+    display: none;
+}
+
+.files {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    background-color: #1E1E1E;
+}
+
+#image-list-display {
+    overflow-y: auto;
+}
+
+.file-action {
+    height: 20px;
+    cursor:pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.file-action img {
+    height: 100%;
+}
+
+.one-line-parameter {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+.remove_button {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 15px;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.one-line-parameter img {
+    height: 100%;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+    height: 200px;
+}
+
+
+.index-control-buttons {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.index-control-button {
+    height: fit-content;
+    width: fit-content;
+    color: black;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.index-control-button:hover {
+    background-color: rgba(124, 124, 124, 0.856);
+    cursor: pointer;
+}
+
+.template-control-buttons {
+    width: 25%;
+}
+
+#download-template {
+    display: none;
+}
+
+#frame-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info {
+    width: 100%;
+    gap:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

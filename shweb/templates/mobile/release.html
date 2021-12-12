@@ -4,42 +4,43 @@
 <link rel='stylesheet' href="/static/css/mobile/release.css">
 {% endblock %}
 {% block title %}
-<title>станет хуже - {{release_data['release-name']}}</title>
-<meta name="title" content="станет хуже - {{release_data['release-name']}}">
-<meta property="og:title" content="станет хуже - {{release_data['release-name']}}">
-<meta name="twitter:title" content="станет хуже - {{release_data['release-name']}}">
-<meta name="description" content="{{release_data['type']}}, {{release_data['date']}}">
-<meta property="og:description" content="{{release_data['type']}}, {{release_data['date']}}">
-<meta name="twitter:description" content="{{release_data['type']}}, {{release_data['date']}}">
-<meta name="image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta property="og:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
-<meta name="twitter:image" content="http://www.stanethuzhe.ru/static/releases/{{release_data['release-id']}}/og.jpg">
+<title>станет хуже - {{release.release_name}}</title>
+<meta name="title" content="станет хуже - {{release.release_name}}">
+<meta property="og:title" content="станет хуже - {{release.release_name}}">
+<meta name="twitter:title" content="станет хуже - {{release.release_name}}">
+<meta name="description" content="{{release.type}}, {{release.date}}">
+<meta property="og:description" content="{{release.type}}, {{release.date}}">
+<meta name="twitter:description" content="{{release.type}}, {{release.date}}">
+<meta name="image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
+<meta property="og:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
+<meta name="twitter:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
 <meta name="url" content="http://www.stanethuzhe.ru/">
 <meta name="twitter:card" content="summary_large_image">
 {% endblock %}
 {% block content %}
 <div>
-    <div style="max-width: 700px;">
+    <div
+        style="max-width: 700px;  background-image: url({{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/cover.jpg); background-size: contain;">
         <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;">
             <iframe
-                src="https://bandcamp.com/EmbeddedPlayer/{{release_data['bandcamp-id']}}/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
+                src="https://bandcamp.com/EmbeddedPlayer/{{release.bandcamp_id}}/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
                 style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen
                 scrolling="no" allow="encrypted-media"></iframe>
         </div>
     </div>
 </div>
 <div class="release-info">
-    <div class="release-name"> {{release_data['release-name']}} <span class="share">
+    <div class="release-name"> {{release.release_name}} <span class="share">
             <button class="share-btn">
                 <div class="share-text">{{_('share')}} </div>
                 <img class="share-icon" src="/static/images/icons/share.svg">
             </button>
         </span>
     </div>
-    <div class="date">{{_('Release date')}}: {{release_data['date']}} </div>
+    <div class="date">{{_('Release date')}}: {{release.date}} </div>
     <div class="tracklist-head">{{_('Tracklist')}}:</div>
     <ul class="tracklist">
-        {% for track in tracklist%}
+        {% for track in release.tracklist%}
         <div class="lyrics-dropdown">
             <button onclick="openLyrics('{{ track.id }}')" class="lyrics-btn">
                 {{loop.index}}. {{ track.name }}
@@ -59,7 +60,7 @@
 </div>
 <div class="services-section">
     <ul class="services">
-        {% for service in release_data.services %}
+        {% for service in release.services %}
         <li>
             <div class="service">
                 <a href="{{ service.link }}" class="service-link" target="_blank">
@@ -73,7 +74,7 @@
         {% endfor %}
     </ul>
 </div>
-{% for youtube_video in release_data['youtube-videos'] %}
+{% for youtube_video in release.youtube_videos %}
 <div class="auto-resizable-iframe">
     <div>
         <iframe class="youtube-player" src="https://www.youtube.com/embed/{{youtube_video}}" frameborder="0"

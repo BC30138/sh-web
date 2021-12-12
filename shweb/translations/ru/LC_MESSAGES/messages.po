@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-27 17:00+0300\n"
+"POT-Creation-Date: 2021-11-24 00:28+0300\n"
 "PO-Revision-Date: 2021-09-18 12:51+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,116 +19,139 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: utils.py:6
+#: utils.py:8
 msgid "Single"
 msgstr "Сингл"
 
-#: utils.py:7
+#: utils.py:9
 msgid "Album"
 msgstr "Альбом"
 
-#: utils.py:8
+#: utils.py:10
 msgid "Ep"
 msgstr "Ep"
 
-#: templates/base.html:42 templates/base.html:43 templates/base.html:44
-#: templates/mobile/base.html:56 templates/mobile/base.html:57
-#: templates/mobile/base.html:58 utils.py:9
+#: templates/mobile/base.html:57 templates/mobile/base.html:58
+#: templates/mobile/base.html:59 utils.py:11
 msgid "single"
 msgstr "сингл"
 
-#: templates/base.html:41 templates/index.html:10 templates/mobile/base.html:55
-#: utils.py:10
+#: templates/mobile/base.html:56 utils.py:12
 msgid "album"
 msgstr "альбом"
 
-#: utils.py:11
+#: utils.py:13
 msgid "ep"
 msgstr "ep"
 
-#: utils.py:17
+#: utils.py:19
 msgid "jan"
 msgstr "января"
 
-#: utils.py:18
+#: utils.py:20
 msgid "feb"
 msgstr "февраля"
 
-#: utils.py:19
+#: utils.py:21
 msgid "mar"
 msgstr "марта"
 
-#: utils.py:20
+#: utils.py:22
 msgid "apr"
 msgstr "апреля"
 
-#: utils.py:21
+#: utils.py:23
 msgid "may"
 msgstr "мая"
 
-#: utils.py:22
+#: utils.py:24
 msgid "jun"
 msgstr "июня"
 
-#: utils.py:23
+#: utils.py:25
 msgid "jul"
 msgstr "июля"
 
-#: utils.py:24
+#: utils.py:26
 msgid "aug"
 msgstr "августа"
 
-#: utils.py:25
+#: utils.py:27
 msgid "sep"
 msgstr "сентября"
 
-#: utils.py:26
+#: utils.py:28
 msgid "oct"
 msgstr "октября"
 
-#: utils.py:27
+#: utils.py:29
 msgid "nov"
 msgstr "ноября"
 
-#: utils.py:28
+#: utils.py:30
 msgid "dec"
 msgstr "декабря"
 
-#: templates/base.html:15 templates/base.html:16 templates/base.html:17
-#: templates/mobile/base.html:16 templates/mobile/base.html:17
-#: templates/mobile/base.html:18
+#: routes/admin/routes/login.py:37
+msgid "The username or password field is empty"
+msgstr ""
+
+#: routes/admin/routes/login.py:39
+msgid "Invalid username or password"
+msgstr ""
+
+#: templates/admin/base.html:15 templates/admin/base.html:16
+#: templates/admin/base.html:17 templates/base.html:15 templates/base.html:16
+#: templates/base.html:17 templates/mobile/base.html:16
+#: templates/mobile/base.html:17 templates/mobile/base.html:18
 msgid "description"
 msgstr "Пост-метал из Санкт-Петербурга"
 
-#: templates/base.html:36 templates/mobile/base.html:46
+#: templates/admin/base.html:36 templates/base.html:37
+#: templates/mobile/base.html:47
 msgid "home"
 msgstr "домой"
 
-#: templates/base.html:37 templates/mobile/base.html:47
+#: templates/base.html:38 templates/mobile/base.html:48
 msgid "feed"
 msgstr "новости"
 
-#: templates/base.html:39 templates/mobile/base.html:49
+#: templates/base.html:40 templates/mobile/base.html:50
 msgid "discogs"
 msgstr "музыка"
 
-#: templates/index.html:10
-msgid "available"
-msgstr "уже доступен"
-
-#: templates/release.html:39
+#: templates/release.html:40
 msgid "Play"
 msgstr "Play"
 
-#: templates/mobile/release.html:34 templates/release.html:60
+#: templates/mobile/release.html:35 templates/release.html:61
 msgid "share"
 msgstr "поделиться"
 
-#: templates/mobile/release.html:39 templates/release.html:90
+#: templates/mobile/release.html:40 templates/release.html:91
 msgid "Release date"
 msgstr "Дата релиза"
 
-#: templates/mobile/release.html:40 templates/release.html:91
+#: templates/mobile/release.html:41 templates/release.html:92
 msgid "Tracklist"
 msgstr "Треклист"
+
+#: templates/admin/base.html:43
+msgid "logout"
+msgstr ""
+
+#: templates/admin/index.html:13
+msgid "edit"
+msgstr ""
+
+#: templates/admin/index.html:20
+msgid "add song"
+msgstr ""
+
+#: templates/admin/index.html:23
+msgid "edit home page"
+msgstr ""
+
+#~ msgid "available"
+#~ msgstr "уже доступен"
 

@@ -1,0 +1,24 @@
+{% extends "admin/login/login.html" %}
+{% block title %}
+<title>станет хуже admin: forget</title>
+{% endblock %}
+{% block content %}
+<form method="POST" class="login-form">
+    <div>
+        <b>Forgot your password?</b>
+    </div>
+    <div class="message">
+        Enter your Username below and we will send a message to reset your password
+    </div>
+    <div>
+        <label for="username"><b>Username</b></label>
+        <input name="username" type="text">
+    </div>
+    {% if status%}
+    <div class="auth-error">
+        {{status}}
+    </div>
+    {% endif %}
+    <input type="submit" value="Reset password" class="reset-button">
+</form>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' href="/static/css/admin/main.css">
+{% endblock %}
+{% block content %}
+
+<div class="releases" id="releases-list">
+    {% for release in get_release_list() %}
+    <div class="release" style="order: {{loop.index}};" id="{{release.id}}"">
+        <div class="release-info">
+            <div class="release-name">{{release.lang_type}} "{{release.name}}"&nbsp;</div>
+            <a href="/admin/release?action=edit&id={{release.id}}" class="inline-button">
+                <img src="/static/images/icons/edit.svg" alt="" class="edit-icon">
+            </a>
+        </div>
+        <div class="order-buttons">
+            <div class="change-order-up">
+                <img src="/static/images/icons/up.svg" alt="" class="up-icon">
+            </div>
+            <div class="change-order-down">
+                <img src="/static/images/icons/down.svg" alt="" class="up-icon">
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div class="order-buttons-main">
+    <button class="save-order">save order</button>
+    <button class="change-order">change order</button>
+    <a href="/admin/">
+        <button class="cancel-order">cancel</button>
+    </a>
+</div>
+
+<a href="/admin/release?action=new" class="release-new">
+    <button class="release-new-btn">add song</button>
+</a>
+<a href="/admin/index-edit" class="index-edit">
+    <button class="index-edit-btn">edit home page</button>
+</a>
+
+<div class="modal"></div>
+{% endblock %}
+
+{% block loaded_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/scripts/admin/index.js"></script>
+{% endblock %}

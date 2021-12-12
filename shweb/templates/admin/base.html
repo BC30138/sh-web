@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/images/favicon.png">
+    <link rel='stylesheet' href="/static/css/admin/style.css">
+    {% endblock %}
+    {% block title %}
+    <title>станет хуже admin</title>
+    <meta name="title" content="станет хуже: admin">
+    {% endblock %}
+    {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% endblock %}
+</head>
+
+<body {{ bodyproperty }}>
+    <div class="wrapper">
+        <div id="header" class="header">
+            {% block header %}
+            <a href="/">
+                <img src="/static/images/bandlogo.png" alt="" class="bandlogo">
+            </a>
+            {% endblock %}
+            <div class="navbar">
+                <a href="/admin/" class="nav-link">main</a>
+                <div class="user">
+                    <img src="/static/images/icons/account.svg" alt="" class="account-icon">
+                    <div class="user-controls">
+                        <div class="username"> {{get_user_info_from_token().nickname}} </div>
+                        <form method="POST" action="/admin/logout">
+                            <input type="hidden" name="event" value="logout">
+                            <input type="submit" name="logout" value="logout" class="control-button">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">{% block content %}{% endblock %}</div>
+    </div>
+
+    <script src="/static/scripts/base.js"></script>
+    {% block loaded_scripts %}{% endblock %}
+</body>

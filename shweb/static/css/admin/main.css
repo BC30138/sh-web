@@ -1,0 +1,92 @@
+.content {
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  padding: 40px;
+  margin: 40px auto 40px auto;
+  gap: 20px;
+}
+
+.releases {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.release {
+  height: 40px;
+  width: 400px;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.856);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  justify-content: space-between;
+}
+
+.release-info {
+  display: flex;
+}
+
+.inline-button {
+  max-height: 100%;
+}
+.inline-button img {
+  height: 20px;
+}
+
+.order-buttons {
+  flex-direction: column;
+}
+
+.change-order-up {
+  padding-top: 5px;
+}
+.change-order-up, .change-order-down {
+  max-height: 100%;
+  cursor: pointer;
+}
+.change-order-up img, .change-order-down img {
+  height: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  color: white;
+  font-size: 20px;
+  font-weight: normal;
+  height: 32px;
+  max-width: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.856);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: rgba(124, 124, 124, 0.856);
+}
+
+.order-buttons, .save-order, .cancel-order{
+  display: none;
+}
+
+.order-buttons-main {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.change-order {
+  margin-left: auto;
+  margin-right: auto;
+}

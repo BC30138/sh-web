@@ -24,14 +24,14 @@ app.config['AWS_ACCESS_KEY'] = os.environ['AWS_ACCESS_KEY']
 app.config['AWS_SECRET_KEY'] = os.environ['AWS_SECRET_KEY']
 app.config['AWS_REGION'] = os.environ['AWS_REGION']
 
-app.config['AWS_CLOUD_FRONT_DOMAIN'] = os.environ['AWS_CLOUD_FRONT_DOMAIN']
-app.config['S3_BUCKET_NAME'] = os.environ['S3_BUCKET_NAME']
-
 app.config['COGNITO_REGION'] = app.config['AWS_REGION']
 app.config['COGNITO_USERPOOL_ID'] = os.environ['AWS_USER_POOL_ID']
 app.config['COGNITO_APP_CLIENT_ID'] = os.environ['AWS_APP_CLIENT_ID']
 app.config['COGNITO_APP_CLIENT_SECRET'] = os.environ['AWS_APP_CLIENT_SECRET']
 app.config['COGNITO_JWKS_KEYS_URL'] = f"https://cognito-idp.{app.config['COGNITO_REGION']}.amazonaws.com/{app.config['COGNITO_USERPOOL_ID']}/.well-known/jwks.json"
+
+app.config['AWS_CLOUD_FRONT_DOMAIN'] = os.environ['AWS_CLOUD_FRONT_DOMAIN']
+app.config['S3_BUCKET_NAME'] = os.environ['S3_BUCKET_NAME']
 
 
 def get_cloudfront_id(app, url):
@@ -63,13 +63,19 @@ babel = Babel(app)
 @app.errorhandler(404)
 @mobile_template('{mobile/}not_found.html')
 def page_not_found(exc, template):
-    return render_template(template)
+    return render_template(template, message="404 not found :(")
 
 
 @app.errorhandler(TemplateNotFound)
 @mobile_template('{mobile/}not_found.html')
 def template_not_found(exc, template):
-    return render_template(template)
+    return render_template(template, message="404 not found :(")
+
+
+@app.errorhandler(Exception)
+@mobile_template('{mobile/}not_found.html')
+def template_not_found(exc, template):
+    return render_template(template, message="500 server error :(")
 
 
 @babel.localeselector

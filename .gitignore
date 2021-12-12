@@ -1,8 +1,6 @@
 .vscode
 .tmp
 
-shweb/static/releases
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -66,6 +64,10 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
+
+# Translations
+*.mo
+*.pot
 
 # Scrapy stuff:
 .scrapy

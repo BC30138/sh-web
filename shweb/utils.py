@@ -59,6 +59,7 @@ def s3_delete(prefix):
 def create_invalidation(items):
     client = boto3.client(
         'cloudfront',
+        region_name=current_app.config['AWS_REGION'],
         aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
         aws_secret_access_key=current_app.config['AWS_SECRET_KEY'],
     )

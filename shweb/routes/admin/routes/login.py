@@ -218,7 +218,7 @@ class ChangePasswordResource(Resource):
                     user.authenticate(auth_args['cur_password'])
                     user.change_password(auth_args['cur_password'], auth_args['password'])
                 return redirect(url_for('admin.login'))
-            except user.client.exceptions.NotAuthorizedException:
+            except Exception as e:
                 return redirect(url_for('admin.change-password', status=AuthStatus.invalid.name, action=action_args.get('action')))
 
         return redirect(url_for('admin.change-password', status=AuthStatus.empty.name, action=action_args.get('action')))

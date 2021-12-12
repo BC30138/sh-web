@@ -87,6 +87,7 @@ def change_password_challenge(user_pool_id, client_id, client_secret, aws_access
     secret_hash = get_secret_hash(username, client_id, client_secret)
     cognito = boto3.client(
         'cognito-idp',
+        region_name=current_app.config['AWS_REGION'],
         aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key
     )

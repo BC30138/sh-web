@@ -38,6 +38,7 @@ def get_cloudfront_id(app, url):
     domain_name = url.split("https://")[1]
     client = boto3.client(
         'cloudfront',
+        region_name=app.config['AWS_REGION'],
         aws_access_key_id=app.config['AWS_ACCESS_KEY'],
         aws_secret_access_key=app.config['AWS_SECRET_KEY'],
     )

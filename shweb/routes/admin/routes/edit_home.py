@@ -66,19 +66,22 @@ class EditHomeResource(Resource):
 class PreviewResource(Resource):
     @auth_required
     def post(self):
-        args = index_parser.parse_args()
-        if args['device'] == "mobile":
-            template = "mobile/index.html"
-        else:
-            template = "index.html"
+        try:
+            args = index_parser.parse_args()
+            if args['device'] == "mobile":
+                template = "mobile/index.html"
+            else:
+                template = "index.html"
 
-        index_schema = DeviceCode()
-        index_deserial = index_schema.load(args['index_code'])
-        index_code = index_schema.dump(index_deserial)
+            index_schema = DeviceCode()
+            index_deserial = index_schema.load(args['index_code'])
+            index_code = index_schema.dump(index_deserial)
 
-        style_code = index_code['style']
-        content_code = index_code['content']
-        return make_response(
-            render_template(template, title='Home',
-                            style_code=style_code, content_code=content_code
-                            ))
+            style_code = index_code['style']
+            content_code = index_code['content']
+            return make_response(
+                render_template(template, title='Home',
+                                style_code=style_code, content_code=content_code
+                                ))
+        except Exception:
+            return output_json({"status": "error"}, 400)

@@ -11,7 +11,7 @@
 {% endblock %}
 {% block loaded_scripts %}
 <script type="text/javascript">
-    var header_h = document.querySelector('.content').getBoundingClientRect().top;
+    var header_h = document.querySelector('.header').clientHeight;
     var height = window.innerHeight - header_h;
     VK.Widgets.Group("vk_groups", {
         mode: 4,

@@ -215,3 +215,13 @@ pre {
     transform: rotate(-180deg);
     transition: transform 0.2s linear;
 }
+
+.explicit {
+    display: inline-block;
+    vertical-align:middle;
+}
+
+.explicit-icon {
+    height: 20px;
+    max-width: 100%;
+}

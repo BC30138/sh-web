@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-24 00:28+0300\n"
+"POT-Creation-Date: 2021-12-12 13:18+0300\n"
 "PO-Revision-Date: 2021-09-18 12:51+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,139 +19,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: utils.py:8
+#: shweb/translate_helpers.py:6
 msgid "Single"
 msgstr "Сингл"
 
-#: utils.py:9
+#: shweb/translate_helpers.py:7
 msgid "Album"
 msgstr "Альбом"
 
-#: utils.py:10
+#: shweb/translate_helpers.py:8
 msgid "Ep"
 msgstr "Ep"
 
-#: templates/mobile/base.html:57 templates/mobile/base.html:58
-#: templates/mobile/base.html:59 utils.py:11
+#: shweb/templates/mobile/base.html:57 shweb/templates/mobile/base.html:58
+#: shweb/templates/mobile/base.html:59 shweb/translate_helpers.py:9
 msgid "single"
 msgstr "сингл"
 
-#: templates/mobile/base.html:56 utils.py:12
+#: shweb/templates/mobile/base.html:56 shweb/translate_helpers.py:10
 msgid "album"
 msgstr "альбом"
 
-#: utils.py:13
+#: shweb/translate_helpers.py:11
 msgid "ep"
 msgstr "ep"
 
-#: utils.py:19
+#: shweb/translate_helpers.py:17
 msgid "jan"
 msgstr "января"
 
-#: utils.py:20
+#: shweb/translate_helpers.py:18
 msgid "feb"
 msgstr "февраля"
 
-#: utils.py:21
+#: shweb/translate_helpers.py:19
 msgid "mar"
 msgstr "марта"
 
-#: utils.py:22
+#: shweb/translate_helpers.py:20
 msgid "apr"
 msgstr "апреля"
 
-#: utils.py:23
+#: shweb/translate_helpers.py:21
 msgid "may"
 msgstr "мая"
 
-#: utils.py:24
+#: shweb/translate_helpers.py:22
 msgid "jun"
 msgstr "июня"
 
-#: utils.py:25
+#: shweb/translate_helpers.py:23
 msgid "jul"
 msgstr "июля"
 
-#: utils.py:26
+#: shweb/translate_helpers.py:24
 msgid "aug"
 msgstr "августа"
 
-#: utils.py:27
+#: shweb/translate_helpers.py:25
 msgid "sep"
 msgstr "сентября"
 
-#: utils.py:28
+#: shweb/translate_helpers.py:26
 msgid "oct"
 msgstr "октября"
 
-#: utils.py:29
+#: shweb/translate_helpers.py:27
 msgid "nov"
 msgstr "ноября"
 
-#: utils.py:30
+#: shweb/translate_helpers.py:28
 msgid "dec"
 msgstr "декабря"
 
-#: routes/admin/routes/login.py:37
+#: shweb/routes/admin/routes/login.py:33 shweb/routes/admin/routes/login.py:185
 msgid "The username or password field is empty"
 msgstr ""
 
-#: routes/admin/routes/login.py:39
+#: shweb/routes/admin/routes/login.py:35 shweb/routes/admin/routes/login.py:187
 msgid "Invalid username or password"
 msgstr ""
 
-#: templates/admin/base.html:15 templates/admin/base.html:16
-#: templates/admin/base.html:17 templates/base.html:15 templates/base.html:16
-#: templates/base.html:17 templates/mobile/base.html:16
-#: templates/mobile/base.html:17 templates/mobile/base.html:18
+#: shweb/routes/admin/routes/login.py:37 shweb/routes/admin/routes/login.py:189
+msgid "Your session token is expired, login again"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:88
+msgid "The username field is empty"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:90
+msgid "Invalid username"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:92
+msgid "Attempt limit exceeded, please try after some time"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:137
+msgid "Confirmation code invalid"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:139
+msgid "Code or password field is empty"
+msgstr ""
+
+#: shweb/templates/base.html:15 shweb/templates/base.html:16
+#: shweb/templates/base.html:17 shweb/templates/mobile/base.html:16
+#: shweb/templates/mobile/base.html:17 shweb/templates/mobile/base.html:18
 msgid "description"
 msgstr "Пост-метал из Санкт-Петербурга"
 
-#: templates/admin/base.html:36 templates/base.html:37
-#: templates/mobile/base.html:47
+#: shweb/templates/base.html:37 shweb/templates/mobile/base.html:47
 msgid "home"
 msgstr "домой"
 
-#: templates/base.html:38 templates/mobile/base.html:48
+#: shweb/templates/base.html:38 shweb/templates/mobile/base.html:48
 msgid "feed"
 msgstr "новости"
 
-#: templates/base.html:40 templates/mobile/base.html:50
+#: shweb/templates/base.html:40 shweb/templates/mobile/base.html:50
 msgid "discogs"
 msgstr "музыка"
 
-#: templates/release.html:40
+#: shweb/templates/release.html:40
 msgid "Play"
 msgstr "Play"
 
-#: templates/mobile/release.html:35 templates/release.html:61
+#: shweb/templates/mobile/release.html:35 shweb/templates/release.html:61
 msgid "share"
 msgstr "поделиться"
 
-#: templates/mobile/release.html:40 templates/release.html:91
+#: shweb/templates/mobile/release.html:40 shweb/templates/release.html:91
 msgid "Release date"
 msgstr "Дата релиза"
 
-#: templates/mobile/release.html:41 templates/release.html:92
+#: shweb/templates/mobile/release.html:41 shweb/templates/release.html:92
 msgid "Tracklist"
 msgstr "Треклист"
 
-#: templates/admin/base.html:43
-msgid "logout"
-msgstr ""
-
-#: templates/admin/index.html:13
-msgid "edit"
-msgstr ""
-
-#: templates/admin/index.html:20
-msgid "add song"
-msgstr ""
-
-#: templates/admin/index.html:23
-msgid "edit home page"
-msgstr ""
-
 #~ msgid "available"
 #~ msgstr "уже доступен"
+
+#~ msgid "logout"
+#~ msgstr ""
+
+#~ msgid "edit"
+#~ msgstr ""
+
+#~ msgid "add song"
+#~ msgstr ""
+
+#~ msgid "edit home page"
+#~ msgstr ""
 

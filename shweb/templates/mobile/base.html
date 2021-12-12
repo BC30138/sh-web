@@ -52,11 +52,12 @@
                             </span></div>
                     </li>
                     <div class="dropdown-content" id="release-links">
+
                         <div class="links-container">
-                            <a href="/releases/reki{{session['lang_arg']}}">{{_('album')}} "реки"</a>
-                            <a href="/releases/march{{session['lang_arg']}}">{{_('single')}} "марш пустых знамён"</a>
-                            <a href="/releases/unsleep{{session['lang_arg']}}">{{_('single')}} <br> "бессонница"</a>
-                            <a href="/releases/traces{{session['lang_arg']}}">{{_('single')}} <br> "тропы"</a>
+                            {% for release_head in get_release_list() %}
+                            <a href="/releases/{{release_head.id}}{{session['lang_arg']}}">{{release_head.lang_type}}
+                                "{{release_head.name}}"</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

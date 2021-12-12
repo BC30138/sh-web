@@ -61,19 +61,19 @@ babel = Babel(app)
 
 
 @app.errorhandler(404)
-@mobile_template('{mobile/}not_found.html')
+@mobile_template('{mobile/}error.html')
 def page_not_found(exc, template):
     return render_template(template, message="404 not found :(")
 
 
 @app.errorhandler(TemplateNotFound)
-@mobile_template('{mobile/}not_found.html')
+@mobile_template('{mobile/}error.html')
 def template_not_found(exc, template):
     return render_template(template, message="404 not found :(")
 
 
 @app.errorhandler(Exception)
-@mobile_template('{mobile/}not_found.html')
+@mobile_template('{mobile/}error.html')
 def template_not_found(exc, template):
     return render_template(template, message="500 server error :(")
 

@@ -1,5 +1,5 @@
 import requests
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template, current_app, jsonify
 
 from flask_mobility.decorators import mobile_template
 
@@ -31,3 +31,8 @@ def index(template):
         template, title='Home',
         style_code=style_code, content_code=content_code
     )
+
+
+@blueprint.route('/health')
+def health():
+    return jsonify({"status": "ok"}), 200

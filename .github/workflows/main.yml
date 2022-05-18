@@ -16,7 +16,7 @@ on:
 env:
   CR_REGISTRY: crpssp59ni0ne6f64iju
   CR_REPOSITORY: sh-web
-  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_TAG: sh-web.${{ github.sha }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -41,7 +41,6 @@ jobs:
           docker pull cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
           docker build --cache-from cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
-          docker tag cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
 
       # - name: Push latest
       #   if: github.ref == 'refs/heads/master'

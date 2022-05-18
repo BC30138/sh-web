@@ -5,7 +5,7 @@ from marshmallow import Schema, fields, pre_load, post_dump, validate
 from marshmallow.exceptions import ValidationError
 from bs4 import BeautifulSoup
 
-from shweb.translate_helpers import get_release_types, get_month_names
+from shweb.services.rest.translate_helpers import get_release_types, get_month_names
 
 
 class ServiceSchema(Schema):

@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, pre_load, post_dump, validate
-from shweb.translate_helpers import get_release_types
+from shweb.services.rest.translate_helpers import get_release_types
 
 
 class ReleaseListItemSchema(Schema):

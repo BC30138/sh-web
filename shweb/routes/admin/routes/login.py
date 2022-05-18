@@ -1,12 +1,11 @@
 
 from flask import session, redirect, url_for, current_app, render_template, make_response, request
-from flask_mobility.decorators import mobile_template
 from flask_babel import _
 from warrant import Cognito
-
-
-from flask_restful import Resource, reqparse
 import warrant
+from flask_restful import Resource, reqparse
+from flask_mobility.decorators import mobile_template
+
 from shweb.routes.admin.auth import AuthStatus, auth_required, change_password_challenge
 
 login_parser = reqparse.RequestParser()

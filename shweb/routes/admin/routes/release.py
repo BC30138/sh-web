@@ -1,10 +1,10 @@
 import requests
 
 from flask import redirect, url_for, render_template, make_response, current_app
-from flask_mobility.decorators import mobile_template
 import werkzeug.datastructures
 from werkzeug.exceptions import BadRequest
 from flask_restful import Resource, reqparse, output_json
+from flask_mobility.decorators import mobile_template
 
 from shweb.routes.admin.auth import auth_required
 from shweb.schemas.release import ReleaseSchema, EditReleaseSchema

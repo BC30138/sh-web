@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-12-12 13:58+0300\n"
+"POT-Creation-Date: 2022-05-18 21:13+0300\n"
 "PO-Revision-Date: 2021-09-18 12:51+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,111 +18,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: shweb/translate_helpers.py:6
+#: shweb/routes/admin/routes/login.py:32 shweb/routes/admin/routes/login.py:184
+msgid "The username or password field is empty"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:34 shweb/routes/admin/routes/login.py:186
+msgid "Invalid username or password"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:36 shweb/routes/admin/routes/login.py:188
+msgid "Your session token is expired, login again"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:87
+msgid "The username field is empty"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:89
+msgid "Invalid username"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:91
+msgid "Attempt limit exceeded, please try after some time"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:136
+msgid "Confirmation code invalid"
+msgstr ""
+
+#: shweb/routes/admin/routes/login.py:138
+msgid "Code or password field is empty"
+msgstr ""
+
+#: shweb/services/rest/translate_helpers.py:10
 #, fuzzy
 msgid "Single"
 msgstr "Single"
 
-#: shweb/translate_helpers.py:7
+#: shweb/services/rest/translate_helpers.py:11
 msgid "Album"
 msgstr "Album"
 
-#: shweb/translate_helpers.py:8
+#: shweb/services/rest/translate_helpers.py:12
 msgid "Ep"
 msgstr "Ep"
 
-#: shweb/templates/mobile/base.html:57 shweb/templates/mobile/base.html:58
-#: shweb/templates/mobile/base.html:59 shweb/translate_helpers.py:9
+#: shweb/services/rest/translate_helpers.py:13
 msgid "single"
 msgstr "single"
 
-#: shweb/templates/mobile/base.html:56 shweb/translate_helpers.py:10
+#: shweb/services/rest/translate_helpers.py:14
 msgid "album"
 msgstr "album"
 
-#: shweb/translate_helpers.py:11
+#: shweb/services/rest/translate_helpers.py:15
 msgid "ep"
 msgstr "ep"
 
-#: shweb/translate_helpers.py:17
+#: shweb/services/rest/translate_helpers.py:21
 msgid "jan"
 msgstr "jan"
 
-#: shweb/translate_helpers.py:18
+#: shweb/services/rest/translate_helpers.py:22
 msgid "feb"
 msgstr "feb"
 
-#: shweb/translate_helpers.py:19
+#: shweb/services/rest/translate_helpers.py:23
 msgid "mar"
 msgstr "mar"
 
-#: shweb/translate_helpers.py:20
+#: shweb/services/rest/translate_helpers.py:24
 msgid "apr"
 msgstr "apr"
 
-#: shweb/translate_helpers.py:21
+#: shweb/services/rest/translate_helpers.py:25
 msgid "may"
 msgstr "may"
 
-#: shweb/translate_helpers.py:22
+#: shweb/services/rest/translate_helpers.py:26
 msgid "jun"
 msgstr "jun"
 
-#: shweb/translate_helpers.py:23
+#: shweb/services/rest/translate_helpers.py:27
 msgid "jul"
 msgstr "jul"
 
-#: shweb/translate_helpers.py:24
+#: shweb/services/rest/translate_helpers.py:28
 msgid "aug"
 msgstr "aug"
 
-#: shweb/translate_helpers.py:25
+#: shweb/services/rest/translate_helpers.py:29
 msgid "sep"
 msgstr "sep"
 
-#: shweb/translate_helpers.py:26
+#: shweb/services/rest/translate_helpers.py:30
 msgid "oct"
 msgstr "oct"
 
-#: shweb/translate_helpers.py:27
+#: shweb/services/rest/translate_helpers.py:31
 msgid "nov"
 msgstr "nov"
 
-#: shweb/translate_helpers.py:28
+#: shweb/services/rest/translate_helpers.py:32
 msgid "dec"
 msgstr "dec"
-
-#: shweb/routes/admin/routes/login.py:33 shweb/routes/admin/routes/login.py:185
-msgid "The username or password field is empty"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:35 shweb/routes/admin/routes/login.py:187
-msgid "Invalid username or password"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:37 shweb/routes/admin/routes/login.py:189
-msgid "Your session token is expired, login again"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:88
-msgid "The username field is empty"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:90
-msgid "Invalid username"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:92
-msgid "Attempt limit exceeded, please try after some time"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:137
-msgid "Confirmation code invalid"
-msgstr ""
-
-#: shweb/routes/admin/routes/login.py:139
-msgid "Code or password field is empty"
-msgstr ""
 
 #: shweb/templates/base.html:15 shweb/templates/base.html:16
 #: shweb/templates/base.html:17 shweb/templates/mobile/base.html:16

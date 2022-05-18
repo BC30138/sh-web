@@ -5,11 +5,12 @@ from flask_mobility.decorators import mobile_template
 
 from shweb.schemas.release import ReleaseSchema
 
+
 blueprint = Blueprint("release-page", __name__)
 
 
-@ blueprint.route('/<release>', methods=['GET', 'POST'])
-@ mobile_template('{mobile/}release.html')
+@blueprint.route('/<release>', methods=['GET', 'POST'])
+@mobile_template('{mobile/}release.html')
 def releases(release, template):
     base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
     response = requests.get(f"{base}/releases/{release}/info.json")

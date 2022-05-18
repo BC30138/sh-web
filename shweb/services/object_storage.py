@@ -4,5 +4,5 @@ from typing import Optional
 
 class ObjectStorage:
     @classmethod
-    def get(path: str) -> Optional[dict]:
+    def get(cls, path: str) -> Optional[dict]:
         NotImplementedError

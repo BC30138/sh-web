@@ -18,12 +18,16 @@ RUN pip install -r requirements.txt
 RUN pip install gunicorn==20.1.0
 
 # Install project
+COPY docker/artifacts.sh artifacts.sh
 COPY docker/start.sh start.sh
 COPY . .
 
 # Add user and change user
 RUN chown -R nobody:nogroup .
 USER nobody
+
+# Compile artifacts
+RUN ./artifacts.sh
 
 # Run app
 CMD ["./start.sh"]

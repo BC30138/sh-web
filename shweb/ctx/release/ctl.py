@@ -7,8 +7,8 @@ from shweb.ctx.release.repo import IReleaseRepo
 
 
 class IReleaseCtl(abc.ABC):
-    @classmethod
-    def get(release_id: str) -> Optional[ReleaseEntity]:
+    @abc.abstractmethod
+    def get(self, release_id: str) -> Optional[ReleaseEntity]:
         raise NotImplementedError
 
 

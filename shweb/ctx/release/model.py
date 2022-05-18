@@ -27,10 +27,10 @@ class ReleaseEntity:
     release_id: str
     release_name: str
     type: ReleaseType
+    services: List[ServiceEntity]
+    tracklist: List[TrackEntity]
     bandcamp_id: Optional[str]
     bandcamp_link: Optional[str]
     date: Optional[date]
     default_open_text: Optional[str]
-    services: List[ServiceEntity]
-    tracklist = List[TrackEntity]
-    youtube_videos = Optional[List[str]]
+    youtube_videos: Optional[List[str]]

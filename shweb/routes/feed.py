@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
 from flask_mobility.decorators import mobile_template
-from flask_babel import get_locale
 blueprint = Blueprint("feed", __name__)
 
 

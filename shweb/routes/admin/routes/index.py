@@ -1,11 +1,12 @@
 import requests
 
 from flask import render_template, make_response, current_app
-from flask_mobility.decorators import mobile_template
 from flask_restful import Resource, reqparse, abort, request
+from flask_mobility.decorators import mobile_template
 
 from shweb.routes.admin.auth import auth_required
 from shweb.utils import upload_json, create_invalidation
+
 
 release_list_order_parser = reqparse.RequestParser()
 release_list_order_parser.add_argument("releases", location="json", required=True)

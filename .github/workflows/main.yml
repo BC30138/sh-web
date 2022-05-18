@@ -45,9 +45,21 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-      - name: Python linter [Flake8]
+      - name: "Create env file"
         run: |
-          python -m flake8 shweb/
+          touch .env
+          echo APP_SECRET_KEY=${{ secrets.APP_SECRET_KEY }} >> .env
+
+          echo AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} >> .env
+          echo AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} >> .env
+          echo AWS_REGION=${{ secrets.AWS_REGION }} >> .env
+
+          echo AWS_USER_POOL_ID=${{ secrets.AWS_USER_POOL_ID }} >> .env
+          echo AWS_APP_CLIENT_ID=${{ secrets.AWS_APP_CLIENT_ID }} >> .env
+          echo AWS_APP_CLIENT_SECRET=${{ secrets.AWS_APP_CLIENT_SECRET }} >> .env
+
+          echo AWS_CLOUD_FRONT_DOMAIN=${{ secrets.AWS_CLOUD_FRONT_DOMAIN }} >> .env
+          echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> .env
       - name: Login to Yandex Cloud Container Registry
         id: login-cr
         uses: yc-actions/yc-cr-login@v1

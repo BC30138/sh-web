@@ -1,0 +1,36 @@
+"""Предстваления релизов."""
+
+import dataclasses
+from datetime import date
+from typing import List, Optional
+
+from shweb.util.enums import ReleaseType
+
+
+@dataclasses.dataclass
+class TrackEntity:
+    name: str
+    id: str
+    written: Optional[str]
+    lyrics: Optional[str]
+    explicit: Optional[bool]
+
+
+@dataclasses.dataclass
+class ServiceEntity:
+    name: str
+    link: str
+
+
+@dataclasses.dataclass
+class ReleaseEntity:
+    release_id: str
+    release_name: str
+    type: ReleaseType
+    bandcamp_id: Optional[str]
+    bandcamp_link: Optional[str]
+    date: Optional[date]
+    default_open_text: Optional[str]
+    services: List[ServiceEntity]
+    tracklist = List[TrackEntity]
+    youtube_videos = Optional[List[str]]

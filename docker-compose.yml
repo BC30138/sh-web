@@ -9,5 +9,13 @@ services:
       - 5000:5000
     volumes:
       - ./shweb:/opt/webapp/shweb
-    env_file:
-      - .env.docker
+    environment:
+      APP_SECRET_KEY: ${APP_SECRET_KEY}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      AWS_REGION: ${AWS_REGION}
+      AWS_USER_POOL_ID: ${AWS_USER_POOL_ID}
+      AWS_APP_CLIENT_ID: ${AWS_APP_CLIENT_ID}
+      AWS_APP_CLIENT_SECRET: ${AWS_APP_CLIENT_SECRET}
+      AWS_CLOUD_FRONT_DOMAIN: "${AWS_CLOUD_FRONT_DOMAIN}"
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}

@@ -36,5 +36,6 @@ jobs:
           CR_REGISTRY: crpssp59ni0ne6f64iju
           CR_REPOSITORY: sh-web
         run: |
+          docker pull cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
           docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest -f docker/Dockerfile .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest

@@ -45,5 +45,5 @@ jobs:
       - name: Push latest
         if: github.ref == 'refs/heads/master'
         run: |
-          docker tag cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
+          docker tag cr.yandex/${{ CR_REGISTRY }}/${{ CR_REPOSITORY }}:${{ IMAGE_TAG }} cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$latest

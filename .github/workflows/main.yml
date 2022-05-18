@@ -19,24 +19,31 @@ env:
   IMAGE_TAG: sh-web.${{ github.sha }}
 
 jobs:
-  linters:
+  flake8:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Packages setup
         run: |
           pip install flake8==4.0.1
-          pip install mypy==0.950
       - name: Python linter [Flake8]
         run: |
           python -m flake8 shweb/
+
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Packages setup
+        run: |
+          pip install mypy==0.950
       - name: Python linter [MyPy]
         run: |
           python -m mypy shweb/
 
   build:
     runs-on: ubuntu-latest
-    needs: linters
+    needs: [flake8, mypy]
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3

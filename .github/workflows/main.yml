@@ -30,6 +30,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Python linter [Flake8]
+        run: |
+          pip install flake8==4.0.1
+          python -m flake8 shweb/
+
       - name: Login to Yandex Cloud Container Registry
         if: github.ref == 'refs/heads/master'
         id: login-cr

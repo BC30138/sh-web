@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: ["*"]
+    branches: ["master"]
   pull_request:
-    branches: ["*"]
+    branches: ["master"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,7 +38,6 @@ jobs:
 
       - name: Build, tag, and push image to Yandex Cloud Container Registry
         run: |
-          docker pull cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
           docker build --cache-from cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
 

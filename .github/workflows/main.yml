@@ -40,6 +40,7 @@ jobs:
         run: |
           docker pull cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest
           docker build --cache-from cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:latest -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
+          docker tag cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG test:test
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
 
       - name: Push latest

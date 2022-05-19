@@ -1,4 +1,3 @@
-# type: ignore
 import requests
 from flask import Blueprint, render_template, current_app, jsonify
 from flask_mobility.decorators import mobile_template

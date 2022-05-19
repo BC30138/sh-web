@@ -1,5 +1,6 @@
 from flask import Flask
-from shweb.routes import index, releases, feed, admin
+from shweb.services.rest.routes import admin
+from shweb.services.rest.routes.public import index, releases, feed
 
 
 def register_blueprints(app: Flask):

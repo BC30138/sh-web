@@ -2,7 +2,7 @@ import requests
 from flask import Blueprint, render_template, current_app, jsonify
 from flask_mobility.decorators import mobile_template
 
-from shweb.schemas.index_code import IndexCode
+from shweb.services.rest.schemas.index_code import IndexCode
 from shweb.services.rest.rest_helpers import mobile_checker
 
 blueprint = Blueprint("index-page", __name__)

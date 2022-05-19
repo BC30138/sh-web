@@ -6,7 +6,7 @@ import warrant
 from flask_restful import Resource, reqparse
 from flask_mobility.decorators import mobile_template
 
-from shweb.routes.admin.auth import AuthStatus, auth_required, change_password_challenge
+from shweb.services.rest.routes.admin.auth import AuthStatus, auth_required, change_password_challenge
 
 login_parser = reqparse.RequestParser()
 login_parser.add_argument("username", type=str, location="form", required=True)

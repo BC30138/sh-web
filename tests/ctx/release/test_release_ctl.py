@@ -1,7 +1,7 @@
 """Проверка контроллера релизов"""
 import pytest
 
-from shweb.ctx.release.interfaces import ReleaseRepo, ReleaseBandcampAPI
+from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampAPI
 from shweb.ctx.release.ctl import Error as ReleaseError
 
 

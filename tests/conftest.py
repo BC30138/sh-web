@@ -4,7 +4,7 @@ from typing import Optional, Callable, List
 import pytest
 
 from shweb.ctx.release.ctl import ReleaseCtl
-from shweb.ctx.release.interfaces import ReleaseRepo, ReleaseBandcampAPI
+from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampAPI
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
 from shweb.util.dateutils import date_from_str
 from shweb.util.enums import ReleaseType

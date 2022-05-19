@@ -45,5 +45,21 @@ class Config:
         'en': "English",
         'ru': "Russian"
     }
-    TEMPLATES_PATH = str(CONFIG_PATH.parent.joinpath('templates').absolute())
-    STATIC_PATH = str(CONFIG_PATH.parent.joinpath('static').absolute())
+    TEMPLATES_PATH = str(
+        CONFIG_PATH.parent.joinpath(
+            'services'
+        ).joinpath(
+            'rest'
+        ).joinpath(
+            'templates'
+        ).absolute()
+    )
+    STATIC_PATH = str(
+        CONFIG_PATH.parent.joinpath(
+            'services'
+        ).joinpath(
+            'rest'
+        ).joinpath(
+            'static'
+        ).absolute()
+    )

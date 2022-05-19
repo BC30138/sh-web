@@ -5,7 +5,7 @@ from time import time
 from flask import current_app
 import boto3
 
-from shweb.schemas.release_list import ReleaseListSchema
+from shweb.services.rest.schemas.release_list import ReleaseListSchema
 
 
 def get_raw_release_list():

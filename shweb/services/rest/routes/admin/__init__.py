@@ -1,7 +1,7 @@
 from flask import Blueprint  # type: ignore
 from flask_restful import Api  # type: ignore
-from shweb.routes.admin.auth import get_user_info_from_token
-from shweb.routes.admin.routes import login, admin_index, admin_release, edit_home
+from shweb.services.rest.routes.admin.auth import get_user_info_from_token
+from shweb.services.rest.routes.admin.routes import login, admin_index, admin_release, edit_home
 
 
 blueprint = Blueprint("admin", __name__)

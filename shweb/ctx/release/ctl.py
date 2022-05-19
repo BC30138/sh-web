@@ -3,7 +3,7 @@ import abc
 from typing import Optional
 
 from shweb.ctx.release.model import ReleaseEntity
-from shweb.ctx.release.interfaces import IReleaseRepo, IReleaseBandcampAPI
+from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampAPI
 
 
 class Error(Exception):

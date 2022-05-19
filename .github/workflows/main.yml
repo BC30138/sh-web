@@ -34,6 +34,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Packages setup
         run: |
+          pip install types-requests==2.27.27
           pip install mypy==0.950
       - name: Python linter [MyPy]
         run: |

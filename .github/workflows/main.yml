@@ -49,7 +49,7 @@ jobs:
           python-version: "3.8"
       - name: Packages setup
         run: |
-          pip install -r requirements
+          pip install -r requirements.txt
       - name: Pytest
         run: |
           PYTHONPATH=. pytest tests

@@ -72,12 +72,18 @@ def test_happy_path(
     )
 
     release = release_controller_client.get('test_release_id')
-    assert release.release_id == release_repo.release_id
-    assert release.release_name == release_repo.release_name
-    assert release.bandcamp_id == release_repo.bandcamp_id
-    assert release.bandcamp_link == release_repo.bandcamp_link
-    assert release.type == release_repo.type
-    assert release.default_open_text == release_repo.default_open_text
-    assert release.tracklist == release_repo.tracklist
-    assert release.services == release_repo.services
-    assert release.youtube_videos == release_repo.youtube_videos
+    assert release == release_repo
+
+
+def test_not_found(
+    mocker,
+    release_controller_client,
+):
+    mocker.patch.object(
+        ReleaseRepo,
+        'get',
+        return_value=None,
+    )
+
+    release = release_controller_client.get('test_release_id')
+    assert release is None

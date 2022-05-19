@@ -10,7 +10,7 @@ from shweb.util.enums import ReleaseType
 @dataclasses.dataclass
 class TrackEntity:
     name: str
-    id: str
+    track_id: str
     written: Optional[str]
     lyrics: Optional[str]
     explicit: Optional[bool]
@@ -26,11 +26,11 @@ class ServiceEntity:
 class ReleaseEntity:
     release_id: str
     release_name: str
-    type: ReleaseType
+    release_type: ReleaseType
     services: List[ServiceEntity]
     tracklist: List[TrackEntity]
     bandcamp_id: Optional[str]
     bandcamp_link: Optional[str]
-    date: Optional[date]
+    release_date: Optional[date]
     default_open_text: Optional[str]
     youtube_videos: Optional[List[str]]

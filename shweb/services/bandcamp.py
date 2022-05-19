@@ -1,7 +1,6 @@
 """Сервис для получения данных из Бэндкамп"""
 from ast import literal_eval
 import requests
-from typing import Optional
 
 from bs4 import BeautifulSoup
 

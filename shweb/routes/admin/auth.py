@@ -82,8 +82,16 @@ def get_secret_hash(username, client_id, client_secret,):
     return d2
 
 
-def change_password_challenge(user_pool_id, client_id, client_secret, aws_access_key_id, aws_secret_access_key, username, temp_password,
-                              new_password):
+def change_password_challenge(
+    user_pool_id,
+    client_id,
+    client_secret,
+    aws_access_key_id,
+    aws_secret_access_key,
+    username,
+    temp_password,
+    new_password,
+):
     secret_hash = get_secret_hash(username, client_id, client_secret)
     cognito = boto3.client(
         'cognito-idp',

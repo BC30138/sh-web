@@ -153,7 +153,13 @@ class ForgetConfirmResource(Resource):
                 user.confirm_forgot_password(auth_args['code'], auth_args['password'])
                 return redirect(url_for('admin.login'))
             except user.client.exceptions.CodeMismatchException:
-                return redirect(url_for('admin.forget-confirm', username=auth_args['username'], status=AuthStatus.invalid.name))
+                return redirect(
+                    url_for(
+                        'admin.forget-confirm',
+                        username=auth_args['username'],
+                        status=AuthStatus.invalid.name
+                    )
+                )
 
         return redirect(url_for('admin.forget', status=AuthStatus.empty.name))
 
@@ -217,7 +223,13 @@ class ChangePasswordResource(Resource):
                     user.authenticate(auth_args['cur_password'])
                     user.change_password(auth_args['cur_password'], auth_args['password'])
                 return redirect(url_for('admin.login'))
-            except Exception as e:
-                return redirect(url_for('admin.change-password', status=AuthStatus.invalid.name, action=action_args.get('action')))
+            except Exception:
+                return redirect(
+                    url_for(
+                        'admin.change-password',
+                        status=AuthStatus.invalid.name,
+                        action=action_args.get('action')
+                    )
+                )
 
         return redirect(url_for('admin.change-password', status=AuthStatus.empty.name, action=action_args.get('action')))

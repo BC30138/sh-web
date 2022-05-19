@@ -42,7 +42,7 @@ class ReleaseSchema(Schema):
                 in_data['bandcamp_id'] = str(literal_eval(
                     soup.head.find("meta", {"name": "bc-page-properties"})['content']
                 )['item_id'])
-        except:
+        except Exception:
             raise ValidationError("bad bandcamp link")
 
         is_bandcamp_service = False

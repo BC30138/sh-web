@@ -1,8 +1,7 @@
 import re
 import ast
-from functools import partial
 
-from marshmallow import Schema, fields, pre_load, post_dump
+from marshmallow import Schema, fields, post_dump
 from flask import current_app
 from flask_babel import get_locale
 

@@ -29,7 +29,9 @@ class EditHomeResource(Resource):
 
         if 'files_list' in index_code_deserial:
             index_code_deserial['files'] = [
-                [f"{item}", f"{current_app.config['AWS_CLOUD_FRONT_DOMAIN']}/index/files/{item}"] for item in index_code_deserial['files_list']]
+                [f"{item}", f"{current_app.config['AWS_CLOUD_FRONT_DOMAIN']}/index/files/{item}"]
+                for item in index_code_deserial['files_list']
+            ]
 
         return make_response(render_template(template, index_code=index_code_deserial))
 

@@ -3,7 +3,6 @@ import requests
 from time import time
 
 from flask import current_app
-from flask import _request_ctx_stack as stack
 import boto3
 
 from shweb.schemas.release_list import ReleaseListSchema

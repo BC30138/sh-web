@@ -36,7 +36,7 @@ class ReleaseResource(Resource):
     def get(self, template):
         try:
             release_args = action_parser.parse_args()
-        except BadRequest as e:
+        except BadRequest:
             return redirect(url_for('admin.release', action="new"))
 
         release = {}

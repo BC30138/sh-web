@@ -1,12 +1,12 @@
 from flask import Blueprint
 from flask_restful import Api
 from shweb.routes.admin.auth import get_user_info_from_token
-from shweb.routes.admin.routes import login, index, release, edit_home
+from shweb.routes.admin.routes import login, admin_index, release, edit_home
 
 
 blueprint = Blueprint("admin", __name__)
 api = Api(blueprint)
-api.add_resource(index.IndexResource, "/", endpoint="index")
+api.add_resource(admin_index.IndexResource, "/", endpoint="index")
 api.add_resource(login.LoginResource, "/login", endpoint="login")
 api.add_resource(login.LogoutResource, "/logout", endpoint="logout")
 api.add_resource(login.ForgetResource, "/login/forget", endpoint="forget")

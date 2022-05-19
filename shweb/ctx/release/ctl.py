@@ -29,6 +29,6 @@ class ReleaseCtl(IReleaseCtl):
         release = self._repo.get(release_id)
         if release and release.bandcamp_id is None:
             if release.bandcamp_link is None:
-                raise Error('One of bancamp_id or bandcamp_link should be stated at least')
+                raise Error('One of bandcamp_id or bandcamp_link should be stated at least')
             release.bandcamp_id = self._bandcamp_service.get_id(release.bandcamp_link)
         return release

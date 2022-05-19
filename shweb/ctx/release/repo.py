@@ -45,14 +45,14 @@ class ReleaseRepo(IReleaseRepo):
         ) if storage_release is not None else None
 
 
-class IReleaseBandcampAPI(abc.ABC):
+class IReleaseBandcampRepo(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def get_id(cls, bandcamp_link: str) -> str:
         raise NotImplementedError
 
 
-class ReleaseBandcampAPI(IReleaseBandcampAPI):
+class ReleaseBandcampRepo(IReleaseBandcampRepo):
     @classmethod
     def get_id(cls, bandcamp_link: str) -> str:
         return BandcampAPI.get_id(bandcamp_link)

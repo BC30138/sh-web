@@ -3,7 +3,7 @@ import abc
 from typing import Optional
 
 from shweb.ctx.release.model import ReleaseEntity
-from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampAPI
+from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampRepo
 
 
 class Error(Exception):
@@ -20,7 +20,7 @@ class ReleaseCtl(IReleaseCtl):
     def __init__(
         self,
         repo: IReleaseRepo,
-        bandcamp_service: IReleaseBandcampAPI,
+        bandcamp_service: IReleaseBandcampRepo,
     ) -> None:
         self._repo = repo
         self._bandcamp_service = bandcamp_service

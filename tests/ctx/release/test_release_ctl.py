@@ -1,7 +1,7 @@
 """Проверка контроллера релизов"""
 import pytest
 
-from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampAPI
+from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 from shweb.ctx.release.ctl import Error as ReleaseError
 
 
@@ -30,7 +30,7 @@ def test_calls_bandcamp_api(
         return_value=repo_release,
     )
     bandcamp_mock = mocker.patch.object(
-        ReleaseBandcampAPI,
+        ReleaseBandcampRepo,
         'get_id',
         return_value='test_id',
     )

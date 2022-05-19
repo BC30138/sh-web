@@ -11,11 +11,8 @@ class BandcampError(Exception):
 
 
 class BandcampAPI:
-    def get_id(bandcamp_link: Optional[str] = None) -> str:
-        if bandcamp_link is None:
-            raise BandcampError(
-                'One of bancamp_id or bandcamp_link should be stated at least'
-            )
+    @classmethod
+    def get_id(cls, bandcamp_link: str) -> str:
         try:
             response = requests.get(bandcamp_link)
         except requests.RequestException:

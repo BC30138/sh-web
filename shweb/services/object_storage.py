@@ -2,7 +2,7 @@
 from typing import Optional
 
 
-class ObjectStorage:
+class ObjectStorageAPI:
     @classmethod
     def get(cls, path: str) -> Optional[dict]:
-        NotImplementedError
+        raise NotImplementedError

@@ -7,6 +7,7 @@ from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
 from shweb.services.object_storage import ObjectStorageAPI
 from shweb.services.object_storage import Error as ObjectStorageError
 from shweb.services.bandcamp import BandcampAPI
+from shweb.services.bandcamp import Error as BandcampError
 from shweb.util.enums import ReleaseType
 from shweb.util.dateutils import date_from_str
 
@@ -69,5 +70,9 @@ class IReleaseBandcampRepo(abc.ABC):
 
 class ReleaseBandcampRepo(IReleaseBandcampRepo):
     @classmethod
-    def get_id(cls, bandcamp_link: str) -> str:
-        return BandcampAPI.get_id(bandcamp_link)
+    def get_id(cls, bandcamp_link: str) -> Optional[str]:
+        try:
+            return BandcampAPI.get_id(bandcamp_link)
+        except BandcampError as exc:
+            logging.warning(exc)
+            return None

@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class BandcampError(Exception):
+class Error(Exception):
     pass
 
 
@@ -17,7 +17,7 @@ class BandcampAPI:
             response = requests.get(bandcamp_link)
         except requests.RequestException:
             logging.warning('Bad bandcamp link')
-            raise BandcampError('Bad bandcamp link')
+            raise Error('Bad bandcamp link')
 
         try:
             soup = BeautifulSoup(response.text, "html.parser")
@@ -26,6 +26,6 @@ class BandcampAPI:
             )['item_id'])
             logging.info(f'fetched bandcamp id {bandcamp_id}')
             return bandcamp_id
-        except ValueError:
+        except (ValueError, TypeError):
             logging.warning('Bandcamp page error')
-            raise BandcampError('Bandcamp page error')
+            raise Error('Bandcamp page error')

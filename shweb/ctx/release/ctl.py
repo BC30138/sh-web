@@ -34,5 +34,8 @@ class ReleaseCtl(IReleaseCtl):
                 logging.warning('One of bandcamp_id or bandcamp_link should be stated at least')
                 raise Error('One of bandcamp_id or bandcamp_link should be stated at least')
             release.bandcamp_id = self._bandcamp_service.get_id(release.bandcamp_link)
+            if release.bandcamp_id is None:
+                logging.warning(f'Bandcamp error for {release.bandcamp_link}')
+                raise Error('Bandcamp error')
         logging.info(f'fetched release {release}')
         return release

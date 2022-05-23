@@ -1,9 +1,11 @@
 """Интерфейс хранилища релизов"""
 import abc
+import logging
 from typing import Optional
 
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
 from shweb.services.object_storage import ObjectStorageAPI
+from shweb.services.object_storage import Error as ObjectStorageError
 from shweb.services.bandcamp import BandcampAPI
 from shweb.util.enums import ReleaseType
 from shweb.util.dateutils import date_from_str
@@ -19,9 +21,12 @@ class IReleaseRepo(abc.ABC):
 class ReleaseRepo(IReleaseRepo):
     @classmethod
     def get(cls, release_id: str) -> Optional[ReleaseEntity]:
-        storage_release = ObjectStorageAPI.get(f'releases/{release_id}/info.json')
-        if storage_release is None:
+        try:
+            storage_release = ObjectStorageAPI.get(f'releases/{release_id}/info.json')
+        except ObjectStorageError as exc:
+            logging.warning(f'object not found {exc}')
             return None
+        logging.info(f'fetched release from storage {storage_release}')
         storage_release['services'] = [
             ServiceEntity(
                 name=service['name'],

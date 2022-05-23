@@ -18,7 +18,7 @@ class ObjectStorageAPI:
         cls,
         path: str,
         cloud_front_base: Optional[str] = Config.AWS_CLOUD_FRONT_DOMAIN,
-    ) -> Optional[dict]:
+    ) -> dict:
         response = requests.get(f"{cloud_front_base}/{path}")
         logging.info(f'GET {response.url} {response.status_code}')
         if response.status_code != 200:

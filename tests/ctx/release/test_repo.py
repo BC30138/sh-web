@@ -1,5 +1,6 @@
 """Проверка репозиторий релизов"""
 from shweb.services.object_storage import ObjectStorageAPI
+from shweb.services.object_storage import Error as ObjectStrorageError
 from shweb.services.bandcamp import BandcampAPI
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 
@@ -30,7 +31,7 @@ def test_not_found(
     mocker.patch.object(
         ObjectStorageAPI,
         'get',
-        return_value=None,
+        side_effect=ObjectStrorageError,
     )
 
     release = ReleaseRepo.get('test_release')

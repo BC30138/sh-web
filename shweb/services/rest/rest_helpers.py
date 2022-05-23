@@ -1,6 +1,9 @@
 from flask import _request_ctx_stack as stack
 from shweb.utils import get_release_list
 
+from shweb.ctx.release.ctl import ReleaseCtl
+from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
+
 
 def mobile_checker():
     ctx = stack.top
@@ -14,4 +17,11 @@ def mobile_checker():
 def utility_processor():
     return dict(
         get_release_list=get_release_list
+    )
+
+
+def get_release_ctl() -> ReleaseCtl:
+    return ReleaseCtl(
+        repo=ReleaseRepo(),
+        bandcamp_service=ReleaseBandcampRepo(),
     )

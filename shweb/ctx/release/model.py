@@ -34,3 +34,11 @@ class ReleaseEntity:
     release_date: Optional[date]
     default_open_text: Optional[str]
     youtube_videos: Optional[List[str]]
+
+    @property
+    def bandcamp_type(self):
+        if self.release_type == ReleaseType.SINGLE:
+            bandcamp_type = 'track'
+        else:
+            bandcamp_type = 'album'
+        return f'{bandcamp_type}={self.bandcamp_id}'

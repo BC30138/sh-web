@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, pre_load, post_dump, validate
-from shweb.services.rest.translate_helpers import get_release_types
+# from shweb.services.rest.translate_helpers import get_release_types
 
 
 class ReleaseListItemSchema(Schema):
@@ -13,10 +13,10 @@ class ReleaseListItemSchema(Schema):
             in_data['type'] = in_data['type'].lower()
         return in_data
 
-    @post_dump
-    def post_dump_function(self, data, **kwargs):
-        data['lang_type'] = get_release_types()[data['type']]
-        return data
+    # @post_dump
+    # def post_dump_function(self, data, **kwargs):
+    #     data['lang_type'] = get_release_types()[data['type']]
+    #     return data
 
 
 class ReleaseListSchema(Schema):

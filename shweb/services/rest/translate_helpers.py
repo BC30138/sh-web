@@ -3,17 +3,16 @@ from flask_babel import _
 
 
 from shweb.config import Config
+from shweb.util.enums import ReleaseType
 
 
-def get_release_types():
-    return {
-        'Single': _('Single'),
-        'Album': _('Album'),
-        'Ep': _('Ep'),
-        'single': _('single'),
-        'album': _('album'),
-        'ep': _('ep')
-    }
+def compile_release_type(release_type: ReleaseType, is_upper=True) -> str:
+    if release_type == ReleaseType.SINGLE:
+        return _('Single') if is_upper else _('single')
+    elif release_type == ReleaseType.ALBUM:
+        return _('Album') if is_upper else _('album')
+    elif release_type == ReleaseType.EP:
+        return _('Ep') if is_upper else _('ep')
 
 
 def get_month_names():

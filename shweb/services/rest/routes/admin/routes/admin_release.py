@@ -7,7 +7,7 @@ from flask_restful import Resource, reqparse, output_json
 from flask_mobility.decorators import mobile_template
 
 from shweb.services.rest.routes.admin.auth import auth_required
-from shweb.services.rest.schemas.release import ReleaseSchema, EditReleaseSchema
+from shweb.services.rest.schemas.release import ReleaseScheme, EditReleaseSchema
 from shweb.services.rest.schemas.release_list import ReleaseListSchema, ReleaseListItemSchema
 from shweb.utils import get_raw_release_list, create_invalidation, upload_json, upload_file, s3_delete
 

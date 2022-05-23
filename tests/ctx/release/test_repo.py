@@ -1,9 +1,10 @@
 """Проверка репозиторий релизов"""
-from unittest.mock import MagicMock, Mock
-
 from shweb.services.object_storage import ObjectStorageAPI
-from shweb.ctx.release.repo import ReleaseRepo
+from shweb.services.bandcamp import BandcampAPI
+from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 
+
+# ------------ REPO TESTS --------------
 
 def test_calls_object_storage(  # happy path
     mocker,
@@ -56,3 +57,20 @@ def test_calls_date_util(
     date_util_mock.assert_called_once_with('2022-05-19')
     assert release.release_date is not None
     assert release == expected_release
+
+# -------- BANDCAMP REPO TESTS ---------
+
+
+def test_calls_bandcamp_api(
+    mocker,
+):
+    bandcamp_api_mock = mocker.patch.object(
+        BandcampAPI,
+        'get_id',
+        return_value='test_id',
+    )
+
+    bandcamp_id = ReleaseBandcampRepo.get_id('https://test.com/test-id')
+
+    bandcamp_api_mock.assert_called_once_with('https://test.com/test-id')
+    assert bandcamp_id == 'test_id'

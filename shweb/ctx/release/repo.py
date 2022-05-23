@@ -64,7 +64,7 @@ class ReleaseRepo(IReleaseRepo):
 class IReleaseBandcampRepo(abc.ABC):
     @classmethod
     @abc.abstractmethod
-    def get_id(cls, bandcamp_link: str) -> str:
+    def get_id(cls, bandcamp_link: str) -> Optional[str]:
         raise NotImplementedError
 
 

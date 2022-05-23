@@ -3,7 +3,6 @@ from unittest.mock import MagicMock, Mock
 
 from shweb.services.object_storage import ObjectStorageAPI
 from shweb.ctx.release.repo import ReleaseRepo
-import shweb.util.dateutils
 
 
 def test_calls_object_storage(  # happy path
@@ -48,13 +47,12 @@ def test_calls_date_util(
         return_value=object_storage_response,
     )
     expected_release = release_factory()
-    date_util_mock = mocker.patch.object(
-        shweb.util.dateutils,
-        'date_from_str',
-        Mock(return_value=expected_release.release_date),
+    date_util_mock = mocker.patch(
+        'shweb.ctx.release.repo.date_from_str',
+        return_value=expected_release.release_date,
     )
 
     release = ReleaseRepo.get('test_release')
-    date_util_mock.assert_called()
+    date_util_mock.assert_called_once_with('2022-05-19')
     assert release.release_date is not None
     assert release == expected_release

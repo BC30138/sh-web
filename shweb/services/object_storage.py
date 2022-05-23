@@ -19,7 +19,7 @@ class ObjectStorageAPI:
     def get(
         cls,
         path: str,
-        cloud_front_base: str = Config.AWS_CLOUD_FRONT_DOMAIN,
+        cloud_front_base: Optional[str] = Config.AWS_CLOUD_FRONT_DOMAIN,
     ) -> Optional[dict]:
         response = requests.get(f"{cloud_front_base}/{path}")
         if response.status_code == 404:
@@ -30,5 +30,4 @@ class ObjectStorageAPI:
         try:
             return response.json()
         except (json.JSONDecodeError, ValueError):
-            raise Error(f'Incorrect type of response data')
-
+            raise Error('Incorrect type of response data')

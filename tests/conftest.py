@@ -2,12 +2,30 @@ from datetime import date
 from typing import Optional, Callable, List
 
 import pytest
+from flask import Flask
+from flask.cli import load_dotenv
+from flask.testing import FlaskClient
 
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
+from shweb.services.rest import create_app
 from shweb.util.dateutils import date_from_str
 from shweb.util.enums import ReleaseType
+
+
+@pytest.fixture()
+def app() -> Flask:
+    app = create_app()
+    app.config.update({
+        'TESTING': True,
+    })
+    yield app
+
+
+@pytest.fixture()
+def client(app: Flask) -> FlaskClient:
+    return app.test_client()
 
 
 @pytest.fixture()

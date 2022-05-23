@@ -1,25 +1,5 @@
 import os
-import pathlib
-
-from flask.cli import load_dotenv
-import boto3
-
-CONFIG_PATH = pathlib.Path(__file__)
-load_dotenv(str(CONFIG_PATH.parent.parent.joinpath('.env').absolute()))
-
-
-def get_cloudfront_id():
-    domain_name = os.environ.get('AWS_CLOUD_FRONT_DOMAIN').split("https://")[1]
-    client = boto3.client(
-        'cloudfront',
-        region_name=os.environ.get('AWS_REGION'),
-        aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
-        aws_secret_access_key=os.environ.get('AWS_SECRET_KEY'),
-    )
-    distributions = client.list_distributions()['DistributionList']['Items']
-    for item in distributions:
-        if item['DomainName'] == domain_name:
-            return item['Id']
+from shweb import APP_PATH
 
 
 class Config:
@@ -37,7 +17,7 @@ class Config:
 
     AWS_CLOUD_FRONT_DOMAIN = os.environ.get('AWS_CLOUD_FRONT_DOMAIN')
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
-    AWS_CLOUD_FRONT_ID = get_cloudfront_id()
+    AWS_CLOUD_FRONT_ID = os.environ.get('AWS_CLOUD_FRONT_ID')
 
     SEND_FILE_MAX_AGE_DEFAULT = 0
     BABEL_DEFAULT_LOCALE = 'en'
@@ -46,7 +26,7 @@ class Config:
         'ru': "Russian"
     }
     TEMPLATES_PATH = str(
-        CONFIG_PATH.parent.joinpath(
+        APP_PATH.parent.joinpath(
             'services'
         ).joinpath(
             'rest'
@@ -55,7 +35,7 @@ class Config:
         ).absolute()
     )
     STATIC_PATH = str(
-        CONFIG_PATH.parent.joinpath(
+        APP_PATH.parent.joinpath(
             'services'
         ).joinpath(
             'rest'

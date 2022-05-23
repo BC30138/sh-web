@@ -3,7 +3,6 @@ from typing import Optional, Callable, List
 
 import pytest
 from flask import Flask
-from flask.cli import load_dotenv
 from flask.testing import FlaskClient
 
 from shweb.ctx.release.ctl import ReleaseCtl

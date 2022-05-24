@@ -62,7 +62,7 @@ class ReleaseResource(Resource):
     def post(self):
         release_args = release_parser.parse_args()
 
-        release_schema = ReleaseSchema()
+        release_schema = ReleaseScheme()
         release_schema_deserial = release_schema.loads(
             release_args['release']
         )
@@ -110,7 +110,7 @@ class ReleaseResource(Resource):
         args = id_parser.parse_args()
         release_args = update_release_parser.parse_args()
 
-        release_schema = ReleaseSchema()
+        release_schema = ReleaseScheme()
         release_schema_deserial = release_schema.loads(
             release_args['release']
         )

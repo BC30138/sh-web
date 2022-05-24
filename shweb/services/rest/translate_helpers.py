@@ -13,6 +13,8 @@ def compile_release_type(release_type: ReleaseType, is_upper=True) -> str:
         return _('Album') if is_upper else _('album')
     elif release_type == ReleaseType.EP:
         return _('Ep') if is_upper else _('ep')
+    else:
+        raise ValueError('There is no such release type')
 
 
 def get_month_names():

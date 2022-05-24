@@ -37,8 +37,6 @@ class TrackScheme(Schema):
         ))
 
 
-
-
 class ReleaseScheme(Schema):
     release_id = fields.Str(required=True)
     release_name = fields.Str(required=True)
@@ -59,6 +57,8 @@ class ReleaseScheme(Schema):
             bandcamp_type = 'album'
         bandcamp_id = f'{bandcamp_type}={release_entity.bandcamp_id}'
 
+        if release_entity.release_date is None:
+            raise ValueError('Release date must be initialized')
         day = release_entity.release_date.day
         month = get_month_names()[int(release_entity.release_date.month) - 1]
         year = release_entity.release_date.year
@@ -89,4 +89,3 @@ class EditReleaseSchema(ReleaseScheme):
 
         data['tracklist'] = json.dumps(data['tracklist'])
         return data
-

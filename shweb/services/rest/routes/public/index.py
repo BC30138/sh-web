@@ -1,16 +1,15 @@
 import requests
 from flask import Blueprint, render_template, current_app, jsonify
-from flask_mobility.decorators import mobile_template
 
 from shweb.services.rest.schemas.index_code import IndexCode
-from shweb.services.rest.rest_helpers import mobile_checker
+from shweb.services.rest.rest_helpers import mobile_checker, mobile_template
 
 blueprint = Blueprint("index-page", __name__)
 
 
 @blueprint.route('/')
 @blueprint.route('/index')
-@mobile_template('{mobile/}index.html')
+@mobile_template(['public'], 'index.html')
 def index(template):
     base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
     index_json = requests.get(f"{base}/index/index.json").json()

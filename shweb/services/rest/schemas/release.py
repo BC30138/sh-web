@@ -74,7 +74,7 @@ class ReleaseScheme(Schema):
             bandcamp_link=release_entity.bandcamp_link,
             release_date=date_str,
             default_open_text=release_entity.default_open_text,
-            youtube_videos=release_entity.youtube_videos,
+            youtube_videos=release_entity.youtube_videos if release_entity.youtube_videos else [],
         ))
 
 

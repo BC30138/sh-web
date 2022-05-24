@@ -1,22 +1,28 @@
-{% extends "mobile/base.html" %}
+{% extends "public/web/base.html" %}
 {% block head %}
 {{ super() }}
-<link rel='stylesheet' href="/static/css/mobile/feed.css">
+<link rel='stylesheet' href="/static/css/feed.css">
 {% endblock %}
 {% block scripts %}
 <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+<script type="text/javascript">
+    window.onresize = function () { location.reload(); }
+</script>
 {% endblock %}
 {% block content %}
 <div id="vk_groups"></div>
 {% endblock %}
 {% block loaded_scripts %}
 <script type="text/javascript">
+    var width = document.querySelector('.content').clientWidth;
     var header_h = document.querySelector('.header').clientHeight;
-    var height = window.innerHeight - header_h;
+    var footer_h = document.querySelector('.footer').clientHeight;
+    var height = window.innerHeight - header_h - footer_h
     VK.Widgets.Group("vk_groups", {
         mode: 4,
-        width: window.innerWidth,
+        width: width,
         height: height,
+        wide: 1,
         no_cover: 1,
     }, 188825166);
 </script>

@@ -1,4 +1,9 @@
 """Проверка REST API публичной страницы релиза"""
+from unittest.mock import PropertyMock
+
+import pytest
+from flask import Request
+
 from shweb.ctx.release.ctl import ReleaseCtl
 
 
@@ -13,8 +18,22 @@ def test_calls_controller(client, mocker, release_factory):
 
     repo_mock.assert_called_once_with('test_id')
 
-
-def test_calls_render(client, mocker, release_factory, release_scheme):
+@pytest.mark.parametrize(
+    'client_name, template',
+    [
+        ('web', 'public/web/release.html'),
+        ('mobile', 'public/mobile/release.html')
+    ]
+)
+def test_calls_render(
+    parametrized_client,
+    client_name,
+    mocker,
+    release_factory,
+    release_scheme,
+    template,
+):
+    client = parametrized_client[client_name]
     release = release_factory()
     mocker.patch.object(
         ReleaseCtl,
@@ -31,8 +50,7 @@ def test_calls_render(client, mocker, release_factory, release_scheme):
     assert response.data == b'ok'
 
     render_mock.assert_called_once_with(
-        'release.html',
+        template,
         release=release_scheme,
         bodyproperty=f'onload=openLyrics(\'{release.default_open_text}\')'
     )
-

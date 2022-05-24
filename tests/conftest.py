@@ -2,8 +2,8 @@ from datetime import date
 from typing import Optional, Callable, List
 
 import pytest
-from flask import Flask
 from flask.testing import FlaskClient
+from flask import _request_ctx_stack as stack
 
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
@@ -14,17 +14,34 @@ from shweb.util.enums import ReleaseType
 
 
 @pytest.fixture()
-def app() -> Flask:
+def client() -> FlaskClient:
     app = create_app()
     app.config.update({
         'TESTING': True,
     })
-    yield app
+    yield app.test_client()
 
 
 @pytest.fixture()
-def client(app: Flask) -> FlaskClient:
-    return app.test_client()
+def mobile_client() -> FlaskClient:
+    app = create_app()
+    app.config.update({
+        'TESTING': True,
+    })
+
+    @app.before_request
+    def before_request():
+        ctx = stack.top
+        ctx.request.MOBILE = True
+    yield app.test_client()
+
+
+@pytest.fixture()
+def parametrized_client(client, mobile_client):
+    return {
+        'web': client,
+        'mobile': mobile_client,
+    }
 
 
 @pytest.fixture()

@@ -4,8 +4,8 @@ import os.path
 from typing import List
 
 from flask import _request_ctx_stack as stack
-from shweb.utils import get_release_list
 
+from shweb.utils import get_release_list
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 

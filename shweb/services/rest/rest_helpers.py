@@ -5,6 +5,8 @@ from typing import List
 
 from flask import _request_ctx_stack as stack
 
+from shweb.ctx.index.ctl import IndexCtl
+from shweb.ctx.index.repo import IndexRepo
 from shweb.utils import get_release_list
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
@@ -42,4 +44,10 @@ def get_release_ctl() -> ReleaseCtl:
     return ReleaseCtl(
         repo=ReleaseRepo(),
         bandcamp_service=ReleaseBandcampRepo(),
+    )
+
+
+def get_index_ctl() -> IndexCtl:
+    return IndexCtl(
+        repo=IndexRepo(),
     )

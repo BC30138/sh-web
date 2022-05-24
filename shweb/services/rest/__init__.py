@@ -1,4 +1,6 @@
-from flask import Flask
+"""Инициация rest"""
+
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_mobility import Mobility
 from flask_babel import Babel
@@ -19,6 +21,10 @@ def create_app():
     Mobility(app)
     babel = Babel(app)
     babel.locale_selector_func = get_locale
+
+    @app.route('/health')
+    def health():
+        return jsonify({"status": "ok"}), 200
 
     register_blueprints(app)
     register_errorhandlers(app)

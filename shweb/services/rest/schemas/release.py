@@ -1,3 +1,5 @@
+"""Схемы для rest-коммуникаций с релизами"""
+
 import json
 
 from marshmallow import Schema, fields, post_dump
@@ -12,7 +14,7 @@ class ServiceScheme(Schema):
     link = fields.Url()
 
     @classmethod
-    def from_entity(cls, service_entity: ServiceEntity):
+    def from_entity(cls, service_entity: ServiceEntity) -> dict:
         return cls().load(dict(
             name=service_entity.name,
             link=service_entity.link,
@@ -27,7 +29,7 @@ class TrackScheme(Schema):
     explicit = fields.Bool(required=False, allow_none=True)
 
     @classmethod
-    def from_entity(cls, track_entity: TrackEntity):
+    def from_entity(cls, track_entity: TrackEntity) -> dict:
         return cls().load(dict(
             name=track_entity.name,
             track_id=track_entity.track_id,
@@ -50,7 +52,7 @@ class ReleaseScheme(Schema):
     youtube_videos = fields.List(fields.Str, required=False, allow_none=True)
 
     @classmethod
-    def from_entity(cls, release_entity: ReleaseEntity):
+    def from_entity(cls, release_entity: ReleaseEntity) -> dict:
         if release_entity.release_type == ReleaseType.SINGLE:
             bandcamp_type = 'track'
         else:

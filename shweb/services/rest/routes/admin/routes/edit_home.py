@@ -4,7 +4,7 @@ from flask import json, render_template, make_response, current_app, request
 from flask_restful import Resource, reqparse, output_json
 
 from shweb.services.rest.routes.admin.auth import auth_required
-from shweb.services.rest.schemas.index_code import DeviceCode, IndexCode
+# from shweb.services.rest.schemas.index import DeviceCode, IndexCode
 from shweb.utils import create_invalidation, upload_file, upload_json, s3_delete
 
 index_parser = reqparse.RequestParser()

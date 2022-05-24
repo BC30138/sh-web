@@ -15,7 +15,7 @@ class ReleaseListItemSchema(Schema):
 
     # @post_dump
     # def post_dump_function(self, data, **kwargs):
-    #     data['lang_type'] = get_release_types()[data['type']]
+    #     data['lang_type'] = get_release_types()[data['type']] compile_release_type(_, True)
     #     return data
 
 

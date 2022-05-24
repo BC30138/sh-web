@@ -10,4 +10,4 @@ blueprint = Blueprint("feed", __name__)
 @blueprint.route('/')
 @mobile_template(['public'], 'feed.html')
 def index(template):
-    return render_template(template, title='Feed')
+    return render_template(template)

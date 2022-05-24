@@ -1,3 +1,4 @@
+"""REST API для рендера публичной страницы релиза"""
 from flask import Blueprint, render_template
 from flask_mobility.decorators import mobile_template
 
@@ -9,7 +10,7 @@ blueprint = Blueprint("release-page", __name__)
 
 @blueprint.route('/<release_id>', methods=['GET', 'POST'])
 @mobile_template('{mobile/}release.html')
-def releases(release_id, template):
+def _releases(release_id, template):
     release_ctl = get_release_ctl()
     release = release_ctl.get(release_id)
 

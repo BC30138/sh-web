@@ -1,3 +1,4 @@
+"""Утилиты для работы REST API"""
 from flask import _request_ctx_stack as stack
 from shweb.utils import get_release_list
 

@@ -75,6 +75,28 @@ def object_storage_response() -> dict:
     }
 
 
+@pytest.fixture()
+def release_scheme(object_storage_response):
+    yield {
+        'bandcamp_id': f'album={object_storage_response["bandcamp_id"]}',
+        'bandcamp_link': object_storage_response['bandcamp_link'],
+        'default_open_text': object_storage_response['default_open_text'],
+        'release_date': '19 may 2022',
+        'release_id': object_storage_response['release_id'],
+        'release_name': object_storage_response['release_name'],
+        'release_type': object_storage_response['type'],
+        'services': object_storage_response['services'],
+        'tracklist': [dict(
+            written=track.get('written'),
+            explicit=track.get('explicit'),
+            lyrics=track.get('lyrics'),
+            name=track.get('name'),
+            track_id=track.get('id'),
+        ) for track in object_storage_response['tracklist']],
+        'youtube_videos': object_storage_response['youtube_videos']
+     }
+
+
 @pytest.fixture
 def service_factory() -> Callable[..., ServiceEntity]:
     def _make_service(

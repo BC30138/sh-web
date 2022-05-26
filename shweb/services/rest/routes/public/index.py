@@ -9,6 +9,7 @@ blueprint = Blueprint("index-page", __name__)
 
 @blueprint.route('/')
 @blueprint.route('/index')
+@blueprint.route('/index/')
 @mobile_template(['public'], 'index.html')
 def index(template):
     index_clt = get_index_ctl()

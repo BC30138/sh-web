@@ -1,8 +1,5 @@
 """Проверка REST API публичной страницы релиза"""
-from unittest.mock import PropertyMock
-
 import pytest
-from flask import Request
 
 from shweb.ctx.release.ctl import ReleaseCtl
 

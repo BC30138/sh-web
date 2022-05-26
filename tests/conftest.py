@@ -2,9 +2,11 @@ from datetime import date
 from typing import Optional, Callable, List
 
 import pytest
+from flask import Flask
 from flask.testing import FlaskClient
 from flask import _request_ctx_stack as stack
 
+from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
@@ -14,16 +16,16 @@ from shweb.util.enums import ReleaseType
 
 
 @pytest.fixture()
-def client() -> FlaskClient:
+def app() -> Flask:
     app = create_app()
     app.config.update({
         'TESTING': True,
     })
-    yield app.test_client()
+    return app
 
 
 @pytest.fixture()
-def mobile_client() -> FlaskClient:
+def mobile_app() -> Flask:
     app = create_app()
     app.config.update({
         'TESTING': True,
@@ -33,6 +35,17 @@ def mobile_client() -> FlaskClient:
     def before_request():
         ctx = stack.top
         ctx.request.MOBILE = True
+
+    return app
+
+
+@pytest.fixture()
+def client(app) -> FlaskClient:
+    yield app.test_client()
+
+
+@pytest.fixture()
+def mobile_client(mobile_app) -> FlaskClient:
     yield app.test_client()
 
 
@@ -41,6 +54,14 @@ def parametrized_client(client, mobile_client):
     return {
         'web': client,
         'mobile': mobile_client,
+    }
+
+
+@pytest.fixture()
+def parametrized_app(app, mobile_app):
+    return {
+        'web': app,
+        'mobile': mobile_app,
     }
 
 
@@ -90,6 +111,45 @@ def object_storage_response() -> dict:
             'kC0YqmnbQJQ',
         ]
     }
+
+
+@pytest.fixture()
+def index_response() -> dict:
+    style_base = 'test_style'
+    content_base = 'lang is {{ lang_arg }}\nimage is {{ image=cover.jpg }}\ntranslated word: {{ translate={"en":"test","ru":"тест"} }}'
+    return {
+        'web': {
+            'style': f'style for web\n{style_base}',
+            'content': f'content for web\n{content_base}',
+        },
+        'mobile': {
+            'style': f'style for mobile\n{style_base}',
+            'content': f'content for mobile\n{content_base}',
+        },
+        'files_list': ['cover.jpg']
+    }
+
+
+@pytest.fixture()
+def decoded_index_response_factory(
+    index_response,
+) -> Callable[..., dict]:
+    def _make_decoded_index(
+        locale: Optional[str] = 'en',
+        cloud_base_url: Optional[str] = 'https/example.com',
+    ) -> dict:
+        if locale == 'ru':
+            translated_word = 'тест'
+        else:
+            translated_word = 'test'
+        content_base = f'lang is ?lang={locale}\nimage is {cloud_base_url}/index/files/cover.jpg\ntranslated word: {translated_word}'
+        index_response['web']['style'] = f'<style>{index_response["web"]["style"]}</style>'
+        index_response['web']['content'] = f'content for web\n{content_base}'
+        index_response['mobile']['style'] = f'<style>{index_response["mobile"]["style"]}</style>'
+        index_response['mobile']['content'] = f'content for mobile\n{content_base}'
+        return index_response
+
+    return _make_decoded_index
 
 
 @pytest.fixture()
@@ -168,10 +228,10 @@ def date_factory() -> Callable[..., date]:
 @pytest.fixture()
 def release_factory(
     object_storage_response,
-        release_type_factory,
+    release_type_factory,
     service_factory,
-        track_factory,
-        date_factory,
+    track_factory,
+    date_factory,
 ) -> Callable[..., ReleaseEntity]:
     def _make_release(
         release_id: Optional[str] = object_storage_response['release_id'],
@@ -214,3 +274,44 @@ def release_factory(
             youtube_videos=youtube_videos,
         )
     yield _make_release
+
+
+@pytest.fixture()
+def client_index_factory(
+    index_response,
+) -> Callable[..., ClientIndexEntity]:
+    def _make_client_index(
+        style: Optional[str] = index_response['web']['style'],
+        content: Optional[str] = index_response['web']['content'],
+    ) -> ClientIndexEntity:
+        return ClientIndexEntity(
+            style=style,
+            content=content,
+        )
+
+    yield _make_client_index
+
+
+@pytest.fixture()
+def index_factory(
+    index_response,
+    client_index_factory,
+) -> Callable[..., IndexEntity]:
+    def _make_index(
+        web: Optional[ClientIndexEntity] = None,
+        mobile: Optional[ClientIndexEntity] = None,
+        files_list: Optional[List[str]] = None,
+    ) -> IndexEntity:
+        if web is None:
+            web = client_index_factory(**index_response['web'])
+        if mobile is None:
+            mobile = client_index_factory(**index_response['mobile'])
+        if files_list is None:
+            files_list = index_response['files_list']
+        return IndexEntity(
+            web=web,
+            mobile=mobile,
+            files_list=files_list,
+        )
+
+    yield _make_index

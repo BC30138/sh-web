@@ -10,6 +10,7 @@ from flask_babel import get_locale
 from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
 from shweb.services.rest.rest_helpers import mobile_checker
 
+
 def parse_variables(code: str):
     def f(match):
         var: str = match.group()[2:-2]

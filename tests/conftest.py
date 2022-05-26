@@ -46,7 +46,7 @@ def client(app) -> FlaskClient:
 
 @pytest.fixture()
 def mobile_client(mobile_app) -> FlaskClient:
-    yield app.test_client()
+    yield mobile_app.test_client()
 
 
 @pytest.fixture()

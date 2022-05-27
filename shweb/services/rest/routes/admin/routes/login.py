@@ -16,8 +16,6 @@ from shweb.services.rest.routes.admin.auth import AuthStatus, auth_required, cha
 class UserScheme(Schema):
     username = fields.Str(required=False, missing=None)
     password = fields.Str(required=False, missing=None)
-    code = fields.Str(required=False, missing=None)
-    cur_password = fields.Str(required=False, missing=None)
 
 
 class ErrorStatusScheme(Schema):
@@ -125,7 +123,7 @@ class ForgetConfirmResource(Resource):
     }, location='query')
     @use_kwargs({
         'password': UserScheme().fields['password'],
-        'code': UserScheme().fields['code'],
+        'code': fields.Str(required=False, missing=None),
     }, location='form')
     def post(
         self,
@@ -173,6 +171,10 @@ class ChangePasswordResource(Resource):
 
     @use_kwargs(ActionScheme, location='query')
     @use_kwargs(UserScheme, location='form')
+    @use_kwargs(
+        {'cur_password': fields.Str(required=False, missing=None)},
+        location='form',
+    )
     def post(
         self,
         action: Optional[str],

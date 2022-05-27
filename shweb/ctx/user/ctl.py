@@ -1,19 +1,20 @@
-"""Контроллер для действий над индекс-страницой"""
+"""Контроллер для работы с пользователям"""
 
 import abc
 import logging
 
 from shweb.ctx.index.model import IndexEntity
 from shweb.ctx.index.adapter import IIndexRepo
+from shweb.ctx.user.model import UserEntity
 
 
-class IIndexCtl(abc.ABC):
+class IUserCtl(abc.ABC):
     @abc.abstractmethod
-    def get(self) -> IndexEntity:
+    def auth(self, user: UserEntity) -> IndexEntity:
         raise NotImplementedError
 
 
-class IndexCtl(IIndexCtl):
+class UserCtl(IUserCtl):
     def __init__(
         self,
         repo: IIndexRepo,

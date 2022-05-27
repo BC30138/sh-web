@@ -1,7 +1,7 @@
 """Проверка репозитория индекса"""
 import pytest
 
-from shweb.ctx.index.repo import IndexRepo
+from shweb.ctx.index.adapter import IndexRepo
 from shweb.services.object_storage import ObjectStorageAPI
 from shweb.services.object_storage import Error as ObjectStorageError
 

@@ -1,6 +1,6 @@
 """Проверка контроллера индекса"""
 
-from shweb.ctx.index.repo import IndexRepo
+from shweb.ctx.index.adapter import IndexRepo
 
 
 def test_calls_repo(

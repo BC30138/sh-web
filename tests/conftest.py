@@ -8,7 +8,7 @@ from flask import _request_ctx_stack as stack
 
 from shweb.ctx.index.ctl import IndexCtl
 from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
-from shweb.ctx.index.repo import IndexRepo
+from shweb.ctx.index.adapter import IndexRepo
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity

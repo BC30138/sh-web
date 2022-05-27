@@ -1,8 +1,11 @@
 import os
+from distutils.util import strtobool
+
 from shweb import APP_PATH
 
 
 class Config:
+    TESTING = bool(strtobool(os.environ.get('TESTING', 'false')))
     SECRET_KEY = os.environ.get('APP_SECRET_KEY')
     AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
     AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')

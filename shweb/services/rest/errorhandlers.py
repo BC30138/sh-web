@@ -29,4 +29,5 @@ def register_errorhandlers(app: Flask):
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(TemplateNotFound, template_not_found)
     app.register_error_handler(422, unprocessable_error)
-    # app.register_error_handler(Exception, server_error)
+    if not app.config.get('TESTING'):
+        app.register_error_handler(Exception, server_error)

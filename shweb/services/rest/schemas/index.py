@@ -12,7 +12,7 @@ from shweb.services.rest.rest_helpers import mobile_checker
 
 
 def parse_variables(code: str):
-    def f(match):
+    def match_func(match):
         var: str = match.group()[2:-2]
         var = var.strip()
         if var == "lang_arg":
@@ -27,7 +27,7 @@ def parse_variables(code: str):
                 lang = str(get_locale())
                 value = ast.literal_eval(value)[lang]
         return value
-    return re.sub(r"({){2,}.*?(}){2,}", f, code, re.DOTALL)
+    return re.sub(r"({){2,}.*?(}){2,}", match_func, code, re.DOTALL)
 
 
 class ClientIndexScheme(Schema):

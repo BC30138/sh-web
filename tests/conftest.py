@@ -6,7 +6,9 @@ from flask import Flask
 from flask.testing import FlaskClient
 from flask import _request_ctx_stack as stack
 
+from shweb.ctx.index.ctl import IndexCtl
 from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
+from shweb.ctx.index.repo import IndexRepo
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
@@ -66,11 +68,16 @@ def parametrized_app(app, mobile_app):
 
 
 @pytest.fixture()
-def release_controller_client() -> ReleaseCtl:
+def release_controller() -> ReleaseCtl:
     yield ReleaseCtl(
         repo=ReleaseRepo(),
         bandcamp_service=ReleaseBandcampRepo(),
     )
+
+
+@pytest.fixture()
+def index_controller() -> IndexCtl:
+    yield IndexCtl(repo=IndexRepo())
 
 
 @pytest.fixture()

@@ -14,12 +14,12 @@ import boto3
 
 
 class AuthStatus(Enum):
-    valid = 1
-    invalid = 2
-    expired = 3
-    invalid_aud = 4
-    empty = 5
-    limit = 6
+    valid = 'valid'
+    invalid = 'invalid'
+    expired = 'expired'
+    invalid_aud = 'invalid_aud'
+    empty = 'empty'
+    limit = 'limit'
 
 
 def get_user_info_from_token():

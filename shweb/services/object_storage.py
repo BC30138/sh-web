@@ -33,4 +33,3 @@ class ObjectStorageAPI:
 
 
 object_storage_client = ObjectStorageAPI(Config.AWS_CLOUD_FRONT_DOMAIN)
-

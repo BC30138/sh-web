@@ -24,6 +24,7 @@ def server_error(_exc, template):
 def unprocessable_error(_exc, template):
     return render_template(template, message="422 bad request :(")
 
+
 def test_bad_entity_handler(err):
     headers = err.data.get("headers", None)
     messages = err.data.get("messages", ["Invalid request."])
@@ -41,4 +42,3 @@ def register_errorhandlers(app: Flask):
         app.register_error_handler(422, unprocessable_error)
     else:
         app.register_error_handler(422, test_bad_entity_handler)
-

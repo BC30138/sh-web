@@ -61,7 +61,7 @@ class AuthService:
         except ClientError:
             return False
 
-    def get_keys(self) -> Optional[dict]:
+    def get_keys(self) -> dict:
         response = requests.get(self._jwks_keys_url)
         return response.json()
 

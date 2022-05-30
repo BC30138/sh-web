@@ -1,17 +1,15 @@
 """Страница логина в панель администратора"""
 from typing import Optional
 
-from flask import session, redirect, url_for, current_app, render_template, make_response, request
+from flask import session, redirect, url_for, render_template, make_response
 from flask_babel import _
 from werkzeug.exceptions import InternalServerError
-from warrant import Cognito
 from flask_restful import Resource
 from marshmallow import Schema, fields
 from marshmallow_enum import EnumField
 
 from shweb.services.rest.rest_helpers.common import auth_required, request_parser
 from shweb.services.rest.rest_helpers.getters import get_identity_ctl
-from shweb.services.auth_service import auth_client
 from shweb.util.enums import AuthStatus
 
 
@@ -22,10 +20,6 @@ class UserScheme(Schema):
 
 class ErrorStatusScheme(Schema):
     status = EnumField(AuthStatus, by_value=True, required=False, missing=None)
-
-
-class ActionScheme(Schema):
-    action = fields.Str(required=False, missing=None)
 
 
 class LoginResource(Resource):
@@ -55,7 +49,7 @@ class LoginResource(Resource):
         elif identity_entity.auth_status == AuthStatus.INVALID:
             return redirect(url_for('admin.login', status=AuthStatus.INVALID.value))
         elif identity_entity.auth_status == AuthStatus.CHANGE_PASSWORD:
-            return redirect(url_for('admin.change-password', action="new"))
+            return redirect(url_for('admin.change-password'))
         raise InternalServerError('Such auth status is not implemented')
 
 
@@ -97,11 +91,14 @@ class ForgetResource(Resource):
 
 
 class ForgetConfirmResource(Resource):
+    @request_parser.use_kwargs({
+        'username': UserScheme().fields['username'],
+    }, location='query')
     @request_parser.use_kwargs(ErrorStatusScheme, location='query')
-    def get(self, status: AuthStatus):
+    def get(self, status: AuthStatus, username: str):
         template = 'admin/login/forget_confirm.html'
 
-        if not request.args.get('username'):
+        if not username:
             return redirect(url_for('admin.forget'))
 
         message: Optional[str] = None
@@ -124,27 +121,26 @@ class ForgetConfirmResource(Resource):
         password: Optional[str],
         code: Optional[str]
     ):
-        if code and password and username:
-            user = Cognito(
-                user_pool_id=current_app.config['COGNITO_USERPOOL_ID'],
-                client_id=current_app.config['COGNITO_APP_CLIENT_ID'],
-                user_pool_region=current_app.config['COGNITO_REGION'],
-                client_secret=current_app.config['COGNITO_APP_CLIENT_SECRET'],
-                username=username
-            )
-            try:
-                user.confirm_forgot_password(code, password)
-                return redirect(url_for('admin.login'))
-            except user.client.exceptions.CodeMismatchException:
-                return redirect(
-                    url_for(
-                        'admin.forget-confirm',
-                        username=username,
-                        status=AuthStatus.INVALID.value
-                    )
-                )
+        identity_ctl = get_identity_ctl()
+        identity_entity = identity_ctl.confirm_forgot_password(
+            username=username,
+            confirmation_code=code,
+            new_password=password
+        )
 
-        return redirect(url_for('admin.forget', status=AuthStatus.EMPTY.value))
+        if identity_entity is None:
+            return redirect(url_for('admin.forget', status=AuthStatus.EMPTY.value))
+        elif identity_entity.auth_status == AuthStatus.VALID:
+            return redirect(url_for('admin.login'))
+        elif identity_entity.auth_status == AuthStatus.INVALID:
+            return redirect(
+                url_for(
+                    'admin.forget-confirm',
+                    username=username,
+                    status=AuthStatus.INVALID.value,
+                )
+            )
+        raise InternalServerError('Such auth status is not implemented')
 
 
 class ChangePasswordResource(Resource):
@@ -162,7 +158,6 @@ class ChangePasswordResource(Resource):
 
         return make_response(render_template(template, status=message))
 
-    @request_parser.use_kwargs(ActionScheme, location='query')
     @request_parser.use_kwargs(UserScheme, location='form')
     @request_parser.use_kwargs(
         {'cur_password': fields.Str(required=False, missing=None)},
@@ -170,42 +165,30 @@ class ChangePasswordResource(Resource):
     )
     def post(
         self,
-        action: Optional[str],
         username: Optional[str],
         password: Optional[str],
         cur_password: Optional[str],
         **_kwargs,
     ):
-        if username and password and cur_password:
-            user = Cognito(
-                user_pool_id=current_app.config['COGNITO_USERPOOL_ID'],
-                client_id=current_app.config['COGNITO_APP_CLIENT_ID'],
-                user_pool_region=current_app.config['COGNITO_REGION'],
-                client_secret=current_app.config['COGNITO_APP_CLIENT_SECRET'],
-                username=username
-            )
-            try:
-                if action == "new":
-                    auth_client.change_password_challenge(
-                        username,
-                        cur_password,
-                        password,
-                    )
-                else:
-                    user.authenticate(cur_password)
-                    user.change_password(cur_password, password)
-                return redirect(url_for('admin.login'))
-            except:
-                return redirect(
-                    url_for(
-                        'admin.change-password',
-                        status=AuthStatus.INVALID.value,
-                        action=action
-                    )
-                )
+        identity_ctl = get_identity_ctl()
+        identity_entitiy = identity_ctl.change_password(
+            username=username,
+            password=cur_password,
+            new_password=password,
+        )
 
-        return redirect(url_for(
-            'admin.change-password',
-            status=AuthStatus.EMPTY.value,
-            action=action
-        ))
+        if identity_entitiy is None:
+            return redirect(url_for(
+                'admin.change-password',
+                status=AuthStatus.EMPTY.value,
+            ))
+        elif identity_entitiy.auth_status == AuthStatus.VALID:
+            return redirect(url_for('admin.login'))
+        elif identity_entitiy.auth_status == AuthStatus.INVALID:
+            return redirect(
+                url_for(
+                    'admin.change-password',
+                    status=AuthStatus.INVALID.value,
+                )
+            )
+        raise InternalServerError('Such auth status is not implemented')

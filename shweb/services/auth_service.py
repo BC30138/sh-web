@@ -7,6 +7,7 @@ import hashlib
 import base64
 
 import boto3
+from botocore.exceptions import ClientError
 import requests
 from jose import jwt, jwk
 from jose.utils import base64url_decode
@@ -43,6 +44,22 @@ class AuthService:
             client_secret=self._client_secret,
             username=username
         )
+
+    def user_exists(self, username) -> bool:
+        cognito = boto3.client(
+            'cognito-idp',
+            region_name=self._region,
+            aws_access_key_id=self._access_key,
+            aws_secret_access_key=self._secret_key,
+        )
+        try:
+            cognito.admin_get_user(
+                UserPoolId=self._userpool_id,
+                Username=username,
+            )
+            return True
+        except ClientError:
+            return False
 
     def get_keys(self) -> Optional[dict]:
         response = requests.get(self._jwks_keys_url)

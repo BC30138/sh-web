@@ -54,7 +54,7 @@ class LoginResource(Resource):
             return redirect(url_for('admin.index'))
         elif identity_entity.auth_status == AuthStatus.INVALID:
             return redirect(url_for('admin.login', status=AuthStatus.INVALID.value))
-        elif identity_entity.auth_status == AuthStatus.FORCE_CHANGE_PASSWORD:
+        elif identity_entity.auth_status == AuthStatus.CHANGE_PASSWORD:
             return redirect(url_for('admin.change-password', action="new"))
         raise InternalServerError('Such auth status is not implemented')
 
@@ -82,21 +82,18 @@ class ForgetResource(Resource):
 
     @request_parser.use_kwargs(UserScheme, location='form')
     def post(self, username: Optional[str], **_kwargs):
-        if username:
-            user = Cognito(
-                user_pool_id=current_app.config['COGNITO_USERPOOL_ID'],
-                client_id=current_app.config['COGNITO_APP_CLIENT_ID'],
-                user_pool_region=current_app.config['COGNITO_REGION'],
-                client_secret=current_app.config['COGNITO_APP_CLIENT_SECRET'],
-                username=username
-            )
-            try:
-                user.initiate_forgot_password()
-                return redirect(url_for('admin.forget-confirm', username=username))
-            except user.client.exceptions.LimitExceededException:
-                return redirect(url_for('admin.forget', status=AuthStatus.LIMIT.value))
+        identity_ctl = get_identity_ctl()
+        identity_entity = identity_ctl.forget_password(username)
 
-        return redirect(url_for('admin.forget', status=AuthStatus.EMPTY.value))
+        if identity_entity is None:
+            return redirect(url_for('admin.forget', status=AuthStatus.EMPTY.value))
+        elif identity_entity.auth_status == AuthStatus.CHANGE_PASSWORD:
+            return redirect(url_for('admin.forget-confirm', username=username))
+        elif identity_entity.auth_status == AuthStatus.LIMIT:
+            return redirect(url_for('admin.forget', status=AuthStatus.LIMIT.value))
+        elif identity_entity.auth_status == AuthStatus.INVALID:
+            return redirect(url_for('admin.forget', status=AuthStatus.INVALID.value))
+        raise InternalServerError('Such auth status is not implemented')
 
 
 class ForgetConfirmResource(Resource):

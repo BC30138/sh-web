@@ -13,6 +13,10 @@ class IIdentityCtl(abc.ABC):
     def authenticate(self, username: str, password: str) -> IdentityEntity:
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def forget_password(self, username) -> IdentityEntity:
+        raise NotImplementedError
+
 
 class IdentityCtl(IIdentityCtl):
     def __init__(
@@ -25,3 +29,6 @@ class IdentityCtl(IIdentityCtl):
         if username and password:
             return self._identity_adapter.authenticate(username, password)
         return None
+
+    def forget_password(self, username) -> IdentityEntity:
+        return self._identity_adapter.forget_password(username) if username else None

@@ -9,6 +9,6 @@ from shweb.util.enums import AuthStatus
 @dataclasses.dataclass
 class IdentityEntity:
     username: str
-    password: str
     auth_status: AuthStatus
+    password: Optional[str] = None
     token: Optional[str] = None

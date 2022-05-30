@@ -8,7 +8,6 @@ from flask import current_app
 from flask_babel import get_locale
 
 from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
-from shweb.services.rest.rest_helpers import mobile_checker
 
 
 def parse_variables(code: str):
@@ -47,8 +46,8 @@ class IndexScheme(Schema):
     files_list = fields.List(fields.Str, Required=False, allow_none=True)
 
     @classmethod
-    def from_entity(cls, index_entity: IndexEntity) -> dict:
-        if mobile_checker():
+    def from_entity(cls, index_entity: IndexEntity, is_mobile: bool = False) -> dict:
+        if is_mobile:
             client_index = ClientIndexScheme.from_entity(index_entity.mobile)
         else:
             client_index = ClientIndexScheme.from_entity(index_entity.web)

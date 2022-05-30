@@ -11,10 +11,9 @@ from shweb.ctx.index.model import ClientIndexEntity, IndexEntity
 from shweb.ctx.index.adapter import IndexRepo
 from shweb.ctx.release.ctl import ReleaseCtl
 from shweb.ctx.release.repo import ReleaseRepo, ReleaseBandcampRepo
-from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
+from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity, ReleaseType
 from shweb.services.rest import create_app
 from shweb.util.dateutils import date_from_str
-from shweb.util.enums import ReleaseType
 
 
 @pytest.fixture()

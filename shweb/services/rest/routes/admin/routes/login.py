@@ -10,7 +10,9 @@ from marshmallow import Schema, fields
 from marshmallow_enum import EnumField
 from webargs.flaskparser import use_kwargs
 
-from shweb.services.rest.routes.admin.auth import AuthStatus, auth_required, change_password_challenge
+from shweb.services.rest.routes.admin.auth import change_password_challenge
+from shweb.services.rest.rest_helpers.common import auth_required
+from shweb.services.auth_service import AuthStatus
 
 
 class UserScheme(Schema):

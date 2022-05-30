@@ -1,7 +1,8 @@
 """REST API для рендера публичной страницы релиза"""
 from flask import Blueprint, render_template
 
-from shweb.services.rest.rest_helpers import get_release_ctl, mobile_template
+from shweb.services.rest.rest_helpers.getters import get_release_ctl
+from shweb.services.rest.rest_helpers.mobile import mobile_template
 from shweb.services.rest.schemas.release import ReleaseScheme
 
 blueprint = Blueprint("release-page", __name__)

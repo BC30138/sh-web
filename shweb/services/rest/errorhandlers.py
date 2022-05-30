@@ -2,7 +2,7 @@ from flask import Flask
 from flask.templating import render_template
 from jinja2.exceptions import TemplateNotFound
 
-from shweb.services.rest.rest_helpers import mobile_template
+from shweb.services.rest.rest_helpers.mobile import mobile_template
 
 
 @mobile_template(['public'], 'error.html')

@@ -1,10 +1,15 @@
 """Предстваления релизов."""
 
 import dataclasses
+import enum
 from datetime import date
 from typing import List, Optional
 
-from shweb.util.enums import ReleaseType
+
+class ReleaseType(enum.Enum):
+    SINGLE = "Single"
+    ALBUM = "Album"
+    EP = "EP"
 
 
 @dataclasses.dataclass

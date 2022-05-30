@@ -1,6 +1,5 @@
 from flask import Blueprint  # type: ignore
 from flask_restful import Api  # type: ignore
-from shweb.services.rest.routes.admin.auth import get_user_info_from_token
 from shweb.services.rest.routes.admin.routes import login, admin_index, admin_release, edit_home
 
 
@@ -15,10 +14,3 @@ api.add_resource(login.ChangePasswordResource, "/login/change-password", endpoin
 api.add_resource(admin_release.ReleaseResource, "/release", endpoint="release")
 api.add_resource(edit_home.EditHomeResource, "/index-edit", endpoint="edit-home")
 api.add_resource(edit_home.PreviewResource, "/index-edit/preview", endpoint="edit-home-preview")
-
-
-@blueprint.context_processor
-def utility_processor():
-    return dict(
-        get_user_info_from_token=get_user_info_from_token
-    )

@@ -1,6 +1,7 @@
 """Страница логина в панель администратора"""
 from typing import Optional
 
+from botocore.exceptions import ClientError
 from flask import session, redirect, url_for, current_app, render_template, make_response, request
 from flask_babel import _
 from warrant import Cognito
@@ -8,11 +9,9 @@ import warrant
 from flask_restful import Resource
 from marshmallow import Schema, fields
 from marshmallow_enum import EnumField
-from webargs.flaskparser import use_kwargs
 
-from shweb.services.rest.routes.admin.auth import change_password_challenge
-from shweb.services.rest.rest_helpers.common import auth_required
-from shweb.services.auth_service import AuthStatus
+from shweb.services.rest.rest_helpers.common import auth_required, request_parser
+from shweb.services.auth_service import AuthStatus, auth_client
 
 
 class UserScheme(Schema):
@@ -29,7 +28,7 @@ class ActionScheme(Schema):
 
 
 class LoginResource(Resource):
-    @use_kwargs(ErrorStatusScheme, location='query')
+    @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: Optional[AuthStatus]):
         template = 'admin/login/login.html'
 
@@ -43,7 +42,7 @@ class LoginResource(Resource):
 
         return make_response(render_template(template, status=message))
 
-    @use_kwargs(UserScheme, location='form')
+    @request_parser.use_kwargs(UserScheme, location='form')
     def post(self, username: Optional[str], password: Optional[str], **_kwargs):
         if username and password:
             user = Cognito(
@@ -59,7 +58,7 @@ class LoginResource(Resource):
                 return redirect(url_for('admin.index'))
             except user.client.exceptions.NotAuthorizedException:
                 return redirect(url_for('admin.login', status=AuthStatus.invalid.name))
-            except warrant.exceptions.ForceChangePasswordException:
+            except (warrant.exceptions.ForceChangePasswordException, ClientError):
                 return redirect(url_for('admin.change-password', action="new"))
 
         return redirect(url_for('admin.login', status=AuthStatus.empty.value))
@@ -73,7 +72,7 @@ class LogoutResource(Resource):
 
 
 class ForgetResource(Resource):
-    @use_kwargs(ErrorStatusScheme, location='query')
+    @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: Optional[AuthStatus]):
         template = 'admin/login/forget.html'
 
@@ -86,7 +85,7 @@ class ForgetResource(Resource):
             message = _("Attempt limit exceeded, please try after some time")
         return make_response(render_template(template, status=message))
 
-    @use_kwargs(UserScheme, location='form')
+    @request_parser.use_kwargs(UserScheme, location='form')
     def post(self, username: Optional[str], **_kwargs):
         if username:
             user = Cognito(
@@ -106,7 +105,7 @@ class ForgetResource(Resource):
 
 
 class ForgetConfirmResource(Resource):
-    @use_kwargs(ErrorStatusScheme, location='query')
+    @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: AuthStatus):
         template = 'admin/login/forget_confirm.html'
 
@@ -120,10 +119,10 @@ class ForgetConfirmResource(Resource):
             message = _("Code, password or username field is empty")
         return make_response(render_template(template, status=message))
 
-    @use_kwargs({
+    @request_parser.use_kwargs({
         'username': UserScheme().fields['username'],
     }, location='query')
-    @use_kwargs({
+    @request_parser.use_kwargs({
         'password': UserScheme().fields['password'],
         'code': fields.Str(required=False, missing=None),
     }, location='form')
@@ -157,7 +156,7 @@ class ForgetConfirmResource(Resource):
 
 
 class ChangePasswordResource(Resource):
-    @use_kwargs(ErrorStatusScheme, location='query')
+    @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: AuthStatus):
         template = 'admin/login/change_password.html'
 
@@ -171,9 +170,9 @@ class ChangePasswordResource(Resource):
 
         return make_response(render_template(template, status=message))
 
-    @use_kwargs(ActionScheme, location='query')
-    @use_kwargs(UserScheme, location='form')
-    @use_kwargs(
+    @request_parser.use_kwargs(ActionScheme, location='query')
+    @request_parser.use_kwargs(UserScheme, location='form')
+    @request_parser.use_kwargs(
         {'cur_password': fields.Str(required=False, missing=None)},
         location='form',
     )
@@ -195,12 +194,7 @@ class ChangePasswordResource(Resource):
             )
             try:
                 if action == "new":
-                    change_password_challenge(
-                        current_app.config['COGNITO_USERPOOL_ID'],
-                        current_app.config['COGNITO_APP_CLIENT_ID'],
-                        current_app.config['COGNITO_APP_CLIENT_SECRET'],
-                        current_app.config['AWS_ACCESS_KEY'],
-                        current_app.config['AWS_SECRET_KEY'],
+                    auth_client.change_password_challenge(
                         username,
                         cur_password,
                         password,

@@ -3,6 +3,8 @@ import functools
 from flask import session, url_for
 from jose import jwt
 from werkzeug.utils import redirect
+from marshmallow import EXCLUDE
+from webargs.flaskparser import FlaskParser
 
 from shweb.services.auth_service import auth_client, AuthStatus
 from shweb.utils import get_release_list
@@ -30,3 +32,14 @@ def auth_required(func):
         else:
             return redirect(url_for('admin.login'))
     return wrapper
+
+
+class RequestParser(FlaskParser):
+    DEFAULT_UNKNOWN_BY_LOCATION = {
+        'query': EXCLUDE,
+        'json': EXCLUDE,
+        'form': EXCLUDE,
+    }
+
+
+request_parser = RequestParser()

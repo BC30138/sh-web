@@ -4,7 +4,8 @@ import json
 
 from marshmallow import Schema, fields, post_dump
 
-from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity, ReleaseType
+from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity
+from shweb.util.enums import ReleaseType
 from shweb.services.rest.translate_helpers import compile_release_type, get_month_names
 
 

@@ -6,7 +6,8 @@ from werkzeug.utils import redirect
 from marshmallow import EXCLUDE
 from webargs.flaskparser import FlaskParser
 
-from shweb.services.auth_service import auth_client, AuthStatus
+from shweb.services.auth_service import auth_client
+from shweb.util.enums import AuthStatus
 from shweb.utils import get_release_list
 
 
@@ -26,9 +27,9 @@ def auth_required(func):
     def wrapper(*args, **kwargs):
         if 'id_token' in session:
             state = auth_client.check_id_token(session['id_token'])
-            if state == AuthStatus.valid:
+            if state == AuthStatus.VALID:
                 return func(*args, **kwargs)
-            return redirect(url_for('admin.login', status=state.name))
+            return redirect(url_for('admin.login', status=state.value))
         else:
             return redirect(url_for('admin.login'))
     return wrapper

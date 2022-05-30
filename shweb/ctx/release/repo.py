@@ -3,7 +3,8 @@ import abc
 import logging
 from typing import Optional
 
-from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity, ReleaseType
+from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
+from shweb.util.enums import ReleaseType
 from shweb.services.object_storage import object_storage_client
 from shweb.services.object_storage import Error as ObjectStorageError
 from shweb.services.bandcamp import bandcamp_client

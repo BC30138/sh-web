@@ -1,6 +1,5 @@
 """Сервис аутентификации"""
 
-from enum import Enum
 from datetime import datetime
 from typing import Optional
 import hmac
@@ -11,17 +10,10 @@ import boto3
 import requests
 from jose import jwt, jwk
 from jose.utils import base64url_decode
+from warrant import Cognito
 
 from shweb.config import Config
-
-
-class AuthStatus(Enum):
-    valid = 'valid'
-    invalid = 'invalid'
-    expired = 'expired'
-    invalid_aud = 'invalid_aud'
-    empty = 'empty'
-    limit = 'limit'
+from shweb.util.enums import AuthStatus
 
 
 class AuthService:
@@ -43,6 +35,15 @@ class AuthService:
         self._secret_key = secret_key
         self._region = region
 
+    def get_user(self, username) -> Cognito:
+        return Cognito(
+            user_pool_id=self._userpool_id,
+            client_id=self._app_client_id,
+            user_pool_region=self._region,
+            client_secret=self._client_secret,
+            username=username
+        )
+
     def get_keys(self) -> Optional[dict]:
         response = requests.get(self._jwks_keys_url)
         return response.json()
@@ -58,23 +59,23 @@ class AuthService:
                 used_jwk_key = key
 
         if used_jwk_key is None:
-            return AuthStatus.invalid
+            return AuthStatus.INVALID
 
         public_key = jwk.construct(used_jwk_key)
         message, encoded_signature = str(id_token).rsplit('.', 1)
 
         decoded_signature = base64url_decode(encoded_signature.encode('utf-8'))
         if not public_key.verify(message.encode("utf8"), decoded_signature):
-            return AuthStatus.invalid
+            return AuthStatus.INVALID
 
         claims = jwt.get_unverified_claims(id_token)
         if datetime.now() > datetime.fromtimestamp(claims['exp']):
-            return AuthStatus.expired
+            return AuthStatus.EXPIRED
 
         if 'aud' in claims and claims['aud'] != self._app_client_id:
-            return AuthStatus.invalid_aud
+            return AuthStatus.INVALID_AUD
 
-        return AuthStatus.valid
+        return AuthStatus.VALID
 
     def change_password_challenge(
             self,
@@ -82,7 +83,6 @@ class AuthService:
             temp_password,
             new_password,
     ):
-
         secret_hash = self._get_secret_hash(username)
         cognito = boto3.client(
             'cognito-idp',
@@ -107,7 +107,7 @@ class AuthService:
         if auth_response['ChallengeName'] != 'NEW_PASSWORD_REQUIRED':
             raise Exception("This script supports only the 'NEW_PASSWORD_REQUIRED' challenge")
 
-        challenge_response = cognito.admin_respond_to_auth_challenge(
+        cognito.admin_respond_to_auth_challenge(
             UserPoolId=self._userpool_id,
             ClientId=self._app_client_id,
             ChallengeName=auth_response['ChallengeName'],
@@ -119,8 +119,6 @@ class AuthService:
                 'userAttributes.nickname': username
             }
         )
-
-        return username, new_password, challenge_response
 
     def _get_secret_hash(self, username):
         msg = username + self._app_client_id

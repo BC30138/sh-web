@@ -3,7 +3,7 @@ from flask_babel import _
 
 
 from shweb.config import Config
-from shweb.ctx.release.model import ReleaseType
+from shweb.util.enums import ReleaseType
 
 
 def compile_release_type(release_type: ReleaseType, is_upper=True) -> str:

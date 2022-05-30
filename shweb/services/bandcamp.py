@@ -10,9 +10,8 @@ class Error(Exception):
     pass
 
 
-class BandcampAPI:
-    @classmethod
-    def get_id(cls, bandcamp_link: str) -> str:
+class BandcampService:
+    def get_id(self, bandcamp_link: str) -> str:
         try:
             response = requests.get(bandcamp_link)
         except requests.RequestException:
@@ -29,3 +28,6 @@ class BandcampAPI:
         except (ValueError, TypeError):
             logging.warning('Bandcamp page error')
             raise Error('Bandcamp page error')
+
+
+bandcamp_client = BandcampService()

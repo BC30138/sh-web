@@ -3,7 +3,7 @@
 import abc
 
 from shweb.ctx.index.model import IndexEntity, ClientIndexEntity
-from shweb.services.object_storage import ObjectStorageAPI
+from shweb.services.object_storage import object_storage_client
 
 
 class IIndexRepo(abc.ABC):
@@ -16,7 +16,7 @@ class IIndexRepo(abc.ABC):
 class IndexRepo(IIndexRepo):
     @classmethod
     def get(cls) -> IndexEntity:
-        storage_index = ObjectStorageAPI.get('index/index.json')
+        storage_index = object_storage_client.get('index/index.json')
         return IndexEntity(
             web=ClientIndexEntity(
                 style=storage_index['web']['style'],

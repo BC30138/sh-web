@@ -4,7 +4,6 @@ import logging
 import requests
 import json
 
-from typing import Optional
 from shweb.config import Config
 
 
@@ -13,13 +12,14 @@ class Error(Exception):
 
 
 class ObjectStorageAPI:
-    @classmethod
+    def __init__(self, cloud_front_base: str):
+        self._cloud_front_base = cloud_front_base
+
     def get(
-        cls,
+        self,
         path: str,
-        cloud_front_base: Optional[str] = Config.AWS_CLOUD_FRONT_DOMAIN,
     ) -> dict:
-        response = requests.get(f"{cloud_front_base}/{path}")
+        response = requests.get(f"{self._cloud_front_base}/{path}")
         logging.info(f'GET {response.url} {response.status_code}')
         if response.status_code != 200:
             logging.warning(f'Retrieve object {path} error')
@@ -30,3 +30,7 @@ class ObjectStorageAPI:
         except (json.JSONDecodeError, ValueError):
             logging.warning('Incorrect type of response data')
             raise Error('Incorrect type of response data')
+
+
+object_storage_client = ObjectStorageAPI(Config.AWS_CLOUD_FRONT_DOMAIN)
+

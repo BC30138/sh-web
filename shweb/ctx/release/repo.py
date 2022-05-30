@@ -4,9 +4,9 @@ import logging
 from typing import Optional
 
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
-from shweb.services.object_storage import ObjectStorageAPI
+from shweb.services.object_storage import object_storage_client
 from shweb.services.object_storage import Error as ObjectStorageError
-from shweb.services.bandcamp import BandcampAPI
+from shweb.services.bandcamp import bandcamp_client
 from shweb.services.bandcamp import Error as BandcampError
 from shweb.util.enums import ReleaseType
 from shweb.util.dateutils import date_from_str
@@ -23,7 +23,7 @@ class ReleaseRepo(IReleaseRepo):
     @classmethod
     def get(cls, release_id: str) -> Optional[ReleaseEntity]:
         try:
-            storage_release = ObjectStorageAPI.get(f'releases/{release_id}/info.json')
+            storage_release = object_storage_client.get(f'releases/{release_id}/info.json')
         except ObjectStorageError as exc:
             logging.warning(f'object not found {exc}')
             return None
@@ -72,7 +72,7 @@ class ReleaseBandcampRepo(IReleaseBandcampRepo):
     @classmethod
     def get_id(cls, bandcamp_link: str) -> Optional[str]:
         try:
-            return BandcampAPI.get_id(bandcamp_link)
+            return bandcamp_client.get_id(bandcamp_link)
         except BandcampError as exc:
             logging.warning(exc)
             return None

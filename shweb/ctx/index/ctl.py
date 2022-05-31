@@ -1,19 +1,12 @@
 """Контроллер для действий над индекс-страницой"""
 
-import abc
 import logging
 
 from shweb.ctx.index.model import IndexEntity
 from shweb.ctx.index.adapter import IIndexRepo
 
 
-class IIndexCtl(abc.ABC):
-    @abc.abstractmethod
-    def get(self) -> IndexEntity:
-        raise NotImplementedError
-
-
-class IndexCtl(IIndexCtl):
+class IndexCtl:
     def __init__(
         self,
         repo: IIndexRepo,

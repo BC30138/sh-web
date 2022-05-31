@@ -1,48 +1,12 @@
 """Контроллер для работы с пользователям"""
 
-import abc
 from typing import Optional
 
 from shweb.ctx.identity.adapter import IIdentityAdapter
 from shweb.ctx.identity.model import IdentityEntity
 
 
-class IIdentityCtl(abc.ABC):
-    @abc.abstractmethod
-    def authenticate(
-        self,
-        username: Optional[str],
-        password: Optional[str],
-    ) -> Optional[IdentityEntity]:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def forget_password(
-        self,
-        username: Optional[str],
-    ) -> Optional[IdentityEntity]:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def confirm_forgot_password(
-        self,
-        username: Optional[str],
-        code: Optional[str],
-        password: Optional[str],
-    ) -> Optional[IdentityEntity]:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def change_password(
-        self,
-        username: Optional[str],
-        password: Optional[str],
-        cur_password: Optional[str],
-    ) -> Optional[IdentityEntity]:
-        raise NotImplementedError
-
-
-class IdentityCtl(IIdentityCtl):
+class IdentityCtl:
     def __init__(
         self,
         identity_adapter: IIdentityAdapter,

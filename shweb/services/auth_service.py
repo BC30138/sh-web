@@ -1,7 +1,6 @@
 """Сервис аутентификации"""
 
 from datetime import datetime
-from typing import Optional
 import hmac
 import hashlib
 import base64

@@ -1,5 +1,5 @@
 """Контроллер для действий над релизами"""
-import abc
+
 import logging
 from typing import Optional
 
@@ -11,13 +11,7 @@ class Error(Exception):
     pass
 
 
-class IReleaseCtl(abc.ABC):
-    @abc.abstractmethod
-    def get(self, release_id: str) -> Optional[ReleaseEntity]:
-        raise NotImplementedError
-
-
-class ReleaseCtl(IReleaseCtl):
+class ReleaseCtl:
     def __init__(
         self,
         repo: IReleaseRepo,

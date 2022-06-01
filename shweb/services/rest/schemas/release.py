@@ -4,9 +4,9 @@ import json
 
 from marshmallow import Schema, fields, post_dump
 
-from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity
+from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType
-from shweb.services.rest.translate_helpers import compile_release_type, get_month_names
+from shweb.services.rest.rest_helpers.translate import compile_release_type, get_month_names
 
 
 class ServiceScheme(Schema):
@@ -91,3 +91,36 @@ class EditReleaseSchema(ReleaseScheme):
 
         data['tracklist'] = json.dumps(data['tracklist'])
         return data
+
+
+class ReleaseListItemScheme(Schema):
+    id = fields.Str(required=True)
+    name = fields.Str(required=True)
+    type = fields.Str(required=True)
+    lang_type = fields.Str(required=True)
+
+    @classmethod
+    def from_entity(
+        cls,
+        release_list_item_entity: ReleaseListItemEntity,
+        type_upper: bool = False,
+    ) -> dict:
+        return cls().load(dict(
+            id=release_list_item_entity.release_id,
+            type=release_list_item_entity.release_type.value,
+            lang_type=compile_release_type(release_list_item_entity.release_type, type_upper),
+            name=release_list_item_entity.release_name,
+        ))
+
+
+class ReleaseListScheme(Schema):
+    releases = fields.List(fields.Dict, required=True)
+
+    @classmethod
+    def from_entity(
+            cls,
+            release_list_entity: ReleaseListEntity,
+    ) -> dict:
+        return cls().load(dict(
+            releases=[ReleaseListItemScheme.from_entity(item_entity) for item_entity in release_list_entity.releases]
+        ))['releases']

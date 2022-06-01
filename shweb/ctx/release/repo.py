@@ -3,7 +3,7 @@ import abc
 import logging
 from typing import Optional
 
-from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity
+from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType
 from shweb.services.object_storage import object_storage_client
 from shweb.services.object_storage import Error as ObjectStorageError
@@ -16,6 +16,11 @@ class IReleaseRepo(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def get(cls, release_id: str) -> Optional[ReleaseEntity]:
+        raise NotImplementedError
+
+    @classmethod
+    @abc.abstractmethod
+    def get_list(cls) -> ReleaseListEntity:
         raise NotImplementedError
 
 
@@ -59,6 +64,24 @@ class ReleaseRepo(IReleaseRepo):
             default_open_text=storage_release.get('default_open_text'),
             youtube_videos=storage_release.get('youtube_videos'),
         )
+
+    @classmethod
+    def get_list(cls) -> ReleaseListEntity:
+        try:
+            storage_release_list = object_storage_client.get(f'releases/release-list.json')
+        except ObjectStorageError as exc:
+            logging.warning(f'object not found {exc}')
+            raise FileNotFoundError
+
+        releases = []
+        for release_raw in storage_release_list['releases']:
+            releases.append(ReleaseListItemEntity(
+                release_id=release_raw['id'],
+                release_name=release_raw['name'],
+                release_type=ReleaseType(release_raw['type'].capitalize())
+            ))
+
+        return ReleaseListEntity(releases=releases)
 
 
 class IReleaseBandcampRepo(abc.ABC):

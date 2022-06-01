@@ -1,23 +1,8 @@
 import json
-import requests
 from time import time
 
 from flask import current_app
 import boto3
-
-from shweb.services.rest.schemas.release_list import ReleaseListSchema
-
-
-def get_raw_release_list():
-    base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
-    return requests.get(f"{base}/releases/release-list.json").json()
-
-
-def get_release_list():
-    response = get_raw_release_list()
-    schema = ReleaseListSchema()
-    schema_deserial = schema.load(response)
-    return schema.dump(schema_deserial)
 
 
 def upload_json(json_data, file_path):

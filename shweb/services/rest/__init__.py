@@ -6,10 +6,10 @@ from flask_mobility import Mobility
 from flask_babel import Babel
 
 from shweb.config import Config
-from shweb.services.rest.translate_helpers import get_locale
 from shweb.services.rest.router import register_blueprints
 from shweb.services.rest.errorhandlers import register_errorhandlers
 from shweb.services.rest.rest_helpers.common import utility_processor
+from shweb.services.rest.rest_helpers.translate import get_locale
 
 
 def create_app():

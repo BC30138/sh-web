@@ -8,8 +8,7 @@ from flask_mobility.decorators import mobile_template
 
 from shweb.services.rest.rest_helpers.common import auth_required
 from shweb.services.rest.schemas.release import ReleaseScheme, EditReleaseSchema
-from shweb.services.rest.schemas.release_list import ReleaseListSchema, ReleaseListItemSchema
-from shweb.utils import get_raw_release_list, create_invalidation, upload_json, upload_file, s3_delete
+from shweb.utils import create_invalidation, upload_json, upload_file, s3_delete
 
 action_parser = reqparse.RequestParser()
 action_parser.add_argument("action", type=str, choices=('new', 'edit'), location="args", required=True)

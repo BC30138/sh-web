@@ -3,7 +3,7 @@
 import logging
 from typing import Optional
 
-from shweb.ctx.release.model import ReleaseEntity
+from shweb.ctx.release.model import ReleaseEntity, ReleaseListEntity
 from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampRepo
 
 
@@ -33,3 +33,7 @@ class ReleaseCtl:
                 raise Error('Bandcamp error')
         logging.info(f'fetched release {release}')
         return release
+
+    def get_list(self) -> ReleaseListEntity:
+        logging.info('fetch release list')
+        return self._repo.get_list()

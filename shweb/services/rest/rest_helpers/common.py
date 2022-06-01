@@ -7,8 +7,15 @@ from marshmallow import EXCLUDE
 from webargs.flaskparser import FlaskParser
 
 from shweb.services.auth_service import auth_client
+from shweb.services.rest.rest_helpers.getters import get_release_ctl
+from shweb.services.rest.schemas.release import ReleaseListScheme
 from shweb.util.enums import AuthStatus
-from shweb.utils import get_release_list
+
+
+def get_release_list():
+    release_ctl = get_release_ctl()
+    release_list_entity = release_ctl.get_list()
+    return ReleaseListScheme.from_entity(release_list_entity)
 
 
 def get_user_info_from_token():

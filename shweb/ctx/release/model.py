@@ -34,3 +34,15 @@ class ReleaseEntity:
     release_date: Optional[date]
     default_open_text: Optional[str]
     youtube_videos: Optional[List[str]]
+
+
+@dataclasses.dataclass
+class ReleaseListItemEntity:
+    release_id: str
+    release_name: str
+    release_type: ReleaseType
+
+
+@dataclasses.dataclass
+class ReleaseListEntity:
+    releases: List[ReleaseListItemEntity]

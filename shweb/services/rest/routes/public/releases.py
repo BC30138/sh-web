@@ -14,7 +14,6 @@ def _releases(release_id, template):
     release_ctl = get_release_ctl()
     release = release_ctl.get(release_id)
 
-    print(release)
     return render_template(
         template,
         release=ReleaseScheme.from_entity(release),

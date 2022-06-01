@@ -123,4 +123,4 @@ class ReleaseListScheme(Schema):
     ) -> dict:
         return cls().load(dict(
             releases=[ReleaseListItemScheme.from_entity(item_entity) for item_entity in release_list_entity.releases]
-        ))['releases']
+        ))

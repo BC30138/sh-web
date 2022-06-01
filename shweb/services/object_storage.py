@@ -1,8 +1,13 @@
 """Сервис для получения данных из хранилища"""
-import logging
 
+import logging
+from typing import IO, List
+from time import time
 import requests
 import json
+
+import boto3
+from botocore.client import BaseClient
 
 from shweb.config import Config
 
@@ -12,8 +17,21 @@ class Error(Exception):
 
 
 class ObjectStorageAPI:
-    def __init__(self, cloud_front_base: str):
+    def __init__(
+        self,
+        cloud_front_base: str,
+        access_key: str,
+        secret_key: str,
+        bucket_name: str,
+        region: str,
+        cdn_id: str,
+    ):
         self._cloud_front_base = cloud_front_base
+        self._access_key = access_key
+        self._secret_key = secret_key
+        self._bucket_name = bucket_name
+        self._region = region
+        self._cdn_id = cdn_id
 
     def get(
         self,
@@ -31,5 +49,57 @@ class ObjectStorageAPI:
             logging.warning('Incorrect type of response data')
             raise Error('Incorrect type of response data')
 
+    def upload_json(self, json_data: dict, file_path: str):
+        s3_resource = self._get_resource()
+        s3_object = s3_resource.Object(self._bucket_name, file_path)
+        s3_object.put(
+            Body=(bytes(json.dumps(json_data).encode('UTF-8')))
+        )
 
-object_storage_client = ObjectStorageAPI(Config.AWS_CLOUD_FRONT_DOMAIN)
+    def upload_file(self, file: IO[bytes], file_path: str):
+        s3_resource = self._get_resource()
+        s3_object = s3_resource.Object(self._bucket_name, file_path)
+        s3_object.put(Body=file.read())
+
+    def delete(self, prefix: str):
+        s3_resource = self._get_resource()
+        bucket = s3_resource.Bucket(self._bucket_name)
+        bucket.objects.filter(Prefix=prefix).delete()
+
+    def create_invalidation(self, items: List[str]):
+        client = self._get_cdn()
+        client.create_invalidation(
+            DistributionId=self._cdn_id,
+            InvalidationBatch={
+                'Paths': {
+                    'Quantity': len(items),
+                    'Items': items,
+                },
+                'CallerReference': str(time()).replace(".", "")
+            }
+        )
+
+    def _get_resource(self):
+        return boto3.resource(
+            's3',
+            aws_access_key_id=self._access_key,
+            aws_secret_access_key=self._secret_key,
+        )
+
+    def _get_cdn(self) -> BaseClient:
+        return boto3.client(
+            'cloudfront',
+            region_name=self._region,
+            aws_access_key_id=self._access_key,
+            aws_secret_access_key=self._secret_key,
+        )
+
+
+object_storage_client = ObjectStorageAPI(
+    cloud_front_base=Config.AWS_CLOUD_FRONT_DOMAIN,
+    access_key=Config.AWS_ACCESS_KEY,
+    secret_key=Config.AWS_SECRET_KEY,
+    bucket_name=Config.S3_BUCKET_NAME,
+    region=Config.AWS_REGION,
+    cdn_id=Config.AWS_CLOUD_FRONT_ID,
+)

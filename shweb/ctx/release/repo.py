@@ -23,6 +23,11 @@ class IReleaseRepo(abc.ABC):
     def get_list(cls) -> ReleaseListEntity:
         raise NotImplementedError
 
+    @classmethod
+    @abc.abstractmethod
+    def upload_list(cls, release_list_entity: ReleaseListEntity):
+        raise NotImplementedError
+
 
 class ReleaseRepo(IReleaseRepo):
     @classmethod
@@ -82,6 +87,21 @@ class ReleaseRepo(IReleaseRepo):
             ))
 
         return ReleaseListEntity(releases=releases)
+
+    @classmethod
+    def upload_list(cls, release_list_entity: ReleaseListEntity):
+        release_list_fp = 'releases/release-list.json'
+        object_storage_client.upload_json(
+            json_data={
+                'releases': [dict(
+                    id=release.release_id,
+                    type=release.release_type.value,
+                    name=release.release_name,
+                ) for release in release_list_entity.releases]
+            },
+            file_path=release_list_fp,
+        )
+        object_storage_client.create_invalidation(["/" + release_list_fp])
 
 
 class IReleaseBandcampRepo(abc.ABC):

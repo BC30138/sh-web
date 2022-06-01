@@ -15,7 +15,7 @@ from shweb.util.enums import AuthStatus
 def get_release_list():
     release_ctl = get_release_ctl()
     release_list_entity = release_ctl.get_list()
-    return ReleaseListScheme.from_entity(release_list_entity)
+    return ReleaseListScheme.from_entity(release_list_entity)['releases']
 
 
 def get_user_info_from_token():

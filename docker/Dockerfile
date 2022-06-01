@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 # set work directory
 WORKDIR /opt/webapp
-EXPOSE 8080
+EXPOSE 5000
 
 # install dependencies
 RUN pip install --upgrade pip

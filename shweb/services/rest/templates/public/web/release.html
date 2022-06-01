@@ -88,7 +88,7 @@
             </span>
         </div>
     </div>
-    <div class="date">{{_('Release date')}}: {{release.date}} </div>
+    <div class="date">{{_('Release date')}}: {{release.release_date}} </div>
     <div class="tracklist-head">{{_('Tracklist')}}:</div>
     <ul class="tracklist">
         {% for track in release.tracklist%}
@@ -114,5 +114,5 @@
 {% endblock %}
 
 {% block loaded_scripts %}
-<script src="/static/scripts/release.js"></script>
+<script src="/static/scripts/public/web/release.js"></script>
 {% endblock %}

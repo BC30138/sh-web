@@ -23,9 +23,10 @@ class ErrorStatusScheme(Schema):
 
 
 class LoginResource(Resource):
+    template = 'admin/login/login.html'
+
     @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: Optional[AuthStatus]):
-        template = 'admin/login/login.html'
 
         message: Optional[str] = None
         if status is AuthStatus.EMPTY:
@@ -35,7 +36,7 @@ class LoginResource(Resource):
         elif status is AuthStatus.EXPIRED:
             message = _("Your session token is expired, login again")
 
-        return make_response(render_template(template, status=message))
+        return make_response(render_template(self.template, status=message))
 
     @request_parser.use_kwargs(UserScheme, location='form')
     def post(self, username: Optional[str], password: Optional[str], **_kwargs):
@@ -61,9 +62,10 @@ class LogoutResource(Resource):
 
 
 class ForgetResource(Resource):
+    template = 'admin/login/forget.html'
+
     @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: Optional[AuthStatus]):
-        template = 'admin/login/forget.html'
 
         message: Optional[str] = None
         if status is AuthStatus.EMPTY:
@@ -72,7 +74,7 @@ class ForgetResource(Resource):
             message = _("Invalid username")
         elif status is AuthStatus.LIMIT:
             message = _("Attempt limit exceeded, please try after some time")
-        return make_response(render_template(template, status=message))
+        return make_response(render_template(self.template, status=message))
 
     @request_parser.use_kwargs(UserScheme, location='form')
     def post(self, username: Optional[str], **_kwargs):
@@ -91,13 +93,13 @@ class ForgetResource(Resource):
 
 
 class ForgetConfirmResource(Resource):
+    template = 'admin/login/forget_confirm.html'
+
     @request_parser.use_kwargs({
         'username': UserScheme().fields['username'],
     }, location='query')
     @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: AuthStatus, username: str):
-        template = 'admin/login/forget_confirm.html'
-
         if not username:
             return redirect(url_for('admin.forget'))
 
@@ -106,7 +108,7 @@ class ForgetConfirmResource(Resource):
             message = _("Confirmation code invalid")
         elif status is AuthStatus.EMPTY:
             message = _("Code, password or username field is empty")
-        return make_response(render_template(template, status=message))
+        return make_response(render_template(self.template, status=message))
 
     @request_parser.use_kwargs({
         'username': UserScheme().fields['username'],
@@ -144,10 +146,10 @@ class ForgetConfirmResource(Resource):
 
 
 class ChangePasswordResource(Resource):
+    template = 'admin/login/change_password.html'
+
     @request_parser.use_kwargs(ErrorStatusScheme, location='query')
     def get(self, status: AuthStatus):
-        template = 'admin/login/change_password.html'
-
         message: Optional[str] = None
         if status is AuthStatus.EMPTY:
             message = _("The username or password field is empty")
@@ -156,7 +158,7 @@ class ChangePasswordResource(Resource):
         elif status is AuthStatus.EXPIRED:
             message = _("Your session token is expired, login again")
 
-        return make_response(render_template(template, status=message))
+        return make_response(render_template(self.template, status=message))
 
     @request_parser.use_kwargs(UserScheme, location='form')
     @request_parser.use_kwargs(

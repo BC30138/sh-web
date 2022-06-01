@@ -57,4 +57,3 @@ class ReleaseCtl:
         self._repo.upload_list(new_order_release_list)
 
         return new_order_release_list
-

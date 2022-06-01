@@ -73,7 +73,7 @@ class ReleaseRepo(IReleaseRepo):
     @classmethod
     def get_list(cls) -> ReleaseListEntity:
         try:
-            storage_release_list = object_storage_client.get(f'releases/release-list.json')
+            storage_release_list = object_storage_client.get('releases/release-list.json')
         except ObjectStorageError as exc:
             logging.warning(f'object not found {exc}')
             raise FileNotFoundError

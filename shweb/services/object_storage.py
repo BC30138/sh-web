@@ -66,6 +66,23 @@ class ObjectStorageAPI:
         bucket = s3_resource.Bucket(self._bucket_name)
         bucket.objects.filter(Prefix=prefix).delete()
 
+    def copy(self, key_from: str, key_to: str):
+        s3_resource = self._get_resource()
+        bucket = s3_resource.Bucket(self._bucket_name)
+        old_source = {
+            'Bucket': self._bucket_name,
+            'Key': key_from,
+        }
+        new_obj = bucket.Object(key_to)
+        new_obj.copy(old_source)
+
+    def copy_folder(self, prefix_from: str, prefix_to: str):
+        s3_resource = self._get_resource()
+        bucket = s3_resource.Bucket(self._bucket_name)
+        for obj in bucket.objects.filter(Prefix=prefix_from):
+            new_key = obj.key.replace(prefix_from, prefix_to, 1)
+            self.copy(obj.key, new_key)
+
     def create_invalidation(self, items: List[str]):
         client = self._get_cdn()
         client.create_invalidation(

@@ -12,7 +12,7 @@ def compile_release_type(release_type: ReleaseType, is_upper=True) -> str:
     elif release_type == ReleaseType.ALBUM:
         return _('Album') if is_upper else _('album')
     elif release_type == ReleaseType.EP:
-        return _('Ep') if is_upper else _('ep')
+        return 'EP'
     else:
         raise ValueError('There is no such release type')
 

@@ -17,8 +17,3 @@ class ReleaseType(enum.Enum):
     SINGLE = 'Single'
     ALBUM = 'Album'
     EP = 'EP'
-
-
-class DeviceType(enum.Enum):
-    WEB = 'web'
-    MOBILE = 'mobile'

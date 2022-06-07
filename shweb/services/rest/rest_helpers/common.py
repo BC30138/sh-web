@@ -54,6 +54,7 @@ class RequestParser(FlaskParser):
 
 request_parser = RequestParser()
 
-@request_parser.location_loader("form-files")
+
+@request_parser.location_loader("request-files")
 def load_data(request: Request, schema):
     return {'files': request.files.items()}

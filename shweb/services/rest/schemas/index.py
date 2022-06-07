@@ -1,5 +1,5 @@
 """Схемы для rest-коммуникаций с индексом"""
-
+import json
 import re
 import ast
 from typing import Optional
@@ -75,7 +75,7 @@ class IndexRawScheme(Schema):
     @pre_load()
     def to_dict(self, item, **kwargs):
         if isinstance(item, str):
-            return ast.literal_eval(item)
+            return json.loads(item)
         return item
 
     @classmethod

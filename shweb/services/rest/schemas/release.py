@@ -1,8 +1,8 @@
 """Схемы для rest-коммуникаций с релизами"""
-
+import ast
 import json
 
-from marshmallow import Schema, fields, post_dump
+from marshmallow import Schema, fields, post_dump, pre_load
 
 from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType
@@ -51,8 +51,14 @@ class ReleaseScheme(Schema):
     tracklist = fields.List(fields.Dict, required=True)
     youtube_videos = fields.List(fields.Str, required=False, allow_none=True)
 
+    @pre_load()
+    def to_dict(self, item, **kwargs):
+        if isinstance(item, str):
+            return json.loads(item)
+        return item
+
     @classmethod
-    def from_entity(cls, release_entity: ReleaseEntity) -> dict:
+    def from_entity(cls, release_entity: ReleaseEntity, edit_scheme: bool = False) -> dict:
         if release_entity.release_type == ReleaseType.SINGLE:
             bandcamp_type = 'track'
         else:
@@ -66,7 +72,7 @@ class ReleaseScheme(Schema):
         year = release_entity.release_date.year
         date_str = f'{day} {month} {year}'
 
-        return cls().load(dict(
+        data = cls().load(dict(
             release_id=release_entity.release_id,
             release_name=release_entity.release_name,
             release_type=compile_release_type(release_entity.release_type),
@@ -79,17 +85,17 @@ class ReleaseScheme(Schema):
             youtube_videos=release_entity.youtube_videos if release_entity.youtube_videos else [],
         ))
 
+        if edit_scheme:
+            data['youtube_videos'] = [
+                f'https://youtu.be/{yid}' for yid in release_entity.youtube_videos
+            ] if release_entity.youtube_videos else []
 
-class EditReleaseSchema(ReleaseScheme):
-    @post_dump
-    def post_dump_function(self, data, **kwargs):
-        for service in data['services']:
-            if service['name'] != "bandcamp":
-                data[f"service_{service['name']}"] = service['link']
-        if 'youtube_videos' in data:
-            data['youtube_videos'] = [f"https://youtu.be/{yid}" for yid in data['youtube_videos']]
+            for service in release_entity.services:
+                data[f'service_{service.name}'] = service.link
 
-        data['tracklist'] = json.dumps(data['tracklist'])
+            data['tracklist'] = json.dumps(data['tracklist'])
+            data['release_date'] = release_entity.release_date.isoformat()
+
         return data
 
 

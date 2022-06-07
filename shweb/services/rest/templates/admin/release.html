@@ -13,7 +13,7 @@
         {% endif%}
         add_tracks({{release.tracklist|safe}})
         {% if release.default_open_text %}
-            $('#default_open_track').val('{{release.default_open_text|safe}}');
+            $('#default_open_track').val("{{release.default_open_text|safe}}");
         {% endif%}
     </script>
 {% endif%}
@@ -116,15 +116,15 @@
         <div class="parameter">
             <div class="description"> Release type*: </div>
             <select name="type" id="release_type">
-                <option value="Album" {{ "selected" if release.type == "Album"}}> Album </option>
-                <option value="Single" {{ "selected" if release.type == "Single"}}> Single </option>
-                <option value="EP" {{ "selected" if release.type == "EP"}}> EP </option>
+                <option value="Album" {{ "selected" if release.release_type == "Album"}}> Album </option>
+                <option value="Single" {{ "selected" if release.release_type == "Single"}}> Single </option>
+                <option value="EP" {{ "selected" if release.release_type == "EP"}}> EP </option>
             </select>
         </div>
 
         <div class="parameter">
             <div class="description"> Date*: </div>
-            <input name="date" type="date" id="release_date" value="{{release.date}}">
+            <input name="date" type="date" id="release_date" value="{{release.release_date}}">
         </div>
 
         <div class="parameter">

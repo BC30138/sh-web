@@ -69,13 +69,13 @@ function create_track(track_blank) {
         return false
     }
 
-    track['id'] = make_id(track['name'])
+    track['track_id'] = make_id(track['name'])
     return track
 }
 
 function get_track_html(track, track_it) {
     return `
-    <div class="track" style="order:${track_it}" id="track_${track['id']}">
+    <div class="track" style="order:${track_it}" id="track_${track['track_id']}">
         <div id="track_head">
             ${track_it}. ${track['name']}
         </div>
@@ -119,7 +119,7 @@ function get_add_track_html(track, track_it, is_update) {
         }
         save_id = "update_track"
         cancel_id = "cancel_update_track"
-        current_id_input = `<input name="current_id" type="hidden" id="current_id" value="${track['id']}"/>`
+        current_id_input = `<input name="current_id" type="hidden" id="current_id" value="${track['track_id']}"/>`
     }
 
     return `
@@ -161,7 +161,7 @@ function add_tracks(tracks) {
         tracklist[trackIt] = track
         add_div(trackIt, tracklistWrapper, get_track_html(track, trackIt))
         $('#default_open_track').append($('<option>', {
-            value: track['id'],
+            value: track['track_id'],
             text: track['name']
         }));
     }
@@ -174,7 +174,7 @@ $(tracklistWrapper).on('click', '#save_track', function (e) {
     if (track === false) {
         return false
     }
-    if (Object.keys(tracklist).find(key => tracklist[key]['id'] === track['id'])) {
+    if (Object.keys(tracklist).find(key => tracklist[key]['track_id'] === track['track_id'])) {
         alert("Such track id is alredy exists")
         return false
     }
@@ -211,7 +211,7 @@ $(tracklistWrapper).on('click', '#update_track', function (e) {
 
     $('#default_open_track option').each(function () {
         if ($(this).val() == `${current_id}`) {
-            $(this).attr("value", track['id']);
+            $(this).attr("value", track['track_id']);
             $(this).text(track['name']);
         }
     });
@@ -241,14 +241,14 @@ $(tracklistWrapper).on('click', '#remove_track', function (e) {
             new_order = parseInt(key) - 1
             new_tracklist[new_order] = tracklist[key]
 
-            iter_track = $(`#track_${tracklist[key]['id']}`)
+            iter_track = $(`#track_${tracklist[key]['track_id']}`)
 
             iter_track.css("order", `${new_order}`)
             track_head_link = iter_track.find("#track_head").text(`${new_order}. ${tracklist[key]['name']}`)
         }
         else {
             $('#default_open_track option').each(function () {
-                if ($(this).val() == `${tracklist[key]['id']}`) {
+                if ($(this).val() == `${tracklist[key]['track_id']}`) {
                     $(this).remove();
                 }
             });
@@ -286,11 +286,11 @@ function change_order(element, type) {
     tracklist[right_string] = tracklist[left_string]
     tracklist[left_string] = tmp_obj
 
-    left_track = $("#track_" + tracklist[left_string]['id'])
+    left_track = $("#track_" + tracklist[left_string]['track_id'])
     left_track.css('order', left_string)
     left_track.find("#track_head").text(`${left_string}. ${tracklist[left_string]['name']}`)
 
-    right_track = $("#track_" + tracklist[right_string]['id'])
+    right_track = $("#track_" + tracklist[right_string]['track_id'])
     right_track.css('order', right_string)
     right_track.find("#track_head").text(`${right_string}. ${tracklist[right_string]['name']}`)
 }
@@ -363,12 +363,12 @@ var blank_parameters = {
         required: true
     },
     '#release_type': {
-        name: "type",
+        name: "release_type",
         type: "string",
         required: true
     },
     '#release_date': {
-        name: "date",
+        name: "release_date",
         type: "date",
         required: true
     },

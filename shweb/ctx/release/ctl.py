@@ -1,9 +1,9 @@
 """Контроллер для действий над релизами"""
 
 import logging
-from typing import Optional
+from typing import Optional, IO
 
-from shweb.ctx.release.model import ReleaseEntity, ReleaseListEntity
+from shweb.ctx.release.model import ReleaseEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampRepo
 
 
@@ -57,3 +57,55 @@ class ReleaseCtl:
         self._repo.upload_list(new_order_release_list)
 
         return new_order_release_list
+
+    def upload_release_objects(
+        self,
+        release_entity: ReleaseEntity,
+        cover: Optional[IO[bytes]] = None,
+        og: Optional[IO[bytes]] = None,
+    ):
+        self._repo.upsert_release_objects(
+            release_entity=release_entity,
+            cover=cover,
+            og=og,
+        )
+
+    def upsert_release_list_item(
+        self,
+        new_release: ReleaseListItemEntity,
+        release_id: Optional[str] = None,
+    ) -> ReleaseListEntity:
+        release_list_entity = self._repo.get_list()
+        release_ids = [release.release_id for release in release_list_entity.releases]
+        # new
+        if release_id is None:
+            if new_release.release_id in release_ids:
+                raise Error('Release with this name already exists')
+            release_list_entity.releases.append(new_release)
+        # rename
+        elif release_id != new_release.release_id:
+            if new_release.release_id in release_ids:
+                raise Error('Release with this name already exists')
+            release_list_entity.releases = list(
+                filter(lambda item: item.release_id != release_id, release_list_entity.releases)
+            )
+            self._repo.move_release_objects(release_id, new_release.release_id)
+            release_list_entity.releases.append(new_release)
+        # change data
+        elif new_release.release_id in release_ids:
+            for release in release_list_entity.releases:
+                if release.release_id == new_release.release_id:
+                    release.release_name = new_release.release_name
+                    release.release_type = new_release.release_type
+                    break
+
+        self._repo.upload_list(release_list_entity)
+        return release_list_entity
+
+    def remove_release(self, release_id: str):
+        self._repo.remove_release_objects(release_id)
+        release_list_entity = self._repo.get_list()
+        release_list_entity.releases = list(
+            filter(lambda item: item.release_id != release_id, release_list_entity.releases)
+        )
+        self._repo.upload_list(release_list_entity)

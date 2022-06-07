@@ -1,180 +1,156 @@
-import requests
+"""Страница редактирования/создания релиза"""
 
-from flask import redirect, url_for, render_template, make_response, current_app
-import werkzeug.datastructures
-from werkzeug.exceptions import BadRequest
-from flask_restful import Resource, reqparse, output_json
-from flask_mobility.decorators import mobile_template
+import enum
+from typing import Optional, IO
 
-from shweb.services.rest.rest_helpers.common import auth_required
-from shweb.services.rest.schemas.release import ReleaseScheme, EditReleaseSchema
+from flask import redirect, url_for, render_template, make_response
+from marshmallow import Schema
+from marshmallow_enum import EnumField
+from flask_restful import Resource, output_json
+from webargs import fields
 
-action_parser = reqparse.RequestParser()
-action_parser.add_argument("action", type=str, choices=('new', 'edit'), location="args", required=True)
-action_parser.add_argument("id", type=str, location="args", required=False)
+from shweb.ctx.release.model import ReleaseEntity, ReleaseListItemEntity
+from shweb.services.rest.rest_helpers.common import auth_required, request_parser
+from shweb.services.rest.rest_helpers.getters import get_release_ctl
+from shweb.services.rest.schemas.release import ReleaseScheme
 
-id_parser = action_parser.copy()
-id_parser.remove_argument('action')
 
-release_parser = reqparse.RequestParser()
-release_parser.add_argument("release", type=str, location="form", required=True)
-release_parser.add_argument("cover", type=werkzeug.datastructures.FileStorage, location="files", required=True)
-release_parser.add_argument("og", type=werkzeug.datastructures.FileStorage, location="files", required=True)
+class ActionType(enum.Enum):
+    CREATE_NEW = 'new'
+    EDIT_EXIST = 'edit'
 
-update_release_parser = release_parser.copy()
-update_release_parser.replace_argument(
-    "cover", type=werkzeug.datastructures.FileStorage, location="files", required=False)
-update_release_parser.replace_argument(
-    "og", type=werkzeug.datastructures.FileStorage, location="files", required=False)
+
+release_id_scheme = fields.Str(required=False, missing=None)
+
+
+class InputAdminReleaseScheme(Schema):
+    release: fields.Nested(ReleaseScheme, required=True)
 
 
 class ReleaseResource(Resource):
-    @mobile_template('admin/{mobile/}release.html')
-    @auth_required
-    def get(self, template):
-        try:
-            release_args = action_parser.parse_args()
-        except BadRequest:
-            return redirect(url_for('admin.release', action="new"))
+    template = 'admin/release.html'
 
+    @auth_required
+    @request_parser.use_kwargs({
+        'action': EnumField(ActionType, by_value=True, required=True),
+        'id': release_id_scheme,
+    }, location='query')
+    def get(
+            self,
+            action: ActionType,
+            id: Optional[str],
+    ):
         release = {}
-        if release_args['action'] == "edit":
-            if 'id' not in release_args:
-                return redirect(url_for('admin.release', action="new"))
-            release = release_args['id']
-            base = current_app.config['AWS_CLOUD_FRONT_DOMAIN']
-            release_json: dict = requests.get(f"{base}/releases/{release}/info.json").json()
-            schema = EditReleaseSchema()
-            schema_deserial = schema.load(release_json)
-            release = schema.dump(schema_deserial)
+        if action == ActionType.EDIT_EXIST:
+            if id is None:
+                return redirect(url_for('admin.release', action=ActionType.CREATE_NEW.value))
+
+            release_ctl = get_release_ctl()
+            release_entity = release_ctl.get(
+                release_id=id,
+            )
+            release = ReleaseScheme.from_entity(
+                release_entity=release_entity,
+                edit_scheme=True,
+            )
 
         return make_response(
             render_template(
-                template,
-                action=release_args['action'],
+                self.template,
+                action=action.value,
                 release=release
             )
         )
 
+    # TODO: можно сделать одним методом с обновлением
     @auth_required
-    def post(self):
-        release_args = release_parser.parse_args()
+    @request_parser.use_kwargs({
+        'release': fields.Nested(ReleaseScheme, required=True),
+    }, location='form')
+    @request_parser.use_kwargs({
+        'cover': fields.Field(
+            required=False,
+            validate=lambda file: file.mimetype == 'image/jpeg',
+            missing=None,
+        ),
+        'og': fields.Field(
+            required=False,
+            validate=lambda file: file.mimetype == 'image/jpeg',
+            missing=None,
+        ),
+    }, location='files')
+    def post(
+        self,
+        release,
+        cover,
+        og,
+    ):
+        release_entity = ReleaseEntity.from_dict(release)
 
-        release_schema = ReleaseScheme()
-        release_schema_deserial = release_schema.loads(
-            release_args['release']
+        release_ctl = get_release_ctl()
+
+        new_release = ReleaseListItemEntity(
+            release_id=release_entity.release_id,
+            release_name=release_entity.release_name,
+            release_type=release_entity.release_type,
         )
-
-        response = get_raw_release_list()
-        list_schema = ReleaseListSchema()
-        list_schema_deserial = list_schema.load(response)
-
-        if release_schema_deserial['release_id'] in [x['id'] for x in list_schema_deserial['releases']]:
-            return output_json({'status': "Release with this name alredy exists"}, 400)
-
-        release_list_path = "releases/release-list.json"
-        release_path = f"releases/{release_schema_deserial['release_id']}"
-
-        upload_json(
-            release_schema_deserial,
-            f"{release_path}/info.json"
+        release_ctl.upsert_release_list_item(
+            new_release=new_release,
         )
-        upload_file(
-            release_args['cover'],
-            f"{release_path}/cover.jpg"
+        release_ctl.upload_release_objects(
+            release_entity=release_entity,
+            cover=cover,
+            og=og,
         )
-        upload_file(
-            release_args['og'],
-            f"{release_path}/og.jpg"
-        )
-
-        item_schema = ReleaseListItemSchema()
-        item_schema_deserial = item_schema.load(
-            {
-                "id": release_schema_deserial['release_id'],
-                "name": release_schema_deserial['release_name'],
-                "type": release_schema_deserial['type']
-            }
-        )
-        list_schema_deserial['releases'].append(item_schema_deserial)
-
-        upload_json(list_schema_deserial, release_list_path)
-        create_invalidation([f"/{release_list_path}"])
-
         return output_json({'status': "ok"}, 200)
 
     @auth_required
-    def put(self):
-        args = id_parser.parse_args()
-        release_args = update_release_parser.parse_args()
+    @request_parser.use_kwargs({'id': release_id_scheme}, location='query')
+    @request_parser.use_kwargs({
+        'release': fields.Nested(ReleaseScheme, required=True),
+    }, location='form')
+    @request_parser.use_kwargs({
+        'cover': fields.Field(
+            required=False,
+            validate=lambda file: file.mimetype == 'image/jpeg',
+            missing=None,
+        ),
+        'og': fields.Field(
+            required=False,
+            validate=lambda file: file.mimetype == 'image/jpeg',
+            missing=None,
+        ),
+    }, location='files')
+    def put(
+        self,
+        id: str,
+        release: dict,
+        cover: Optional[IO[bytes]],
+        og: Optional[IO[bytes]],
+    ):
+        release_entity = ReleaseEntity.from_dict(release)
 
-        release_schema = ReleaseScheme()
-        release_schema_deserial = release_schema.loads(
-            release_args['release']
+        release_ctl = get_release_ctl()
+
+        new_release = ReleaseListItemEntity(
+            release_id=release_entity.release_id,
+            release_name=release_entity.release_name,
+            release_type=release_entity.release_type,
         )
-
-        release_list_path = "releases/release-list.json"
-        release_path = f"releases/{release_schema_deserial['release_id']}"
-
-        upload_json(
-            release_schema_deserial,
-            f"{release_path}/info.json"
+        release_ctl.upsert_release_list_item(
+            release_id=id,
+            new_release=new_release,
         )
-        if release_args['cover'] is not None:
-            upload_file(
-                release_args['cover'],
-                f"{release_path}/cover.jpg"
-            )
-        if release_args['og'] is not None:
-            upload_file(
-                release_args['og'],
-                f"{release_path}/og.jpg"
-            )
-
-        if args['id'] != release_schema_deserial['release_id']:
-            response = get_raw_release_list()
-            list_schema = ReleaseListSchema()
-            list_schema_deserial = list_schema.load(response)
-
-            if release_schema_deserial['release_id'] in [x['id'] for x in list_schema_deserial['releases']]:
-                return output_json({'status': "Release with this name alredy exists"}, 400)
-
-            list_schema_deserial['releases'] = list(
-                filter(lambda i: i['id'] != args['id'], list_schema_deserial['releases'])
-            )
-
-            item_schema = ReleaseListItemSchema()
-            item_schema_deserial = item_schema.load(
-                {
-                    "id": release_schema_deserial['release_id'],
-                    "name": release_schema_deserial['release_name'],
-                    "type": release_schema_deserial['type']
-                }
-            )
-            list_schema_deserial['releases'].append(item_schema_deserial)
-
-            s3_delete(f"releases/{args['id']}/")
-            upload_json(list_schema_deserial, release_list_path)
-            create_invalidation([f"/{release_list_path}"])
-        create_invalidation([f"/{release_path}/*"])
-
+        release_ctl.upload_release_objects(
+            release_entity=release_entity,
+            cover=cover,
+            og=og,
+        )
         return output_json({'status': "ok"}, 200)
 
     @auth_required
-    def delete(self):
-        args = id_parser.parse_args()
-        release_list_path = "releases/release-list.json"
-
-        response = get_raw_release_list()
-        list_schema = ReleaseListSchema()
-        list_schema_deserial = list_schema.load(response)
-
-        list_schema_deserial['releases'] = list(
-            filter(lambda i: i['id'] != args['id'], list_schema_deserial['releases'])
-        )
-
-        s3_delete(f"releases/{args['id']}/")
-        upload_json(list_schema_deserial, release_list_path)
-        create_invalidation([f"/{release_list_path}"])
-
+    @request_parser.use_kwargs({'id': release_id_scheme}, location='query')
+    def delete(self, id: str):
+        release_ctl = get_release_ctl()
+        release_ctl.remove_release(id)
         return output_json({'status': "ok"}, 200)

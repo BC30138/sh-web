@@ -1,5 +1,7 @@
 """Страница для изменения индекса"""
+
 import ast
+import enum
 from typing import List, IO, Dict
 
 from flask import render_template, make_response
@@ -11,7 +13,11 @@ from shweb.ctx.index.model import IndexEntity, ClientIndexEntity
 from shweb.services.rest.rest_helpers.common import auth_required, request_parser
 from shweb.services.rest.rest_helpers.getters import get_index_ctl
 from shweb.services.rest.schemas.index import IndexAdminScheme, IndexRawScheme, ClientIndexScheme
-from shweb.util.enums import DeviceType
+
+
+class DeviceType(enum.Enum):
+    WEB = 'web'
+    MOBILE = 'mobile'
 
 
 class InputDeleteScheme(Schema):
@@ -19,9 +25,7 @@ class InputDeleteScheme(Schema):
 
     @pre_load
     def to_list(self, item, **kwargs):
-        return {
-            'delete': ast.literal_eval(item['delete'][0])
-        }
+        return {'delete': ast.literal_eval(item['delete'][0])}
 
 
 class EditHomeResource(Resource):
@@ -42,7 +46,7 @@ class EditHomeResource(Resource):
     @request_parser.use_kwargs(InputDeleteScheme, location='form')
     @request_parser.use_kwargs({
         'files': fields.Field(required=False, missing={}),
-    }, location="form-files")
+    }, location="request-files")
     def put(
         self,
         index_code: dict,

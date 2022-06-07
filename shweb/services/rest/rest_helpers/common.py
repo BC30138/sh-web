@@ -1,6 +1,6 @@
 import functools
 
-from flask import session, url_for
+from flask import session, url_for, Request
 from jose import jwt
 from werkzeug.utils import redirect
 from marshmallow import EXCLUDE
@@ -47,7 +47,13 @@ class RequestParser(FlaskParser):
         'query': EXCLUDE,
         'json': EXCLUDE,
         'form': EXCLUDE,
+        'files': EXCLUDE,
     }
 
 
+
 request_parser = RequestParser()
+
+@request_parser.location_loader("form-files")
+def load_data(request: Request, schema):
+    return {'files': request.files.items()}

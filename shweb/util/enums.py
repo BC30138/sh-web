@@ -14,6 +14,11 @@ class AuthStatus(Enum):
 
 
 class ReleaseType(enum.Enum):
-    SINGLE = "Single"
-    ALBUM = "Album"
-    EP = "EP"
+    SINGLE = 'Single'
+    ALBUM = 'Album'
+    EP = 'EP'
+
+
+class DeviceType(enum.Enum):
+    WEB = 'web'
+    MOBILE = 'mobile'

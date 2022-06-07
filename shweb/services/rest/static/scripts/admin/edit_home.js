@@ -221,7 +221,13 @@ $(controls_wrapper).on('click', '#preview-template', function (e) {
 
             xhr.open("POST", window.location.origin + "/admin/index-edit/preview?device=" + open_tab[0]);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({ "index_code": request_data }));
+            xhr.send(JSON.stringify({
+                "index_code": {
+                    "style": request_data['style'],
+                    "content": request_data['content']
+                },
+                "images": request_data['images']
+             }));
         }
 
     )

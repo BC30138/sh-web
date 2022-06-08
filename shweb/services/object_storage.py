@@ -1,13 +1,14 @@
 """Сервис для получения данных из хранилища"""
 
 import logging
-from typing import IO, List
+from typing import List
 from time import time
 import requests
 import json
 
 import boto3
 from botocore.client import BaseClient
+from werkzeug.datastructures import FileStorage
 
 from shweb.config import Config
 
@@ -56,7 +57,7 @@ class ObjectStorageAPI:
             Body=(bytes(json.dumps(json_data).encode('UTF-8')))
         )
 
-    def upload_file(self, file: IO[bytes], file_path: str):
+    def upload_file(self, file: FileStorage, file_path: str):
         s3_resource = self._get_resource()
         s3_object = s3_resource.Object(self._bucket_name, file_path)
         s3_object.put(Body=file.read())

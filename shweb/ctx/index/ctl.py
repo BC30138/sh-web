@@ -1,7 +1,9 @@
 """Контроллер для действий над индекс-страницой"""
 
 import logging
-from typing import List, Dict, IO
+from typing import List, Tuple
+
+from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.index.model import IndexEntity
 from shweb.ctx.index.adapter import IIndexRepo
@@ -22,7 +24,7 @@ class IndexCtl:
         self,
         index_entity: IndexEntity,
         to_delete: List[str],
-        files: Dict[str, IO[bytes]],
+        files: List[Tuple[str, FileStorage]],
     ):
         self._repo.upload(
             index_entity=index_entity,

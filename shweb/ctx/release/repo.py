@@ -1,7 +1,9 @@
 """Интерфейс хранилища релизов"""
 import abc
 import logging
-from typing import Optional, IO
+from typing import Optional
+
+from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType
@@ -43,8 +45,8 @@ class IReleaseRepo(abc.ABC):
     def upsert_release_objects(
             cls,
             release_entity: ReleaseEntity,
-            cover: Optional[IO[bytes]] = None,
-            og: Optional[IO[bytes]] = None,
+            cover: Optional[FileStorage] = None,
+            og: Optional[FileStorage] = None,
     ):
         raise NotImplementedError
 
@@ -139,8 +141,8 @@ class ReleaseRepo(IReleaseRepo):
     def upsert_release_objects(
         cls,
         release_entity: ReleaseEntity,
-        cover: Optional[IO[bytes]] = None,
-        og: Optional[IO[bytes]] = None,
+        cover: Optional[FileStorage] = None,
+        og: Optional[FileStorage] = None,
     ):
         if cover is not None:
             object_storage_client.upload_file(
@@ -149,7 +151,7 @@ class ReleaseRepo(IReleaseRepo):
             )
         if og is not None:
             object_storage_client.upload_file(
-                file=cover,
+                file=og,
                 file_path=f'releases/{release_entity.release_id}/og.jpg',
             )
 
@@ -170,7 +172,7 @@ class ReleaseRepo(IReleaseRepo):
             ) for track in release_entity.tracklist],
             bandcamp_id=release_entity.bandcamp_id,
             bandcamp_link=release_entity.bandcamp_link,
-            date=release_entity.release_date.isoformat(),
+            date=None if release_entity.release_date is None else release_entity.release_date.isoformat(),
             default_open_text=release_entity.default_open_text,
             youtube_videos=release_entity.youtube_videos,
         )

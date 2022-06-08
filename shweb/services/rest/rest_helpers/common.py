@@ -51,7 +51,6 @@ class RequestParser(FlaskParser):
     }
 
 
-
 request_parser = RequestParser()
 
 

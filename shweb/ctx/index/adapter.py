@@ -1,7 +1,9 @@
 """Адаптер хранилища индекс-страницы"""
 
 import abc
-from typing import List, Dict, IO
+from typing import List, Tuple
+
+from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.index.model import IndexEntity, ClientIndexEntity
 from shweb.services.object_storage import object_storage_client
@@ -19,7 +21,7 @@ class IIndexRepo(abc.ABC):
         cls,
         index_entity: IndexEntity,
         to_delete: List[str],
-        files: Dict[str, IO[bytes]]
+        files: List[Tuple[str, FileStorage]]
     ):
         raise NotImplementedError
 
@@ -48,7 +50,7 @@ class IndexRepo(IIndexRepo):
         cls,
         index_entity: IndexEntity,
         to_delete: List[str],
-        files: Dict[str, IO[bytes]]
+        files: List[Tuple[str, FileStorage]]
     ):
         for filename, file in files:
             object_storage_client.upload_file(

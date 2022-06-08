@@ -2,12 +2,13 @@
 
 import ast
 import enum
-from typing import List, IO, Dict
+from typing import List, Tuple
 
 from flask import render_template, make_response
 from flask_restful import Resource, output_json
 from marshmallow import Schema, fields, pre_load
 from marshmallow_enum import EnumField
+from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.index.model import IndexEntity, ClientIndexEntity
 from shweb.services.rest.rest_helpers.common import auth_required, request_parser
@@ -51,7 +52,7 @@ class EditHomeResource(Resource):
         self,
         index_code: dict,
         delete: List[str],
-        files: Dict[str, IO[bytes]],
+        files: List[Tuple[str, FileStorage]],
     ):
         index_ctl = get_index_ctl()
 

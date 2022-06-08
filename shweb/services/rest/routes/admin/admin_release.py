@@ -1,13 +1,15 @@
 """Страница редактирования/создания релиза"""
 
 import enum
-from typing import Optional, IO
+import logging
+from typing import Optional
 
 from flask import redirect, url_for, render_template, make_response
-from marshmallow import Schema
 from marshmallow_enum import EnumField
-from flask_restful import Resource, output_json
+from flask_restful import Resource
 from webargs import fields
+from werkzeug.datastructures import FileStorage
+from werkzeug.exceptions import NotFound
 
 from shweb.ctx.release.model import ReleaseEntity, ReleaseListItemEntity
 from shweb.services.rest.rest_helpers.common import auth_required, request_parser
@@ -21,10 +23,6 @@ class ActionType(enum.Enum):
 
 
 release_id_scheme = fields.Str(required=False, missing=None)
-
-
-class InputAdminReleaseScheme(Schema):
-    release: fields.Nested(ReleaseScheme, required=True)
 
 
 class ReleaseResource(Resource):
@@ -49,6 +47,9 @@ class ReleaseResource(Resource):
             release_entity = release_ctl.get(
                 release_id=id,
             )
+            if release_entity is None:
+                logging.info('release entity not found')
+                raise NotFound('Release entity not found')
             release = ReleaseScheme.from_entity(
                 release_entity=release_entity,
                 edit_scheme=True,
@@ -102,7 +103,7 @@ class ReleaseResource(Resource):
             cover=cover,
             og=og,
         )
-        return output_json({'status': "ok"}, 200)
+        return make_response({'status': "ok"}, 200)
 
     @auth_required
     @request_parser.use_kwargs({'id': release_id_scheme}, location='query')
@@ -125,8 +126,8 @@ class ReleaseResource(Resource):
         self,
         id: str,
         release: dict,
-        cover: Optional[IO[bytes]],
-        og: Optional[IO[bytes]],
+        cover: Optional[FileStorage],
+        og: Optional[FileStorage],
     ):
         release_entity = ReleaseEntity.from_dict(release)
 
@@ -146,11 +147,11 @@ class ReleaseResource(Resource):
             cover=cover,
             og=og,
         )
-        return output_json({'status': "ok"}, 200)
+        return make_response({'status': "ok"}, 200)
 
     @auth_required
     @request_parser.use_kwargs({'id': release_id_scheme}, location='query')
     def delete(self, id: str):
         release_ctl = get_release_ctl()
         release_ctl.remove_release(id)
-        return output_json({'status': "ok"}, 200)
+        return make_response({'status': "ok"}, 200)

@@ -1,8 +1,8 @@
 """Схемы для rest-коммуникаций с релизами"""
-import ast
+
 import json
 
-from marshmallow import Schema, fields, post_dump, pre_load
+from marshmallow import Schema, fields, pre_load
 
 from shweb.ctx.release.model import ReleaseEntity, TrackEntity, ServiceEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType

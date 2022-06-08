@@ -1,7 +1,9 @@
 """Контроллер для действий над релизами"""
 
 import logging
-from typing import Optional, IO
+from typing import Optional
+
+from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.release.model import ReleaseEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.ctx.release.repo import IReleaseRepo, IReleaseBandcampRepo
@@ -61,8 +63,8 @@ class ReleaseCtl:
     def upload_release_objects(
         self,
         release_entity: ReleaseEntity,
-        cover: Optional[IO[bytes]] = None,
-        og: Optional[IO[bytes]] = None,
+        cover: Optional[FileStorage] = None,
+        og: Optional[FileStorage] = None,
     ):
         self._repo.upsert_release_objects(
             release_entity=release_entity,

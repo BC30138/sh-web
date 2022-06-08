@@ -1,7 +1,9 @@
 """Проверка рендера страницы индекса"""
+from unittest.mock import PropertyMock
 
 import pytest
 
+from shweb.config import Config
 from shweb.ctx.index.ctl import IndexCtl
 
 
@@ -23,15 +25,18 @@ def test_calls(
     decoded_index_response_factory,
 ):
     app = parametrized_app[client_name]
-    app.config.update({
-        'AWS_CLOUD_FRONT_DOMAIN': 'https/example.com',
-    })
     client = app.test_client()
 
     ctl_mock = mocker.patch.object(
         IndexCtl,
         'get',
         return_value=index_factory(),
+    )
+    mocker.patch.object(
+        Config,
+        'AWS_CLOUD_FRONT_DOMAIN',
+        new_callable=PropertyMock,
+        return_value='https/example.com',
     )
     render_mock = mocker.patch(
         'shweb.services.rest.routes.public.index.render_template',

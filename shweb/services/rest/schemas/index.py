@@ -14,6 +14,7 @@ from shweb.config import Config
 def parse_variables(code: str, images: Optional[dict] = None):
     if images is None:
         images = {}
+
     def match_func(match):
         var: str = match.group()[2:-2]
         var = var.strip()

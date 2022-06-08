@@ -1,0 +1,8 @@
+{% extends "public/web/base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' href="/static/css/not_found.css">
+{% endblock %}
+{% block content %}
+<div class="page-error"> {{message}} </div>
+{% endblock %}

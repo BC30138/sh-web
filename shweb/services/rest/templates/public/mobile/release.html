@@ -1,0 +1,90 @@
+{% extends "public/mobile/base.html" %}
+{% block head %}
+{{ super() }}
+<link rel='stylesheet' href="/static/css/mobile/release.css">
+{% endblock %}
+{% block title %}
+<title>станет хуже - {{release.release_name}}</title>
+<meta name="title" content="станет хуже - {{release.release_name}}">
+<meta property="og:title" content="станет хуже - {{release.release_name}}">
+<meta name="twitter:title" content="станет хуже - {{release.release_name}}">
+<meta name="description" content="{{release.release_type}}, {{release.release_date}}">
+<meta property="og:description" content="{{release.release_type}}, {{release.release_date}}">
+<meta name="twitter:description" content="{{release.release_type}}, {{release.release_date}}">
+<meta name="image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
+<meta property="og:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
+<meta name="twitter:image" content="{{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/og.jpg">
+<meta name="url" content="http://www.stanethuzhe.ru/">
+<meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+{% block content %}
+<div>
+    <div
+        style="max-width: 700px;  background-image: url({{config.AWS_CLOUD_FRONT_DOMAIN}}/releases/{{release.release_id}}/cover.jpg); background-size: contain;">
+        <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;">
+            <iframe
+                src="https://bandcamp.com/EmbeddedPlayer/{{release.bandcamp_id}}/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
+                style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen
+                scrolling="no" allow="encrypted-media"></iframe>
+        </div>
+    </div>
+</div>
+<div class="release-info">
+    <div class="release-name"> {{release.release_name}} <span class="share">
+            <button class="share-btn">
+                <div class="share-text">{{_('share')}} </div>
+                <img class="share-icon" src="/static/images/icons/share.svg">
+            </button>
+        </span>
+    </div>
+    <div class="date">{{_('Release date')}}: {{release.release_date}} </div>
+    <div class="tracklist-head">{{_('Tracklist')}}:</div>
+    <ul class="tracklist">
+        {% for track in release.tracklist%}
+        <div class="lyrics-dropdown">
+            <button onclick="openLyrics('{{ track.track_id }}')" class="lyrics-btn">
+                {{loop.index}}. {{ track.name }}
+                {% if track.explicit %}
+                <span class="explicit"> <img class="explicit-icon" src="/static/images/icons/explicit.svg"> </span>
+                {%endif %}
+                <span class="expand"> <img class="expand-icon" src="/static/images/icons/expand.svg"
+                        id="{{ track.track_id }}-expand-icon"> </span>
+            </button>
+            <div id={{ track.track_id }} class="lyrics">
+                <!-- <pre><b>Lyrics:</b> {{track.written}}</pre> -->
+                <pre>{{track.lyrics}}</pre>
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
+<div class="services-section">
+    <ul class="services">
+        {% for service in release.services %}
+        <li>
+            <div class="service">
+                <a href="{{ service.link }}" class="service-link" target="_blank">
+                    <img src="/static/images/services/{{ service.name }}.png">
+                </a>
+                <a href="{{ service.link }}" class="service-link" target="_blank">
+                    <button class="service-btn">Play</button>
+                </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% for youtube_video in release.youtube_videos %}
+<div class="auto-resizable-iframe">
+    <div>
+        <iframe class="youtube-player" src="https://www.youtube.com/embed/{{youtube_video}}" frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen="allowfullscreen"></iframe>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block loaded_scripts %}
+<script src="/static/scripts/public/mobile/release.js"></script>
+{% endblock %}

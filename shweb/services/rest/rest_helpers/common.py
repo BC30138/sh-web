@@ -6,7 +6,7 @@ from werkzeug.utils import redirect
 from marshmallow import EXCLUDE
 from webargs.flaskparser import FlaskParser
 
-from shweb.services.auth_service import auth_client
+# from shweb.services.auth_service import auth_client
 from shweb.services.rest.rest_helpers.getters import get_release_ctl
 from shweb.services.rest.schemas.release import ReleaseListScheme
 from shweb.util.enums import AuthStatus

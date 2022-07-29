@@ -1,7 +1,7 @@
 import functools
 
 from flask import session, url_for, Request
-from jose import jwt
+# from jose import jwt
 from werkzeug.utils import redirect
 from marshmallow import EXCLUDE
 from webargs.flaskparser import FlaskParser
@@ -25,7 +25,7 @@ def get_user_info_from_token():
 def utility_processor():
     return dict(
         get_release_list=get_release_list,
-        get_user_info_from_token=get_user_info_from_token,
+        # get_user_info_from_token=get_user_info_from_token,
     )
 
 

@@ -8,7 +8,7 @@ from flask_babel import Babel
 from shweb.config import Config
 from shweb.services.rest.router import register_blueprints
 from shweb.services.rest.errorhandlers import register_errorhandlers
-from shweb.services.rest.rest_helpers.common import utility_processor
+# from shweb.services.rest.rest_helpers.common import utility_processor
 from shweb.services.rest.rest_helpers.translate import get_locale
 
 
@@ -29,5 +29,5 @@ def create_app():
     register_blueprints(app)
     register_errorhandlers(app)
 
-    app.template_context_processors[None].append(utility_processor)
+    # app.template_context_processors[None].append(utility_processor)
     return app

@@ -1,6 +1,7 @@
 .vscode
 .idea
 .tmp
+.ssl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

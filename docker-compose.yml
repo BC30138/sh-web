@@ -1,21 +1,23 @@
 version: "3"
+
 services:
-  webapp:
-    container_name: sh-web
+  web:
+    restart: always
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/web/Dockerfile
+    expose:
+      - "5000"
+    env_file:
+      - .env
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes: 
+     - /etc/ssl/nginx:/etc/ssl/nginx
     ports:
-      - 5000:5000
-    volumes:
-      - ./shweb:/opt/webapp/shweb
-    environment:
-      APP_SECRET_KEY: ${APP_SECRET_KEY}
-      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
-      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
-      AWS_REGION: ${AWS_REGION}
-      AWS_USER_POOL_ID: ${AWS_USER_POOL_ID}
-      AWS_APP_CLIENT_ID: ${AWS_APP_CLIENT_ID}
-      AWS_APP_CLIENT_SECRET: ${AWS_APP_CLIENT_SECRET}
-      AWS_CLOUD_FRONT_DOMAIN: "${AWS_CLOUD_FRONT_DOMAIN}"
-      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      - 80:80
+      - 443:443
+    depends_on:
+      - web

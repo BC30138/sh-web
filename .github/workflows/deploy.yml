@@ -19,10 +19,10 @@ jobs:
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: "use ssh"
         shell: bash
-        run:
+        run: |
           ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
-              cd sh-web;
-              ls;
+              cd sh-web
+              ls
           '
         
           

@@ -1,15 +1,28 @@
 name: Deploy
 on: [workflow_dispatch]
+env:
+  PRIVATE_KEY_PATH: ~/.ssh/private.key 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: "deploy"
+      - name: "create ssh key"
+        env:
+            SSH_PRIVATE_KEY: ${{secrets.SERVER_KEY}}
+            SSH_KNOWN_HOSTS: ${{secrets.SERVER_KNOWN_HOSTS}}
+        shell: bash
         run: |
-          eval `ssh-agent -s`
-          echo "${{ secrets.SERVER_KEY }}" > deploy_key
-          ssh -i deploy_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > $PRIVATE_KEY_PATH
+          sudo chmod 600 $PRIVATE_KEY_PATH
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: "use ssh"
+        shell: bash
+        run:
+          ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
               cd sh-web
               ls
           '
+        
+          

@@ -8,8 +8,8 @@ jobs:
       - name: "deploy"
         run: |
           eval `ssh-agent -s`
-          ssh-add - <<< "${{ secrets.SERVER_KEY }}"
-          ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
+          echo "${{ secrets.SERVER_KEY }}" > deploy_key
+          ssh -i deploy_key ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
               cd sh-web
               ls
           '

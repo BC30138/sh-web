@@ -1,7 +1,7 @@
 name: Deploy
 on: [workflow_dispatch]
 env:
-  PRIVATE_KEY_PATH: ~/.ssh/private.key 
+  PRIVATE_KEY_PATH: private.key 
 jobs:
   build:
     runs-on: ubuntu-latest

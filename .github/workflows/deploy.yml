@@ -21,8 +21,8 @@ jobs:
         shell: bash
         run:
           ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
-              cd sh-web
-              ls
+              cd sh-web;
+              ls;
           '
         
           

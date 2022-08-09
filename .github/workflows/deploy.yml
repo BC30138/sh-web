@@ -41,7 +41,7 @@ jobs:
               echo AWS_CLOUD_FRONT_DOMAIN=${{ secrets.AWS_CLOUD_FRONT_DOMAIN_TEST }} >> .env
               echo AWS_CLOUD_FRONT_ID=${{ secrets.AWS_CLOUD_FRONT_ID_TEST }} >> .env
               echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME_TEST }} >> .env
-              docker-compose up -d
-              sleep 120
+              docker-compose up -d 
           '
+          sleep 120
 

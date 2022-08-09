@@ -38,9 +38,9 @@ jobs:
               echo AWS_USER_POOL_ID=${{ secrets.AWS_USER_POOL_ID }} >> .env
               echo AWS_APP_CLIENT_ID=${{ secrets.AWS_APP_CLIENT_ID }} >> .env
               echo AWS_APP_CLIENT_SECRET=${{ secrets.AWS_APP_CLIENT_SECRET }} >> .env
-              echo AWS_CLOUD_FRONT_DOMAIN=${{ secrets.AWS_CLOUD_FRONT_DOMAIN_TEST }} >> .env
-              echo AWS_CLOUD_FRONT_ID=${{ secrets.AWS_CLOUD_FRONT_ID_TEST }} >> .env
-              echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME_TEST }} >> .env
+              echo AWS_CLOUD_FRONT_DOMAIN=${{ secrets.AWS_CLOUD_FRONT_DOMAIN }} >> .env
+              echo AWS_CLOUD_FRONT_ID=${{ secrets.AWS_CLOUD_FRONT_ID }} >> .env
+              echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> .env
               docker-compose up -d 
           '
           sleep 120

@@ -24,11 +24,23 @@ jobs:
       - name: "use ssh"
         shell: bash
         run: |
-          echo ${{ github.repositoryUrl }}
           ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
               docker kill $(docker ps -q)
               docker container prune -f
               docker image prune -a -f
               rm -rf sh-web
+              git clone -b ${{ steps.extract_branch.outputs.branch }} --single-branch ${{ github.server_url }}/${{ github.repository }}.git
+              cd sh-web
+              echo APP_SECRET_KEY=${{ secrets.APP_SECRET_KEY }} >> .env
+              echo AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} >> .env
+              echo AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} >> .env
+              echo AWS_REGION=${{ secrets.AWS_REGION }} >> .env
+              echo AWS_USER_POOL_ID=${{ secrets.AWS_USER_POOL_ID }} >> .env
+              echo AWS_APP_CLIENT_ID=${{ secrets.AWS_APP_CLIENT_ID }} >> .env
+              echo AWS_APP_CLIENT_SECRET=${{ secrets.AWS_APP_CLIENT_SECRET }} >> .env
+              echo AWS_CLOUD_FRONT_DOMAIN=${{ secrets.AWS_CLOUD_FRONT_DOMAIN_TEST }} >> .env
+              echo AWS_CLOUD_FRONT_ID=${{ secrets.AWS_CLOUD_FRONT_ID_TEST }} >> .env
+              echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME_TEST }} >> .env
+              docker-compose up -d
           '
 

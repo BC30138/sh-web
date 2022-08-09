@@ -24,7 +24,7 @@ jobs:
       - name: "use ssh"
         shell: bash
         run: |
-          ls
+          echo ${{ github.repositoryUrl }}
           ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
               docker kill $(docker ps -q)
               docker container prune -f

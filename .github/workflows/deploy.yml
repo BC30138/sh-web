@@ -43,5 +43,5 @@ jobs:
               echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> .env
               docker-compose up -d 
           '
-          sleep 120
+          sleep 150
 

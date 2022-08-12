@@ -1,4 +1,4 @@
-from shweb.services.rest import create_app
+from shweb.app import create_app
 
 
 application = create_app()

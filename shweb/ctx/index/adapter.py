@@ -6,7 +6,7 @@ from typing import List, Tuple
 from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.index.model import IndexEntity, ClientIndexEntity
-from shweb.services.object_storage import object_storage_client
+from shweb.extensions.object_storage import object_storage_client
 
 
 class IIndexRepo(abc.ABC):

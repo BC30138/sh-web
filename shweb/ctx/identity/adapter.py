@@ -7,7 +7,7 @@ import warrant
 from botocore.exceptions import ClientError
 
 from shweb.ctx.identity.model import IdentityEntity
-from shweb.services.auth_service import auth_client
+from shweb.extensions.auth_service import auth_client
 from shweb.util.enums import AuthStatus
 
 

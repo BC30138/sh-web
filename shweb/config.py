@@ -5,6 +5,13 @@ from shweb import APP_PATH
 
 
 class Config:
+    API_TITLE = "sh-web api"
+    API_VERSION = "v1"
+    OPENAPI_VERSION = "3.0.2"
+    OPENAPI_URL_PREFIX = '/'
+    OPENAPI_SWAGGER_UI_PATH = "/swagger-ui"
+    OPENAPI_SWAGGER_UI_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/"
+
     TESTING = bool(strtobool(os.environ.get('TESTING', 'false')))
     SECRET_KEY = os.environ['APP_SECRET_KEY']
     AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']

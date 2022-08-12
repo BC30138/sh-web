@@ -7,10 +7,10 @@ from werkzeug.datastructures import FileStorage
 
 from shweb.ctx.release.model import ReleaseEntity, ServiceEntity, TrackEntity, ReleaseListEntity, ReleaseListItemEntity
 from shweb.util.enums import ReleaseType
-from shweb.services.object_storage import object_storage_client
-from shweb.services.object_storage import Error as ObjectStorageError
-from shweb.services.bandcamp import bandcamp_client
-from shweb.services.bandcamp import Error as BandcampError
+from shweb.extensions.object_storage import object_storage_client
+from shweb.extensions.object_storage import Error as ObjectStorageError
+from shweb.extensions.bandcamp import bandcamp_client
+from shweb.extensions.bandcamp import Error as BandcampError
 from shweb.util.dateutils import date_from_str
 
 

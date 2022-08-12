@@ -1,0 +1,13 @@
+"""Рендер страницы новостей"""
+from flask import Blueprint, render_template
+
+from shweb.extensions.rest.rest_helpers.mobile import mobile_template
+
+
+blueprint = Blueprint("feed", __name__)
+
+
+@blueprint.route('/')
+@mobile_template(['public'], 'feed.html')
+def index(template):
+    return render_template(template)

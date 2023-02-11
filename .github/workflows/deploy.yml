@@ -25,10 +25,7 @@ jobs:
         shell: bash
         run: |
           ssh -i $PRIVATE_KEY_PATH ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} -f '
-              docker kill $(docker ps -q)
-              docker container prune -f
-              docker image prune -a -f
-              rm -rf sh-web
+              bash bc30138-server/clean-up.sh sh-web
               git clone -b ${{ steps.extract_branch.outputs.branch }} --single-branch ${{ github.server_url }}/${{ github.repository }}.git
               cd sh-web
               echo APP_SECRET_KEY=${{ secrets.APP_SECRET_KEY }} >> .env

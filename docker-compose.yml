@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  web:
+  shweb:
     restart: always
     build:
       context: .
@@ -10,14 +10,9 @@ services:
       - "5000"
     env_file:
       - .env
-  nginx:
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    volumes: 
-     - /etc/ssl/nginx:/etc/ssl/nginx
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - web
+    networks:
+      - bc30138-net
+
+networks:
+  bc30138-net:
+    external: true

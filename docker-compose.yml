@@ -11,8 +11,8 @@ services:
     env_file:
       - .env
     networks:
-      - bc30138-net
+      - bc30138server_bc30138-net
 
 networks:
-  bc30138-net:
+  bc30138server_bc30138-net:
     external: true

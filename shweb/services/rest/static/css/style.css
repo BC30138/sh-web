@@ -11,8 +11,7 @@
 
 * {
   font-family: "Comfortaa";
-  color: #ffffff;
-  /* color: #e8c8c8; */
+  color: #cea3a3;
 }
 
 html {
@@ -48,6 +47,7 @@ body {
   height: 90px;
   min-width: 100%;
   transition: all 0.3s ease;
+  filter: invert(72%) sepia(5%) saturate(1429%) hue-rotate(314deg) brightness(99%) contrast(94%);
 }
 
 
@@ -66,7 +66,6 @@ body {
   padding-bottom: 10px;
   font-size: 32px;
   letter-spacing: 5px;
-  color: #000000;
 }
 
 .nav-link:hover, .dropdown:hover .dropbtn {
@@ -94,7 +93,7 @@ body {
   width: fit-content;
   display: none;
   position: absolute;
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(0, 0, 0, 0.534);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.534);
   z-index: 1;
@@ -106,7 +105,7 @@ body {
   padding-left: 5px;
   padding-right: 5px;
   width: 298px;
-  color: #000000;
+  color: #be9797;
   border: 1px solid black;
   float: none;
   overflow-wrap: break-word;
@@ -167,6 +166,7 @@ li {
   max-height: 100%;
   max-width: 100%;
   transition: all 0.3s ease;
+  filter: invert(72%) sepia(5%) saturate(1429%) hue-rotate(314deg) brightness(99%) contrast(94%);
 }
 
 .language-switch {
